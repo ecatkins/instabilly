@@ -2,8 +2,17 @@
 ## App Summary
 
 ## Recommendation Engine
-* User 0 at time 0 will have no friends to develop recommendations. Everything will have to be purely built off
-...* A
+* User 0 at time 0 will have no friends to develop recommendations. Everything will have to be purely built off user's current spotify playlist and any preferences they might indicate in their profile.
+* At the start we can probably use EchoNest to generate some random playlists/albums/songs based on these initial recommendations
+* From there we can consider a number of ways to update recommendations...
+    * Music based on their friends playlists/saved songs
+    * People who they are not friends with on the site, but have similar music tastes
+    * A like / dislike button on any recommendations that we provide them. This information would probably have to be stored in a database. If a song is marked positively / negatively, that increases / decreases the weighting on that particular artist and genre of music for that user (also could potentially be used as a weighting factor for people with similar tastes)
+* Weighting / ranking system
+    * Based on a combination of the previous three recommendation factors?
+    * Score out of 100
+    * Include a bias for new music
+    * Then how do we ensure we are constantly serving new music to the user?
 
 ## Front End
 
