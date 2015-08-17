@@ -1,7 +1,7 @@
 # instasong
 ## App Summary
 
-## Reccommendation Engine
+## Recommendation Engine
 
 ## Front End
 
