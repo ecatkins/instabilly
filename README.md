@@ -3,7 +3,7 @@
 
 ## Recommendation Engine
 * User 0 at time 0 will have no friends to develop recommendations. Everything will have to be purely built off
-... * A
+...* A
 
 ## Front End
 
