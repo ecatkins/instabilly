@@ -1,11 +1,21 @@
 <!DOCTYPE html>
+{% load staticfiles %}
+{% csrf_token %}
 <html>
 <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href ="{% static 'spotify/main.css' %}">
+    <script src="{%static 'spotify/django_ajax.js' %}"></script>
+    <script src="{% static 'spotify/frontend.js' %}"> </script>
 	<title></title>
 </head>
 <body>
-<iframe src="https://embed.spotify.com/?uri=spotify:album:0x1MvcYz7MOnAOVDfKLdEg" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
-Yep,
-NOpe
+    <button id='sync'>Sync</button>
 </body>
 </html>
