@@ -4,18 +4,13 @@ import spotipy
 from spotipy import oauth2
 import spotipy.util as util
 import requests
-from secret import *
-
-
-
-
+from spotify.secret import *
 
 class IndexView(View):
 
 	def get(self,request):
 		x = oauth2.SpotifyOAuth(CLIENTID,CLIENTSECRET,"http://localhost:8000/callback",scope="user-library-read")
 		url = x.get_authorize_url()
-
 		return redirect(url)
 
 class TestView(View):
