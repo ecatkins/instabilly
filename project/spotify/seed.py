@@ -1,31 +1,31 @@
-from spotify.models import Song, User, UserSong, Profile
-import requests
-import spotipy
-from spotipy import oauth2
-# from spotify.secret import *
+from spotify.models import Song, Artist, Genre
+from spotify.secret import *
+import pyen
 
-def seed():
-    x = oauth2.SpotifyOAuth(CLIENTID,CLIENTSECRET,"http://localhost:8000/callback",scope="user-library-read")
-    url = x.get_authorize_url()
-    tom = requests.get(url)
-    print(dir(tom))
-    print(tom.url)
-    print(tom.raw)
-    print(tom.links)
-    post_route = "https://accounts.spotify.com/api/token"
-    callback = "http://localhost:8000/callback"
-    grant_type = "authorization_code"
-    pay_load = {"grant_type":grant_type, "code":code, "redirect_uri":callback,"client_id":CLIENTID,"client_secret":CLIENTSECRET}
-    r = requests.post(post_route, data=pay_load)
-    # print(r.status_code)
-    print(r.json())
-    token = r.json()['access_token']
-    sp = spotipy.Spotify(auth=token)
-    results = sp.current_user_saved_tracks(limit=1)
-    print(results)
-    count = 0
-    while count < results['total']:
-      results = sp.current_user_saved_tracks(limit=50,offset=count)
-      count += 50
-      for x in results['items']:
-          print(x['track']['name'])
+
+
+def seed_gen():
+    en = pyen.Pyen(APIKEY)
+    all_songs = Song.objects.all()
+    for song in all_songs:
+        artist = Artist.objects.filter(name=song.artist)
+        if len(artist) == 0:
+            print(song.artist)
+            new_artist = Artist(name=song.artist)
+            new_artist.save()
+            response = en.get('artist/profile', name=song.artist, bucket=['genre'])
+            genres = response['artist']['genres']
+            for genre in genres:
+                existing = Genre.objects.filter(name=genre['name'])
+                if len(existing) == 0:
+                    genre_object = Genre(name=genre['name'])
+                    genre_object.save()
+                    print(genre)
+                else:
+                    genre_object = existing[0]
+                new_artist.genres.add(genre_object)
+            new_artist.save()
+
+
+
+
