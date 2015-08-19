@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <title></title>
+</head>
+<body>
+    <div class="container">
+        <h3>This is the homepage</h3>
+        <h4>Existing user login</h4>
+        <form name="login" action="home" method="POST">
+            {%if login_error%}
+                {{login_error}}
+            {%endif%}
+            {% csrf_token %}
+            {{ login_form.as_p }}
+            <input type="submit" value="Login">
+        </form>
+
+        <h4>New user registration</h4>
+        <form name="registration" action="registration" method="POST">
+            {% csrf_token %}
+            {{ registration_form.as_p }}
+            <input type="submit" value="Create User">
+        </form>
+</body>
+</html>
