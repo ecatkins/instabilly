@@ -22,7 +22,6 @@ class Profile(models.Model):
     x_coord = models.DecimalField(max_digits=5, decimal_places=3)
     y_coord = models.DecimalField(max_digits=5, decimal_places=3)
 
-
 class UserSong(models.Model):
     song = models.ForeignKey(Song)
     user = models.ForeignKey(User)

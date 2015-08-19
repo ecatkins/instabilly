@@ -12,7 +12,7 @@ class User:
 	def generate_list(self):
 		my_list = []
 		for num in range(self.num_items):
-			rand = random.randrange(10)
+			rand = random.randrange(10000)
 			my_list.append(rand)
 		return my_list
 
@@ -23,7 +23,7 @@ def generate_users(num_users,num_items):
 		user_list.append(User(num_items))
 	return user_list
 
-user_list = generate_users(1000,10)
+user_list = generate_users(50,1000)
 
 def generate_grid(size):
 	grid = []
@@ -55,6 +55,11 @@ def seed_grid(user_list,max_num_iterations,size_of_grid):
 	first_user.y_coord = int(size_of_grid/2)
 	grid[first_user.y_coord][first_user.x_coord].append(first_user)
 	user_counter = 1
+
+	direction_array = [[0,1],[-1,0],[0,-1],[1,0]]
+	direction_index = random.randrange(0,4)
+
+
 	# places other users
 	# loops through users list, who have starting coordinates in the middle of the map
 	for user in user_list:
@@ -69,31 +74,44 @@ def seed_grid(user_list,max_num_iterations,size_of_grid):
 			count = 0
 			while found == False:
 				# biased - needs fixing!!!!!!
-				if len(grid[min(int(y_coord+search_radius),size_of_grid-1)][min(int(x_coord+search_radius),size_of_grid-1)]) > 0:
-					found = True
-					comparator = grid[min(int(y_coord+search_radius),size_of_grid-1)][min(int(x_coord+search_radius),size_of_grid-1)][0]
-				elif len(grid[min(int(y_coord+search_radius),size_of_grid-1)][max(int(x_coord-search_radius),0)]) > 0:
-					found = True
-					comparator = grid[min(int(y_coord+search_radius),size_of_grid-1)][max(int(x_coord-search_radius),0)][0]
-				elif len(grid[max(int(y_coord-search_radius),0)][min(int(x_coord+search_radius),size_of_grid-1)]) > 0:
-					found = True
-					comparator = grid[max(int(y_coord-search_radius),0)][min(int(x_coord+search_radius),size_of_grid-1)][0]
-				elif len(grid[max(int(y_coord-search_radius),0)][max(int(x_coord-search_radius),0)]) > 0:
-					found = True
-					comparator = grid[max(int(y_coord-search_radius),0)][max(int(x_coord-search_radius),0)][0]
+				search_index = random.randrange(0,4)
+				for x in range(4):
+					search_y = int(max(min(y_coord+(direction_array[search_index][0])*search_radius,size_of_grid-1),0))
+					search_x = int(max(min(x_coord+(direction_array[search_index][1])*search_radius,size_of_grid-1),0))
+
+					on_the_spot = grid[search_y][search_x]
+					if len(on_the_spot) > 0:
+						found = True
+						comparator = on_the_spot[random.randrange(0,len(on_the_spot))]
+						break
+						if search_index == 3:
+							search_index = 0
+						else:
+							search_index += 1 
 				search_radius += 1
 				count += 1
-				if count == 5:
+				if count == 10:
 					break
 			similarity = comparison(user,comparator)
-			distance = ((1-similarity)*int(size_of_grid/4))
-			print(distance)
-			# can be improved to nudges direction based on previous similarity value
-			x_coord += distance*random.choice([-1,0,1])
-			y_coord += distance*random.choice([-1,0,1])
-			#temp fix
-			max(y_coord-search_radius,0)
+			if similarity >= 0.12:
+				distance = 0
+			elif similarity <= 0.07:
+				distance = int(size_of_grid/2)
+			else:
+				distance = (similarity - 0.07)/(0.12-0.07) * int(size_of_grid/2)
 
+			print(distance)
+			# print(similarity)
+			# distance = ((1-similarity)*int(size_of_grid/2))
+			# can be improved to nudges direction based on previous similarity value
+			x_coord += distance*direction_array[direction_index][1]
+			y_coord += distance*direction_array[direction_index][0]
+			## change direction
+			if direction_index == 3:
+				direction_index = 0
+			else:
+				direction_index += 1 
+			#temp fix
 			x_coord = max(0,x_coord)
 			x_coord = min(size_of_grid-1,x_coord)
 			y_coord = max(0,y_coord)
@@ -109,6 +127,7 @@ def seed_grid(user_list,max_num_iterations,size_of_grid):
 			display_grid[row][col] = len(grid[row][col])
 	for row in display_grid:
 		print(row)
+	return grid
 
 	# for x,row in enumerate(grid):
 	# 	comparison_total_total = 0
@@ -135,5 +154,31 @@ def seed_grid(user_list,max_num_iterations,size_of_grid):
 	# print("My average{0}".format(comparison_total_total/count_total))
 	# print("Random average")
 
+# def algo_analysis(grid):
+# 	total_similar = 0
+# 	count = 0
+# 	for x, row in enumerate(grid):
+# 		for y, col in enumerate(row):
+# 			if len(col) > 1:
+# 				user1 = col.pop()
+# 				for user in col:
+# 					total_similar += comparison(user1,user)
+# 					count += 1
+# 	return total_similar / count 
 
-seed_grid(user_list,10,25)
+
+# grid = seed_grid(user_list,50,10)
+# print(algo_analysis(grid))
+
+
+# seed_grid(user_list,20,25)
+
+def test(number_of_runs):
+	correlation_total = 0
+	a = User(1000)
+	for x in range(number_of_runs):
+		b = User(1000)
+		correlation_total += comparison(a,b)
+	return correlation_total / number_of_runs
+
+print(test(1000))
