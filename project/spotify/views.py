@@ -33,6 +33,7 @@ class RegistrationView(View):
 	        user = User(username=username, password=hashed_password, first_name=first_name, last_name=last_name, email=email)
 	        user.save()
 	        request.session['session_id'] = user.pk
+	        print('successful user save')
 	        return redirect("oauth")
 	    else:
 	        return render(request, 'spotify/home.html', {"login_form": UserForm(), "error": "Username already exists.", "registration_form": RegistrationForm()})
@@ -40,15 +41,28 @@ class RegistrationView(View):
 
 class LoginView(View):
 
-	def post(self, request):
-		pass
+	def post(self, request): 
+	    username = request.POST.get('username')
+	    password = request.POST.get('password')
+	    user = User.objects.filter(username=username)
+	    if len(user) == 1 and check_password(password, user[0].password):
+	        request.session['session_id'] = user[0].pk
+	        return redirect("oauth")
+	    else:
+	        return render(request, 'spotify/home.html', {"login_form": UserForm(), "login_error": "Invalid credentials.", "registration_form": RegistrationForm()})
 
+
+class LogoutView(View):
+
+	def get(self, request):
+	    request.session.flush()
+	    return redirect('users:index')
 
 
 class OauthView(View):
 
 	def get(self,request):
-		x = oauth2.SpotifyOAuth(CLIENTID,CLIENTSECRET,"http://localhost:8000/callback",scope="user-library-read")
+		x = oauth2.SpotifyOAuth(CLIENTID,CLIENTSECRET,"http://127.0.0.1:8000/callback",scope="user-library-read")
 		url = x.get_authorize_url()
 		return redirect(url)
 
@@ -66,31 +80,31 @@ class SyncView(View):
 class SeedPlaylistView(View):
 
 	def get(self, request):
-		user = User.objects.get(username='eddy')
-		post_route = "https://accounts.spotify.com/api/token"
-		callback = "http://localhost:8000/callback"
-		grant_type = "authorization_code"
-		pay_load = {"grant_type":grant_type, "code":request.session['spotify_code'], "redirect_uri":callback,"client_id":CLIENTID,"client_secret":CLIENTSECRET}
-		r = requests.post(post_route,data=pay_load)
-		token = r.json()['access_token']
-		sp = spotipy.Spotify(auth=token)
-		results = sp.current_user_saved_tracks(limit=1)
-		count = 0
-		while count < results['total']:
-			results = sp.current_user_saved_tracks(limit=50,offset=count)
-			count += 50
-			for item in results['items']:
-				try:
-					print(item['track']['name'])
-					song = Song(track_name=item['track']['name'], track_id=item['track']['id'], track_uri=item['track']['uri'], artist=item['track']['artists'][0]['name'], artist_id=item['track']['artists'][0]['id'], album=item['track']['album']['name'], album_id=item['track']['album']['id'], album_uri=item['track']['album']['uri'], spotify_popularity=item['track']['popularity'], preview_url=item['track']['preview_url'], image_300=item['track']['album']['images'][1]['url'], image_64=item['track']['album']['images'][2]['url'])
-					song.save()
-					print('song saved')
-					usersong = UserSong(user=user, song=song)
-					usersong.save()
-					print('usersong saved')
-				except:
-					continue
-		return JsonResponse({"status": "Success"})
+		user = User.objects.filter(pk=request.session['session_id'])
+		if len(user) == 1:
+			post_route = "https://accounts.spotify.com/api/token"
+			callback = "http://127.0.0.1:8000/callback"
+			grant_type = "authorization_code"
+			pay_load = {"grant_type":grant_type, "code":request.session['spotify_code'], "redirect_uri":callback,"client_id":CLIENTID,"client_secret":CLIENTSECRET}
+			r = requests.post(post_route,data=pay_load)
+			token = r.json()['access_token']
+			sp = spotipy.Spotify(auth=token)
+			results = sp.current_user_saved_tracks(limit=1)
+			count = 0
+			while count < results['total']:
+				results = sp.current_user_saved_tracks(limit=50,offset=count)
+				count += 50
+				for item in results['items']:
+					try:
+						test_song = Song.objects.filter(track_name=item['track']['name'])
+						if len(test_song) == 0:
+							song = Song(track_name=item['track']['name'], track_id=item['track']['id'], track_uri=item['track']['uri'], artist=item['track']['artists'][0]['name'], artist_id=item['track']['artists'][0]['id'], album=item['track']['album']['name'], album_id=item['track']['album']['id'], album_uri=item['track']['album']['uri'], spotify_popularity=item['track']['popularity'], preview_url=item['track']['preview_url'], image_300=item['track']['album']['images'][1]['url'], image_64=item['track']['album']['images'][2]['url'])
+							song.save()
+							usersong = UserSong(user=user[0], song=song)
+							usersong.save()
+					except:
+						continue
+			return JsonResponse({"status": "Success"})
 
 # track_id=print(item['track']['id'])
 # track_uri=print(item['track']['uri'])
