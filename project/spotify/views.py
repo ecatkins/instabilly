@@ -56,7 +56,7 @@ class LogoutView(View):
 
 	def get(self, request):
 	    request.session.flush()
-	    return redirect('users:index')
+	    return redirect('/')
 
 
 class OauthView(View):
@@ -100,8 +100,10 @@ class SeedPlaylistView(View):
 						if len(test_song) == 0:
 							song = Song(track_name=item['track']['name'], track_id=item['track']['id'], track_uri=item['track']['uri'], artist=item['track']['artists'][0]['name'], artist_id=item['track']['artists'][0]['id'], album=item['track']['album']['name'], album_id=item['track']['album']['id'], album_uri=item['track']['album']['uri'], spotify_popularity=item['track']['popularity'], preview_url=item['track']['preview_url'], image_300=item['track']['album']['images'][1]['url'], image_64=item['track']['album']['images'][2]['url'])
 							song.save()
+							print(song.track_name)
 							usersong = UserSong(user=user[0], song=song)
 							usersong.save()
+							print("usersong successs")
 					except:
 						continue
 			return JsonResponse({"status": "Success"})
