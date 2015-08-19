@@ -8,9 +8,6 @@ import pyen
 import spotipy
 import spotipy.util as util
 
-
-
-
 #seeds genres and artists based on existing users
 def seed_gen():
     en = pyen.Pyen(APIKEY)
