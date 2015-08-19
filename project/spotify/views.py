@@ -104,6 +104,9 @@ class SeedPlaylistView(View):
 							usersong = UserSong(user=user[0], song=song)
 							usersong.save()
 							print("usersong successs")
+						else:
+							usersong = UserSong(user=user[0],song=test_song[0])
+							usersong.save()
 					except:
 						continue
 			return JsonResponse({"status": "Success"})
