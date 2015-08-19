@@ -58,3 +58,4 @@ docs/_build/
 target/
 
 project/spotify/secret.py
+project/project/settings.py
