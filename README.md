@@ -26,3 +26,5 @@
 5. [Markdown Cheatsheet] (https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 6. [KD Tree] (http://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.spatial.KDTree.html)
 
+#### For migration issues
+1. http://stackoverflow.com/questions/29689365/auth-user-error-with-django-1-8-and-syncdb-migrate
