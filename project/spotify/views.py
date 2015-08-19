@@ -6,17 +6,54 @@ import spotipy.util as util
 import requests
 from spotify.secret import *
 from spotify.models import Song, User, UserSong, Profile
+from spotify.forms import UserForm, RegistrationForm
 from django.http import JsonResponse
+from django.contrib.auth.hashers import check_password, make_password
 
-class IndexView(View):
+
+class HomeView(View):
+	template = "spotify/home.html"
+
+	def get(self, request):
+		return render(request, self.template, {"login_form": UserForm(), "registration_form": RegistrationForm()})
+
+
+
+class RegistrationView(View):
+
+	def post(self, request):
+	    registration_form = RegistrationForm(request.POST)
+	    if registration_form.is_valid():
+	        username = registration_form.cleaned_data['username']
+	        password = registration_form.cleaned_data['password']
+	        first_name = registration_form.cleaned_data['first_name']
+	        last_name = registration_form.cleaned_data['last_name']
+	        email = registration_form.cleaned_data['email']
+	        hashed_password = make_password(password)
+	        user = User(username=username, password=hashed_password, first_name=first_name, last_name=last_name, email=email)
+	        user.save()
+	        request.session['session_id'] = user.pk
+	        return redirect("oauth")
+	    else:
+	        return render(request, 'spotify/home.html', {"login_form": UserForm(), "error": "Username already exists.", "registration_form": RegistrationForm()})
+
+
+class LoginView(View):
+
+	def post(self, request):
+		pass
+
+
+
+class OauthView(View):
 
 	def get(self,request):
 		x = oauth2.SpotifyOAuth(CLIENTID,CLIENTSECRET,"http://localhost:8000/callback",scope="user-library-read")
 		url = x.get_authorize_url()
-		print(url)
 		return redirect(url)
 
-class TestView(View):
+
+class SyncView(View):
 	template = "spotify/index.html"
 
 	def get(self,request):
@@ -25,7 +62,8 @@ class TestView(View):
 		return render(request, self.template)
 
 
-class SyncView(View):
+
+class SeedPlaylistView(View):
 
 	def get(self, request):
 		user = User.objects.get(username='eddy')
