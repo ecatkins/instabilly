@@ -19,7 +19,7 @@ class HomeView(View):
 
 
 
-class RegistrationView(View):
+class RegistrationView(View): ####ADAM IS WORKING ON SPECIFIC ERROR MESSAGES FOR FIELDS
 
 	def post(self, request):
 	    registration_form = RegistrationForm(request.POST)
@@ -36,7 +36,7 @@ class RegistrationView(View):
 	        print('successful user save')
 	        return redirect("oauth")
 	    else:
-	        return render(request, 'spotify/home.html', {"login_form": UserForm(), "error": "Username already exists.", "registration_form": RegistrationForm()})
+	        return render(request, 'spotify/home.html', {"login_form": UserForm(), "registration_error": str(registration_form.errors['email']), "registration_form": RegistrationForm()})
 
 
 class LoginView(View):
