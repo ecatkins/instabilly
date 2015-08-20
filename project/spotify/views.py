@@ -62,7 +62,7 @@ class LogoutView(View):
 class OauthView(View):
 
 	def get(self,request):
-		x = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID,SPOTIPY_CLIENT_SECRET,"http://127.0.0.1:8000/callback",scope="user-library-modify")
+		x = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID,SPOTIPY_CLIENT_SECRET,"http://127.0.0.1:8000/callback",scope="user-library-modify playlist-modify-public playlist-modify-private")
 		url = x.get_authorize_url()
 		return redirect(url)
 
@@ -91,9 +91,9 @@ def save_songs(song_list):
 				save_count += 1
 			else:
 				duplicate_user_songs = UserSong.objects.filter(song=duplicate_songs[0],user=user[0])
-			 	if len(duplicate_user_songs) == 0:
-					usersong = UserSong(user=user[0],song=duplicate_songs[0])
-					usersong.save()
+				if len(duplicate_user_songs) == 0:
+			 		usersong = UserSong(user=user[0],song=duplicate_songs[0])
+			 		usersong.save()
 		except:
 			continue
 	return save_count
@@ -108,9 +108,18 @@ def get_user_saved_tracks(sp):
 		saved_songs = save_songs(saved_results['items'])
 
 def get_user_playlist_tracks(sp):
-	 playlists = sp.user_playlists(username)
-
-
+	username = sp.current_user()['id']
+	playlists = sp.user_playlists(username)
+	for playlist in playlists['items']:
+	 	if playlist['owner']['id'] == username:
+	 		playlist_results = sp.user_playlist_tracks(username, playlist['id'],
+                fields="total,items")
+	 		count = 0
+	 		while count < playlist_results['total']:
+	 			playlist_results = sp.user_playlist_tracks(username, playlist['id'],limit=50,offset=count,fields="total, items")
+	 			count += 50
+	 			saved_songs = save_songs(playlist_results['items'])
+	
 
 # spotify:user:11800860
 
@@ -129,12 +138,7 @@ class SeedUserLibraryView(View):
 			request.session['user_token'] = token
 			sp = spotipy.Spotify(auth=token)
 			saved_tracks = get_user_saved_tracks(sp)
-			playlist_tracks = get_user_playlist_tracks(sp)
-			
-
-
-		
-		
+			playlist_tracks = get_user_playlist_tracks(sp)		
 			return JsonResponse({"status": "Success"})
 
 # track_id=print(item['track']['id'])
