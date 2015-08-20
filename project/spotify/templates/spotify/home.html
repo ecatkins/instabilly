@@ -21,7 +21,12 @@
         <h4>New user registration</h4>
         <form name="registration" action="registration" method="POST">
             {% csrf_token %}
-            {{ registration_form.as_p }}
+            {% for field in registration_form%}
+            <p>
+                {{field.errors}}
+                {{field.label_tag}}{{field}}
+            </p>
+            {%endfor%}
             <input type="submit" value="Create User">
         </form>
 </body>
