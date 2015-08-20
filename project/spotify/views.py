@@ -62,7 +62,7 @@ class LogoutView(View):
 class OauthView(View):
 
 	def get(self,request):
-		x = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID,SPOTIPY_CLIENT_SECRET,"http://127.0.0.1:8000/callback",scope="user-library-modify playlist-modify-public playlist-modify-private")
+		x = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID,SPOTIPY_CLIENT_SECRET,"http://127.0.0.1:8000/callback",scope="playlist-read-private user-library-modify playlist-modify-public playlist-modify-private")
 		url = x.get_authorize_url()
 		return redirect(url)
 
@@ -125,7 +125,6 @@ def get_user_playlist_tracks(sp):
 
 class SeedUserLibraryView(View):
 
-
 	def get(self, request):
 		user = User.objects.filter(pk=request.session['session_id'])
 		if len(user) == 1:
@@ -139,7 +138,10 @@ class SeedUserLibraryView(View):
 			sp = spotipy.Spotify(auth=token)
 			saved_tracks = get_user_saved_tracks(sp)
 			playlist_tracks = get_user_playlist_tracks(sp)		
-			return JsonResponse({"status": "Success"})
+			if saved_tracks & playlist_tracks:
+				return JsonResponse({"status": "Success"})
+			else:
+				return JsonResponse({"status":"incomplete seed"})
 
 # track_id=print(item['track']['id'])
 # track_uri=print(item['track']['uri'])
