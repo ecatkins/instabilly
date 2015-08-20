@@ -5,7 +5,7 @@ from spotipy import oauth2
 import spotipy.util as util
 import requests
 from spotify.secret import *
-from spotify.models import Song, User, UserSong, Profile
+from spotify.models import Song, User, UserSong, Profile, FollowList
 from spotify.forms import UserForm, RegistrationForm
 from django.http import JsonResponse
 from django.contrib.auth.hashers import check_password, make_password
@@ -19,7 +19,7 @@ class HomeView(View):
 
 
 
-class RegistrationView(View): ####ADAM IS WORKING ON SPECIFIC ERROR MESSAGES FOR FIELDS
+class RegistrationView(View):
 
     def post(self, request):
         registration_form = RegistrationForm(request.POST)
@@ -33,6 +33,8 @@ class RegistrationView(View): ####ADAM IS WORKING ON SPECIFIC ERROR MESSAGES FOR
             user = User(username=username, password=hashed_password, first_name=first_name, last_name=last_name, email=email)
             user.save()
             request.session['session_id'] = user.pk
+            follow_list = FollowList(user=user)
+            follow_list.save()
             print('successful user save')
             return redirect("oauth")
         else:
@@ -61,10 +63,10 @@ class LogoutView(View):
 
 class OauthView(View):
 
-	def get(self,request):
-		x = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID,SPOTIPY_CLIENT_SECRET,"http://127.0.0.1:8000/callback",scope="playlist-read-private user-library-modify playlist-modify-public playlist-modify-private")
-		url = x.get_authorize_url()
-		return redirect(url)
+    def get(self,request):
+        x = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID,SPOTIPY_CLIENT_SECRET,"http://127.0.0.1:8000/callback",scope="playlist-read-private user-library-modify playlist-modify-public playlist-modify-private")
+        url = x.get_authorize_url()
+        return redirect(url)
 
 class SyncView(View):
     template = "spotify/index.html"
@@ -72,10 +74,22 @@ class SyncView(View):
     def get(self,request):
         code = request.GET.get('code')
         request.session['spotify_code'] = code
-        return render(request, self.template)
+        user_list = User.objects.all().exclude(pk=request.session['session_id'])
+        print(user_list)
+        return render(request, self.template, {"user_list": user_list})
+
+class FollowView(View):
+
+    def post(self, request):
+        user = User.objects.filter(pk=request.session['session_id'])
+        user_follow_list = FollowList.objects.filter(user=user[0])
+        following = User.objects.filter(username=request.POST['username'])
+        user_follow_list[0].following.add(following[0])
+        print(user, "is following ", following)
+        return JsonResponse({"user": user[0].username, "following": following[0].username})
 
 
-def save_songs(song_list):
+def save_songs(song_list, user):
     save_count = 0
     for item in song_list:
         try:
@@ -83,6 +97,7 @@ def save_songs(song_list):
             if len(duplicate_songs) == 0:
                 song = Song(track_name=item['track']['name'], track_id=item['track']['id'], track_uri=item['track']['uri'], artist=item['track']['artists'][0]['name'], artist_id=item['track']['artists'][0]['id'], album=item['track']['album']['name'], album_id=item['track']['album']['id'], album_uri=item['track']['album']['uri'], spotify_popularity=item['track']['popularity'], preview_url=item['track']['preview_url'], image_300=item['track']['album']['images'][1]['url'], image_64=item['track']['album']['images'][2]['url'])
                 song.save()
+                song.users.add(user[0])
                 print(song.track_name)
                 usersong = UserSong(user=user[0], song=song)
                 usersong.save()
@@ -98,50 +113,53 @@ def save_songs(song_list):
     return save_count
 
 
-def get_user_saved_tracks(sp):
+def get_user_saved_tracks(sp, user):
     saved_results = sp.current_user_saved_tracks(limit=1)
     count = 0
     while count < saved_results['total']:
         results = sp.current_user_saved_tracks(limit=50,offset=count)
         count += 50
-        saved_songs = save_songs(saved_results['items'])
+        saved_songs = save_songs(saved_results['items'], user)
 
-def get_user_playlist_tracks(sp):
+def get_user_playlist_tracks(sp, user):
 
-	username = sp.current_user()['id']
-	playlists = sp.user_playlists(username)
-	for playlist in playlists['items']:
-	 	if playlist['owner']['id'] == username:
-	 		playlist_results = sp.user_playlist_tracks(username, playlist['id'],
+    username = sp.current_user()['id']
+    playlists = sp.user_playlists(username)
+    for playlist in playlists['items']:
+        if playlist['owner']['id'] == username:
+            playlist_results = sp.user_playlist_tracks(username, playlist['id'],
                 fields="total,items")
-	 		count = 0
-	 		while count < playlist_results['total']:
-	 			playlist_results = sp.user_playlist_tracks(username, playlist['id'],limit=50,offset=count,fields="total, items")
-	 			count += 50
-	 			saved_songs = save_songs(playlist_results['items'])
+            count = 0
+            while count < playlist_results['total']:
+                playlist_results = sp.user_playlist_tracks(username, playlist['id'],limit=50,offset=count,fields="total, items")
+                count += 50
+                saved_songs = save_songs(playlist_results['items'], user)
 
 # spotify:user:11800860
 
 
 class SeedUserLibraryView(View):
 
-	def get(self, request):
-		user = User.objects.filter(pk=request.session['session_id'])
-		if len(user) == 1:
-			post_route = "https://accounts.spotify.com/api/token"
-			callback = SPOTIPY_REDIRECT_URI
-			grant_type = "authorization_code"
-			pay_load = {"grant_type":grant_type, "code":request.session['spotify_code'], "redirect_uri":callback,"client_id":SPOTIPY_CLIENT_ID,"client_secret":SPOTIPY_CLIENT_SECRET}
-			r = requests.post(post_route,data=pay_load)
-			token = r.json()['access_token']
-			request.session['user_token'] = token
-			sp = spotipy.Spotify(auth=token)
-			saved_tracks = get_user_saved_tracks(sp)
-			playlist_tracks = get_user_playlist_tracks(sp)		
-			if saved_tracks & playlist_tracks:
-				return JsonResponse({"status": "Success"})
-			else:
-				return JsonResponse({"status":"incomplete seed"})
+    def get(self, request):
+        user = User.objects.filter(pk=request.session['session_id'])
+        if len(user) == 1:
+            post_route = "https://accounts.spotify.com/api/token"
+            callback = SPOTIPY_REDIRECT_URI
+            grant_type = "authorization_code"
+            pay_load = {"grant_type":grant_type, "code":request.session['spotify_code'], "redirect_uri":callback,"client_id":SPOTIPY_CLIENT_ID,"client_secret":SPOTIPY_CLIENT_SECRET}
+            r = requests.post(post_route,data=pay_load)
+            print("made it")
+            print(r.json())###############THIS SEEMS TO BE WHERE THE PROBLEM IS
+            token = r.json()['access_token']
+            print(token)        
+            request.session['user_token'] = token
+            sp = spotipy.Spotify(auth=token)
+            saved_tracks = get_user_saved_tracks(sp, user)
+            playlist_tracks = get_user_playlist_tracks(sp, user)
+            if saved_tracks & playlist_tracks:
+                return JsonResponse({"status": "Success"})
+            else:
+                return JsonResponse({"status":"incomplete seed"})
 
 # track_id=print(item['track']['id'])
 # track_uri=print(item['track']['uri'])
