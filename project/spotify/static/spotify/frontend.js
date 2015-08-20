@@ -1,5 +1,4 @@
 $(document).ready(function(){
-    console.log('hello js')
     $(document).ajaxStart(function(){
         $('#loading').html('<img src="/static/spotify/ajax-loader.gif"/>')  
     });
@@ -7,8 +6,13 @@ $(document).ready(function(){
         $("#loading").empty();
     });
     $("#sync").on("click", function(){
-        console.log("clicked")
         $.getJSON("seed", function(data){
+            console.log(data)
+        })
+    })
+    $(".follow_buttons").on("click", function() {
+        var username = $(this).parent().attr('username')
+        $.post("follow", {'username': username}, function(data) {
             console.log(data)
         })
     })
