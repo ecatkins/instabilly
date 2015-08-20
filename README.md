@@ -28,3 +28,7 @@
 
 #### For migration issues
 1. http://stackoverflow.com/questions/29689365/auth-user-error-with-django-1-8-and-syncdb-migrate
+2. 
+
+#### Scipy on server
+http://mail.scipy.org/pipermail/scipy-user/2013-November/035171.html
