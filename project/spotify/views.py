@@ -19,7 +19,7 @@ class HomeView(View):
 
 
 
-class RegistrationView(View): ####ADAM IS WORKING ON SPECIFIC ERROR MESSAGES FOR FIELDS
+class RegistrationView(View):
 
     def post(self, request):
         registration_form = RegistrationForm(request.POST)
