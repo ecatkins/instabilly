@@ -20,6 +20,9 @@
 
         <h4>New user registration</h4>
         <form name="registration" action="registration" method="POST">
+            {%if registration_error%}
+                {{registration_error}}
+            {%endif%}
             {% csrf_token %}
             {{ registration_form.as_p }}
             <input type="submit" value="Create User">
