@@ -121,7 +121,7 @@ class SeedUserLibraryView(View):
 		user = User.objects.filter(pk=request.session['session_id'])
 		if len(user) == 1:
 			post_route = "https://accounts.spotify.com/api/token"
-			callback = "http://127.0.0.1:8000/callback"
+			callback = SPOTIPY_REDIRECT_URI
 			grant_type = "authorization_code"
 			pay_load = {"grant_type":grant_type, "code":request.session['spotify_code'], "redirect_uri":callback,"client_id":SPOTIPY_CLIENT_ID,"client_secret":SPOTIPY_CLIENT_SECRET}
 			r = requests.post(post_route,data=pay_load)
