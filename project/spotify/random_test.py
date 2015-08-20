@@ -21,21 +21,23 @@ if __name__ == '__main__':
 
     if token:
         sp = spotipy.Spotify(auth=token)
-        playlists = sp.user_playlists(username,offset=1)
+        print(sp.current_user()['id'])
+        print(dir(sp.current_user()))
+        playlists = sp.user_playlists(username)
         for playlist in playlists['items']:
             print(playlist['name'])
-
-    #     for playlist in playlists['items']:
-    #         if playlist['owner']['id'] == username:
-    #             print
-    #             print (playlist['name'])
-    #             print ('  total tracks', playlist['tracks']['total'])
-    #             results = sp.user_playlist(username, playlist['id'],
-    #                 fields="tracks,next")
-    #             tracks = results['tracks']
-    #             show_tracks(tracks)
-    #             while tracks['next']:
-    #                 tracks = sp.next(tracks)
-    #                 show_tracks(tracks)
-    # else:
-    #     print ("Can't get token for", username)
+        for playlist in playlists['items']:
+            if playlist['owner']['id'] == username:
+                print
+                print (playlist['name'])
+                print ('  total tracks', playlist['tracks']['total'])
+                results = sp.user_playlist(username, playlist['id'],
+                    fields="tracks,next")
+                # print(results)
+                tracks = results['tracks']
+                show_tracks(tracks)
+                while tracks['next']:
+                    tracks = sp.next(tracks)
+                    show_tracks(tracks)
+    else:
+        print ("Can't get token for", username)
