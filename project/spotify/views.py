@@ -65,7 +65,7 @@ class LogoutView(View):
 class OauthView(View):
 
     def get(self,request):
-        x = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID,SPOTIPY_CLIENT_SECRET,"http://127.0.0.1:8000/callback/",scope="playlist-read-private user-library-modify playlist-modify-public playlist-modify-private")
+        x = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID,SPOTIPY_CLIENT_SECRET,"http://127.0.0.1:8000/callback",scope="playlist-read-private user-library-modify playlist-modify-public playlist-modify-private")
         url = x.get_authorize_url()
         return redirect(url)
 
@@ -148,6 +148,7 @@ def get_user_playlist_tracks(sp, user):
 class SeedUserLibraryView(View):
 
     def get(self, request):
+        print("here")
         user = User.objects.filter(pk=request.session['session_id'])
         if len(user) == 1:
             post_route = "https://accounts.spotify.com/api/token"
