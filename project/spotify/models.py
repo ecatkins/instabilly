@@ -16,6 +16,9 @@ class Song(models.Model):
     image_300 = models.URLField()
     image_64 = models.URLField()
     users = models.ManyToManyField(User, through='UserSong')
+    artists = models.ForeignKey('Artist')
+
+# first = Artist.objects.get(pk=1)
 
 
 class Genre(models.Model):
