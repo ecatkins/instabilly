@@ -179,7 +179,7 @@ def get_user_playlist_tracks(sp, user):
 class SeedUserLibraryView(View):
 
     def get(self, request):
-        # pdb.set_trace()
+        pdb.set_trace()
         print("here")
         user = User.objects.filter(pk=request.session['session_id'])
         if len(user) == 1:
