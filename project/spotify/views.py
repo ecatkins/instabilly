@@ -9,6 +9,7 @@ from spotify.models import Song, User, UserSong, Profile, FollowList
 from spotify.forms import UserForm, RegistrationForm
 from django.http import JsonResponse
 from django.contrib.auth.hashers import check_password, make_password
+import pdb
 
 
 class HomeView(View):
@@ -148,6 +149,7 @@ def get_user_playlist_tracks(sp, user):
 class SeedUserLibraryView(View):
 
     def get(self, request):
+        # pdb.set_trace()
         print("here")
         user = User.objects.filter(pk=request.session['session_id'])
         if len(user) == 1:
