@@ -5,11 +5,11 @@ from spotipy import oauth2
 import spotipy.util as util
 import requests
 from spotify.secret import *
-from spotify.models import Song, User, UserSong, Profile, FollowList
+from spotify.models import Song, User, UserSong, Profile, FollowList, Artist
 from spotify.forms import UserForm, RegistrationForm
 from django.http import JsonResponse
 from django.contrib.auth.hashers import check_password, make_password
-from spotify.seed_genre import *
+from spotify.seedgenre import seed_genre
 import pdb
 
 
@@ -120,11 +120,13 @@ def save_songs(song_list, user):
         try:
             duplicate_songs = Song.objects.filter(track_name=item['track']['name'])
             if len(duplicate_songs) == 0:
+                pdb.set_trace()
                 artist_search = Artist.objects.filter(name=item['track']['artists'][0]['name'])
                 if len(artist_search) == 1:
                     artist = artist_search[0]
                 else:
-                    artist = seed_genre.seed(item['track']['artists'][0]['name'])
+                    artist_name = item['track']['artists'][0]['name']
+                    artist = seed_genre(artist_name)
                 song = Song(track_name=item['track']['name'], track_id=item['track']['id'], track_uri=item['track']['uri'], artist=item['track']['artists'][0]['name'], artist_id=item['track']['artists'][0]['id'], album=item['track']['album']['name'], album_id=item['track']['album']['id'], album_uri=item['track']['album']['uri'], spotify_popularity=item['track']['popularity'], preview_url=item['track']['preview_url'], image_300=item['track']['album']['images'][1]['url'], image_64=item['track']['album']['images'][2]['url'], artists=artist)
                 song.save()
                 print(song.track_name)
@@ -179,7 +181,6 @@ def get_user_playlist_tracks(sp, user):
 class SeedUserLibraryView(View):
 
     def get(self, request):
-        pdb.set_trace()
         print("here")
         user = User.objects.filter(pk=request.session['session_id'])
         if len(user) == 1:
