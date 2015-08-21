@@ -121,7 +121,6 @@ def save_songs(song_list, user):
         try:
             duplicate_songs = Song.objects.filter(track_name=item['track']['name'])
             if len(duplicate_songs) == 0:
-                pdb.set_trace()
                 artist_search = Artist.objects.filter(name=item['track']['artists'][0]['name'])
                 if len(artist_search) == 1:
                     artist = artist_search[0]
