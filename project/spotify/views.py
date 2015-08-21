@@ -9,6 +9,7 @@ from spotify.models import Song, User, UserSong, Profile, FollowList
 from spotify.forms import UserForm, RegistrationForm
 from django.http import JsonResponse
 from django.contrib.auth.hashers import check_password, make_password
+from spotify.seed_genre import *
 import pdb
 
 
@@ -70,6 +71,7 @@ class OauthView(View):
         url = x.get_authorize_url()
         return redirect(url)
 
+
 class SyncView(View):
     template = "spotify/index.html"
 
@@ -78,6 +80,19 @@ class SyncView(View):
         request.session['spotify_code'] = code
         user_list = User.objects.all().exclude(pk=request.session['session_id'])
         return render(request, self.template, {"user_list": user_list})
+
+
+class GetFollowingView(View):
+
+    def get(self, request):
+        user = User.objects.filter(pk=request.session['session_id'])
+        user_follow_list = FollowList.objects.filter(user=user[0])
+        JSON_follow_list = []
+        for item in user_follow_list[0].following.all():
+            following.append(item.username)
+        print(JSON_follow_list)
+        return JsonResponse({"user_follow_list": JSON_follow_list})
+
 
 class FollowView(View):
 
@@ -89,13 +104,28 @@ class FollowView(View):
         return JsonResponse({"user": user[0].username, "following": following[0].username})
 
 
+class UnfollowView(View):
+
+    def post(self, request):
+        user = User.objects.filter(pk=request.session['session_id'])
+        user_follow_list = FollowList.objects.filter(user=user[0])
+        unfollow = User.objects.filter(username=request.POST['username'])
+        user_follow_list[0].following.remove(unfollow[0])
+        return JsonResponse({"user": user[0].username, "unfollow": unfollow[0].username})
+
+
 def save_songs(song_list, user):
     save_count = 0
     for item in song_list:
         try:
             duplicate_songs = Song.objects.filter(track_name=item['track']['name'])
             if len(duplicate_songs) == 0:
-                song = Song(track_name=item['track']['name'], track_id=item['track']['id'], track_uri=item['track']['uri'], artist=item['track']['artists'][0]['name'], artist_id=item['track']['artists'][0]['id'], album=item['track']['album']['name'], album_id=item['track']['album']['id'], album_uri=item['track']['album']['uri'], spotify_popularity=item['track']['popularity'], preview_url=item['track']['preview_url'], image_300=item['track']['album']['images'][1]['url'], image_64=item['track']['album']['images'][2]['url'])
+                artist_search = Artist.objects.filter(name=item['track']['artists'][0]['name'])
+                if len(artist_search) == 1:
+                    artist = artist_search[0]
+                else:
+                    artist = seed_genre.seed(item['track']['artists'][0]['name'])
+                song = Song(track_name=item['track']['name'], track_id=item['track']['id'], track_uri=item['track']['uri'], artist=item['track']['artists'][0]['name'], artist_id=item['track']['artists'][0]['id'], album=item['track']['album']['name'], album_id=item['track']['album']['id'], album_uri=item['track']['album']['uri'], spotify_popularity=item['track']['popularity'], preview_url=item['track']['preview_url'], image_300=item['track']['album']['images'][1]['url'], image_64=item['track']['album']['images'][2]['url'], artists=artist)
                 song.save()
                 print(song.track_name)
                 print(user[0])
