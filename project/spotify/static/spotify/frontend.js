@@ -22,7 +22,7 @@ $(document).ready(function(){
         $.getJSON("/seed", function(data){
             console.log(data)
             $followButton = $(".followButton")
-            //select all the followButtons and assign them the correct text and class based on JSON response
+            //select all the followButtons and assign them the correct text and class based on JSON responsey
             console.log($followButton)
         })
     })
