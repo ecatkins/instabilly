@@ -8,9 +8,9 @@ $(document).ready(function(){
     ga('create', 'UA-66616301-1', 'auto');
     ga('send', 'pageview');
 
-    $.getJSON("/getfollowing", function(data){
-        console.log(data)
-    })
+    // $.getJSON("/getfollowing", function(data){
+    //     console.log(data)
+    // })
 
     $(document).ajaxStart(function(){
         $('#loading').html('<img src="/static/spotify/ajax-loader.gif"/>')  
