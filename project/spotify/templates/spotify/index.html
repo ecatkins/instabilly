@@ -28,7 +28,7 @@
             {% if user_list %}
                 <ul>
                 {% for user in user_list %}
-                    <li username="{{ user }}">{{ user }}<button class="btn followButton">follow</button></li>
+                    <li id="{{ user }}-button">{{ user }}<button class="btn followButton">follow</button></li>
                 {% endfor %}
                 </ul>
             {% endif %}
