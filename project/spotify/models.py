@@ -29,11 +29,9 @@ class Artist(models.Model):
     name = models.CharField(max_length=100)
     genres = models.ManyToManyField(Genre)
     
-
-class Profile(models.Model):
+class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     is_real = models.BooleanField()
-
 
 
 class FollowList(models.Model):
