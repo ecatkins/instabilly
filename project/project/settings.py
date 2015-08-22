@@ -118,6 +118,3 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.MD5PasswordHasher',
     'django.contrib.auth.hashers.CryptPasswordHasher',
 )
-
-from django.contrib.auth.models import User, models
-User._meta.local_fields[4].__dict__['_unique'] = True

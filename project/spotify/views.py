@@ -37,6 +37,8 @@ class RegistrationView(View):
             request.session['session_id'] = user.pk
             follow_list = FollowList(user=user)
             follow_list.save()
+            profile = Profile(user=user, is_real=True)
+            profile.save()
             print('successful user save')
             return redirect("oauth")
         else:
