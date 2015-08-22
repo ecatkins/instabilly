@@ -3,7 +3,7 @@ from sklearn.neighbors import KNeighborsClassifier
 import random
 
 
-test_user = User.objects.get(username="ecatkin")
+test_user = User.objects.get(username="ecatkins")
 
 
 def genre_user_array(user):
@@ -28,7 +28,7 @@ def similar_users(user,neighbors):
 	name_array = []
 	x_array = []
 	all_users = User.objects.exclude(pk=user.pk)
-	all_users = User.objects.all()
+	# all_users = User.objects.all()
 	for user in all_users:
 		name_array.append(user.username)
 		print(user.username)
@@ -43,9 +43,22 @@ def similar_users(user,neighbors):
 	similar_users = [name_array[result[1][0][x]] for x in range(neighbors)]
 	return similar_users
 
-def create_playlist(user,neighbors,similar_users,number_songs):
-	similar = similar_users(user,3)
-	for 
+def create_playlist(user,neighbors,number_songs):
+	similar = similar_users(user,neighbors)
+	playlist = []
+	count = 0 
+	while count < number_songs:
+		for user in similar:
+			user_object = User.objects.get(username=user)
+			user_songs = UserSong.objects.filter(user=user_object)
+			random_song = user_songs[random.randrange(0,len(user_songs))]
+			playlist.append(random_song.song.track_name)
+			count += 1
+	print(playlist)
+
+
+
+
 
 
 
