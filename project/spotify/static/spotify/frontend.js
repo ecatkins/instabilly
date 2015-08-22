@@ -69,24 +69,18 @@ $(document).ready(function(){
             $button.text('Following');
         }
     });
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-$(".follow_buttons").on("click", function() {
-    var username = $(this).parent().attr('username')
-    $.post("/follow", {'username': username}, function(data) {
-        console.log(data)
-        $(this).hide()
+    $("#songsearch").on("submit", function(event) {
+        event.preventDefault();
+        $("#searchresult_list").empty()
+        $.getJSON("search", $("#songsearch").serialize(), function(data){
+            console.log(data["search_result"])
+            var count = 0
+            for (item in data["search_result"]) {
+                $("#searchresult_list").append("<li class=results id=" + count +">" +data["search_result"][item] + "</li>")
+                count += 1
+            }
+        })
     })
+
 })
+
