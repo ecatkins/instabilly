@@ -35,7 +35,6 @@ class Profile(models.Model):
     is_real = models.BooleanField()
 
 
-
 class FollowList(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     following = models.ManyToManyField(User, related_name='following')
