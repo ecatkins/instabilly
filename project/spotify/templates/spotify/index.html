@@ -16,7 +16,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <h4>Please hit sync to let us download your library</h4>
             <div id="sync-library">
                 <button id='sync'>Sync</button>
@@ -24,7 +24,18 @@
             </div>
             <a id='logout' href="/logout">Logout</a>
         </div>
-        <div class="col-md-6">
+
+        <div class="col-md-4">
+            <h4>Search for a song</h4>
+            <form id="songsearch" action="search" method="GET">
+                {% csrf_token %}
+                <input type="text" name="search_query">
+                <input type="submit" value="Search">
+            </form>
+            <div id="searchresult"><ul id="searchresult_list"></ul></div>
+        </div>
+
+        <div class="col-md-4">
             {% if user_list %}
                 <ul>
                 {% for user in user_list %}
