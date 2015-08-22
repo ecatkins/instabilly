@@ -37,6 +37,8 @@ class RegistrationView(View):
             request.session['session_id'] = user.pk
             follow_list = FollowList(user=user)
             follow_list.save()
+            profile = Profile(user=user, is_real=True)
+            profile.save()
             print('successful user save')
             return redirect("oauth")
         else:
@@ -89,9 +91,8 @@ class GetFollowingView(View):
         user_follow_list = FollowList.objects.filter(user=user[0])
         JSON_follow_list = []
         for item in user_follow_list[0].following.all():
-            following.append(item.username)
-        print(JSON_follow_list)
-        return JsonResponse({"user_follow_list": JSON_follow_list})
+            JSON_follow_list.append(item.username)
+        return JsonResponse({"JSON_follow_list": JSON_follow_list})
 
 
 class FollowView(View):
@@ -99,8 +100,9 @@ class FollowView(View):
     def post(self, request):
         user = User.objects.filter(pk=request.session['session_id'])
         user_follow_list = FollowList.objects.filter(user=user[0])
-        following = User.objects.filter(username=request.POST['username'])
+        following = User.objects.filter(username=request.POST['id'])
         user_follow_list[0].following.add(following[0])
+        print("follow list after follow: ", user_follow_list[0].following.all())
         return JsonResponse({"user": user[0].username, "following": following[0].username})
 
 
@@ -109,8 +111,9 @@ class UnfollowView(View):
     def post(self, request):
         user = User.objects.filter(pk=request.session['session_id'])
         user_follow_list = FollowList.objects.filter(user=user[0])
-        unfollow = User.objects.filter(username=request.POST['username'])
+        unfollow = User.objects.filter(username=request.POST['id'])
         user_follow_list[0].following.remove(unfollow[0])
+        print("follow list after unfollow: ", user_follow_list[0].following.all())
         return JsonResponse({"user": user[0].username, "unfollow": unfollow[0].username})
 
 

@@ -33,8 +33,7 @@ class Artist(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     is_real = models.BooleanField()
-    x_coord = models.DecimalField(max_digits=5, decimal_places=3)
-    y_coord = models.DecimalField(max_digits=5, decimal_places=3)
+
 
 
 class FollowList(models.Model):
@@ -48,5 +47,19 @@ class UserSong(models.Model):
     uploaded_at = models.DateField(auto_now_add=True)
     synced_at = models.DateField(auto_now_add=True)
 
-###Need the table for Users and non-owned songs
 
+class ArtistRecommendation(models.Model):
+    user = models.ForeignKey(User)
+    artist = models.ForeignKey(Artist)
+    likes = models.IntegerField()
+    neutrals = models.IntegerField()
+    dislikes = models.IntegerField()
+    score = models.DecimalField(max_digits=6, decimal_places=4)
+
+
+class Post(models.Model):
+    user = models.ForeignKey(User)
+    song = models.ForeignKey(UserSong)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+###Need the table for Users and non-owned songs
