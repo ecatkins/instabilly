@@ -6,6 +6,7 @@ import datetime
 
 test_user = User.objects.get(username="ecatkins")
 test_user2 = User.objects.get(username="Wilson")
+test_user3 = User.objects.get(username="adamrj")
 
 
 def genre_user_array(user):
@@ -34,16 +35,17 @@ def similar_users(user,neighbors):
 	x_array = []
 	all_users = User.objects.exclude(pk=user.pk)
 	# all_users = User.objects.all()
-	for user in all_users:
-		name_array.append(user.username)
-		print(user.username)
-		genre_array = genre_user_array(user)
-		x_array.append(genre_array)
+	for other_user in all_users:
+		if len(UserSong.objects.filter(user=other_user)) != 0:
+			name_array.append(other_user.username)
+			genre_array = genre_user_array(other_user)
+			x_array.append(genre_array)
 	y_array = [random.random() for x in range(len(x_array))]
 	neigh = KNeighborsClassifier(n_neighbors=neighbors)
 	neigh.fit(x_array, y_array)
-	test = genre_user_array(test_user)
-	result = neigh.kneighbors((test),neighbors)
+	user_genres = genre_user_array(user)
+	result = neigh.kneighbors((user_genres),neighbors)
+	print(result)
 	similar_users = [[name_array[result[1][0][x]],result[0][0][x]] for x in range(neighbors)]
 	return similar_users
 
@@ -69,7 +71,7 @@ def get_user_song_array(similar):
 		user_songs_array.append(user_songs)
 	return user_songs_array
 
-def return_tracks_recency_bias(user_songs_array,number_songs):
+def return_tracks_recency_bias(user_songs_array,number_songs,recency_effect):
 	''' Pass: an array with user songs of n users
 		Return: An array equal to the length of the playlist each containing a sub array with a song selected from each with neighbor with a bias
 			towards recent songs
@@ -78,9 +80,12 @@ def return_tracks_recency_bias(user_songs_array,number_songs):
 	for x in range(number_songs):
 		return_array.append([])
 	for user in user_songs_array:
+		print(user)
 		age = [(datetime.datetime.now().date() - song.uploaded_at).days for song in user]
 		weighted_age = [1/(0.0005*(x+20)) for x in age]
-
+		average = sum(weighted_age) / len(weighted_age)
+		#Adjusts for effect
+		weighted_age = [x - (x-average)*(1-recency_effect) for x in weighted_age]
 		for song in range(number_songs):
 			choice = weighted_choice(weighted_age)
 			return_array[song].append(user[choice])
@@ -94,20 +99,22 @@ def duplicate_artist(playlist,user_song):
 	return False
 
 
-def create_playlist(user,neighbors,number_songs):
+
+def create_playlist(user,neighbors,number_songs,recency_effect,recommendation_effect,replicated_artist_effect,existing_playlist_effect):
 	'''Pass: the active user, number of neighbors to inform recommendation and
 	 number of songs desired in playlist
 	 Returns: Array of song objects '''
 	similar = similar_users(user,neighbors)
 	playlist = []
 	user_songs = get_user_song_array(similar)
-	song_choice = return_tracks_recency_bias(user_songs,number_songs)
+	song_choice = return_tracks_recency_bias(user_songs,number_songs,recency_effect)
 
 
+#s.create_playlist(s.test_user,4,10,1,1,1,1)
 	### Weighting factor 1, similarity to current user
+	print(similar)
 	distances = [1/x[1] for x in similar]
 	for song_number in song_choice:
-		
 		recommendation_array = []
 		replication_array = []
 		existing_playlist_array = []
@@ -118,31 +125,41 @@ def create_playlist(user,neighbors,number_songs):
 				score = recommendation.score
 			else:
 				score = 0.5
+			#Adjusts for effect
+			score = score - (score-0.5)*(1-recommendation_effect)
 			recommendation_array.append(score)
 			### Weighting factor 3, no replicated artists in playlist
 			if duplicate_artist(playlist,user_song) == True:
-				replication_array.append(0)
+				replication_array.append(1-(replicated_artist_effect))
 			else:
 				replication_array.append(1)
 			### Weighting factor 4, already in playlist
-			existing = UserSong.objects.filter(song = user_song.song)
-			if existing == 1:
-				existing_playlist_array.append(0.3)
+			existing = UserSong.objects.filter(user=user,song = user_song.song)
+			if len(existing) == 1:
+				print(user_song.song.track_name)
+				print(user_song.user.username)
+				print("existing")
+				existing_playlist_array.append(1-existing_playlist_effect)
 			else:
 				existing_playlist_array.append(1)
 		#Multiply arrays
-		print(distances)
-		print(replication_array)
-		print(existing_playlist_array)
-
+		print("Distances {}".format(distances))
+		print("Replication of artist {}".format(replication_array))
+		print("existing in playlist {}".format(existing_playlist_array))
 		final_weighting_array = []
 		for x in range(len(distances)):
 			final_weighting  = distances[x] * recommendation_array[x] * replication_array[x] * existing_playlist_array[x]
 			final_weighting_array.append(final_weighting)
+		if sum(final_weighting_array) == 0:
+			"zeores"
+			continue
 		### select song
 		print(final_weighting_array)
 		choice = weighted_choice(final_weighting_array)
 		playlist.append(song_number[choice])
+	for song in playlist:
+		print ("{0}: {1}".format(song.song.track_name, song.song.artists.name))
+
 	return playlist
 
 
