@@ -99,9 +99,12 @@ $(document).ready(function(){
         })
     })
     $("#modal-button").on("click", function() {
-        console.log($("#song-comment"))
-        console.log($("#song-reference")[0].firstChild.src)
-        //AJAX TO CREATE POST OBJECT
+        var comment = $("#song-comment").text()
+        var src = $("#song-reference")[0].firstChild.src
+        var track_uri = src.replace("https://embed.spotify.com/?uri=","")
+        $.post("create_post", {"comment": comment, "track_uri": track_uri}, function(data) {
+            console.log(data)
+        })
     })
 })
 
