@@ -1,0 +1,35 @@
+<html>
+<head>
+{% load staticfiles %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href ="{% static 'spotify/main.css' %}">
+    <script src="{%static 'spotify/django_ajax.js' %}"></script>
+    <script src="{% static 'spotify/frontend.js' %}"> </script>
+</head>
+<body>
+<div class = "container">
+	<header>
+		{% block header %}
+			<h1>Our Music App</h1>
+		{% endblock %}
+	</header>
+
+	<div class = "content">
+		{% block content %}
+		{% endblock %}
+	</div>
+
+	<footer>
+		{% block footer %}
+		Byte Academy Blog
+		{% endblock %}
+	</footer>
+</div>
+</body>
+</html>
