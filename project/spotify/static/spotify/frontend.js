@@ -39,7 +39,7 @@ $(document).ready(function(){
         console.log('clicked')
         $button = $(this);
         var id = $(this).parent().attr('id')
-        var strippedID = id.replace("-button","")
+        var strippedID = id.replace("-button","") // ADAM'S NOTE TO SELF: COME BACK AND DO THIS PROPERLY
         if($button.hasClass('following')){
             
             
@@ -69,18 +69,39 @@ $(document).ready(function(){
             $button.text('Following');
         }
     });
-    $("#songsearch").on("submit", function(event) {
-        event.preventDefault();
+    $("#song-search-button").on("click", function(event) {
+        event.preventDefault()
         $("#searchresult_list").empty()
-        $.getJSON("search", $("#songsearch").serialize(), function(data){
-            console.log(data["search_result"])
+        var query = $("[name=search_query]").val()
+        $.getJSON("search", {"search_query": query}, function(data){
             var count = 0
             for (item in data["search_result"]) {
-                $("#searchresult_list").append("<li class=results id=" + count +">" +data["search_result"][item] + "</li>")
+                $("#searchresult_list").append("<li class=results id=" + count +">" +data["search_result"][item] + "<button class=select-song>select</button></li>")
                 count += 1
             }
         })
     })
-
+    $("#searchresult_list").on("click", ".select-song", function() {
+        var text = $(this).parent().text()
+        var substring = text.substring(0, text.length - 6)
+        $("#searchresult_list").empty();
+        $("#song-search-button").hide();
+        $("[name=search_query]").val(substring)
+    })
+    $("#songsearch").on("submit", function(event) {
+        event.preventDefault();
+        var track_name = $("[name=search_query]").val()
+        $.getJSON("track_uri", {"track_name": track_name}, function(data){
+            console.log(data['track_uri']);
+            var track_uri = data['track_uri'];
+        $("#song-reference").empty().append("<iframe src='https://embed.spotify.com/?uri=" + track_uri + "'width=300 height=80 frameborder=0 allowtransparency=true></iframe>");
+        $("#song-comment").append($("#comment").val());
+        })
+    })
+    $("#modal-button").on("click", function() {
+        console.log($("#song-comment"))
+        console.log($("#song-reference")[0].firstChild.src)
+        //AJAX TO CREATE POST OBJECT
+    })
 })
 

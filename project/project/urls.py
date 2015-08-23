@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib import admin
-from spotify.views import HomeView, OauthView, SyncView, RegistrationView, LoginView, SeedUserLibraryView, LogoutView, GetFollowingView, FollowView, UnfollowView, SearchView
+from spotify.views import HomeView, OauthView, SyncView, RegistrationView, LoginView, SeedUserLibraryView, LogoutView, GetFollowingView, FollowView, UnfollowView, SearchView, TrackURIView
 
 urlpatterns = [
     url(r'^$', HomeView.as_view(), name="home"),
@@ -14,5 +14,6 @@ urlpatterns = [
     url(r'^follow$', FollowView.as_view(), name="follow"),
     url(r'^unfollow$', UnfollowView.as_view(), name="unfollow"),
     url(r'^search$', SearchView.as_view(), name="search"),
+    url(r'^track_uri$', TrackURIView.as_view(), name="track_uri"),
     url(r'^admin/', include(admin.site.urls))
 ]

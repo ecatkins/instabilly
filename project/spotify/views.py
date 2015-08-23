@@ -117,7 +117,7 @@ class UnfollowView(View):
 
 
 
-class SearchView(View):
+class SearchView(View): 
 
         def get(self, request):
             query = request.GET.get('search_query').lower()
@@ -127,9 +127,19 @@ class SearchView(View):
             for item in usersongs:
                 if query in item.song.track_name.lower():
                     search_result.append(item.song.track_name)
-            print(search_result)
-            return JsonResponse({"search_result": search_result})
+            if len(search_result) > 0:
+                return JsonResponse({"search_result": search_result})
+            else:
+                return JsonResponse({"search_result": ["No results found..."]})
 
+
+class TrackURIView(View):
+
+    def get(self, request):
+        track_name = request.GET.get('track_name')
+        song = Song.objects.filter(track_name=track_name)
+        track_uri = song[0].track_uri
+        return JsonResponse({"track_uri": track_uri})
 
 
 def save_songs(song_list, user):
