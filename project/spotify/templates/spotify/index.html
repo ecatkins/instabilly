@@ -1,70 +1,59 @@
-<!DOCTYPE html>
+{%extends 'spotify/base.html' %}
 {% load staticfiles %}
-<html>
-<head>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
-    <link rel="stylesheet" type="text/css" href ="{% static 'spotify/main.css' %}">
-    <script src="{%static 'spotify/django_ajax.js' %}"></script>
-    <script src="{% static 'spotify/frontend.js' %}"> </script>
-	<title></title>
-</head>
-<body>
-    <div class="container">
-        <div class="col-md-4">
-            <h4>Please hit sync to let us download your library</h4>
-            <div id="sync-library">
-                <button id='sync'>Sync</button>
-                <div id="loading"></div>
-            </div>
-            <a id='logout' href="/logout">Logout</a>
+{% block js %}
+    <script src="{% static 'spotify/timeline.js' %}"> </script>
+{% endblock %}
+
+
+{% block content %}
+    <div class="col-md-3">
+        <h4>Please hit sync to let us download your library</h4>
+        <div id="sync-library">
+            <button id='sync'>Sync</button>
+            <div id="loading"></div>
         </div>
+        <a id='logout' href="/logout">Logout</a>
+    </div>
 
-        <div class="col-md-4">
-            <h4>What's on your mind?</h4>
-            <form id="songsearch" action="search" method="GET">
-                {% csrf_token %}
-                <p><textarea id="comment" rows="4" cols="40"></textarea></p>
-                <p>Include a song from your library <input type="text" name="search_query"> <button id="song-search-button">search</button></p>
-                <input type="submit" value="Post it!" data-toggle="modal" data-target="#myModal">
-            </form>
-            <div id="searchresult"><ul id="searchresult_list"></ul></div>
+    <div class="col-md-3">
+        <h4>What's on your mind?</h4>
+        <form id="songsearch" action="search" method="GET">
+            {% csrf_token %}
+            <p><textarea id="comment" rows="4" cols="33"></textarea></p>
+            <p>Include a song from your library <input type="text" name="search_query"> <button id="song-search-button">search</button></p>
+            <input type="submit" value="Post it!" data-toggle="modal" data-target="#myModal">
+        </form>
+        <div id="searchresult"><ul id="searchresult_list"></ul></div>
 
-        </div>
+    </div>
+    <div class="col-md-3">This is where the mini feed goes</div>
 
-        <div class="col-md-4">
-            {% if user_list %}
-                <ul>
-                {% for user in user_list %}
-                    <li id="{{ user }}-button">{{ user }}<button class="btn followButton">follow</button></li>
-                {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
+    <div class="col-md-3">
+        {% if user_list %}
+            <ul>
+            {% for user in user_list %}
+                <li id="{{ user }}-button">{{ user }}<button class="btn followButton">follow</button></li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
 
-        <div id="myModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-            <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Creating post...</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p id="song-reference"></p>
-                        <p id="song-comment"></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="modal-button" type="button" class="btn btn-default" data-dismiss="modal">Do it!</button>
-                    </div>
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+        <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Creating post...</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="song-reference"></p>
+                    <p id="song-comment"></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="modal-button" type="button" class="btn btn-default" data-dismiss="modal">Do it!</button>
                 </div>
             </div>
-        </div>       
-    </div>
-</body>
-</html>
+        </div>
+    </div>       
+{% endblock %}
