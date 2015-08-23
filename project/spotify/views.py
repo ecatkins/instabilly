@@ -5,7 +5,7 @@ from spotipy import oauth2
 import spotipy.util as util
 import requests
 from spotify.secret import *
-from spotify.models import Song, User, UserSong, UserProfile, FollowList, Artist
+from spotify.models import Song, User, UserSong, UserProfile, FollowList, Artist, Post
 from spotify.forms import UserForm, RegistrationForm
 from django.http import JsonResponse
 from django.contrib.auth.hashers import check_password, make_password
@@ -140,6 +140,18 @@ class TrackURIView(View):
         song = Song.objects.filter(track_name=track_name)
         track_uri = song[0].track_uri
         return JsonResponse({"track_uri": track_uri})
+
+class CreatePostView(View):
+
+    def post(self, request):
+        user = User.objects.filter(pk=request.session['session_id'])
+        track_uri = request.POST.get('track_uri')
+        content = request.POST.get('comment')
+        song = Song.objects.filter(track_uri=track_uri)
+        usersong = UserSong.objects.filter(user=user, song=song)
+        new_post = Post(user=user[0], song=usersong[0], content=content)
+        new_post.save()
+        return JsonResponse({"status": "success"})
 
 
 def save_songs(song_list, user):
