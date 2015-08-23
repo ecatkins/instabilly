@@ -11,6 +11,7 @@ from django.http import JsonResponse
 from django.contrib.auth.hashers import check_password, make_password
 from spotify.seedgenre import seed_genre
 import pdb
+import datetime
 
 
 class HomeView(View):
@@ -39,7 +40,6 @@ class RegistrationView(View):
             follow_list.save()
             profile = UserProfile(user=user, is_real=True)
             profile.save()
-            print('successful user save')
             return redirect("oauth")
         else:
             return render(request, 'spotify/home.html', {"login_form": UserForm(), "registration_form": registration_form})
@@ -53,7 +53,6 @@ class LoginView(View):
         user = User.objects.filter(username=username)
         if len(user) == 1 and check_password(password, user[0].password):
             request.session['session_id'] = user[0].pk
-            print(request.session['session_id'])
             return redirect("oauth")
         else:
             return render(request, 'spotify/home.html', {"login_form": UserForm(), "login_error": "Invalid credentials.", "registration_form": RegistrationForm()})
@@ -139,6 +138,7 @@ def save_songs(song_list, user):
         try:
             duplicate_songs = Song.objects.filter(track_name=item['track']['name'])
             if len(duplicate_songs) == 0:
+                pdb.set_trace()
                 artist_search = Artist.objects.filter(name=item['track']['artists'][0]['name'])
                 if len(artist_search) == 1:
                     artist = artist_search[0]
@@ -146,21 +146,20 @@ def save_songs(song_list, user):
                     artist_name = item['track']['artists'][0]['name']
                     artist = seed_genre(artist_name)
                 song = Song(track_name=item['track']['name'], track_id=item['track']['id'], track_uri=item['track']['uri'], artist=item['track']['artists'][0]['name'], artist_id=item['track']['artists'][0]['id'], album=item['track']['album']['name'], album_id=item['track']['album']['id'], album_uri=item['track']['album']['uri'], spotify_popularity=item['track']['popularity'], preview_url=item['track']['preview_url'], image_300=item['track']['album']['images'][1]['url'], image_64=item['track']['album']['images'][2]['url'], artists=artist)
+                date_added = datetime.datetime.strptime(item['added_at'], "%Y-%m-%dT%H:%M:%SZ").date()
+                print(date_added)
                 song.save()
-                print(song.track_name)
-                print(user[0])
-                print(song.track_name)
-                usersong = UserSong(user=user[0], song=song)
+                usersong = UserSong(user=user[0], song=song, uploaded_at=date_added)
                 usersong.save()
-                print("unique song success")
+                print("Saved New Song: {0}".format(song.track_name))
                 save_count += 1
             else:
-                duplicate_user_songs = UserSong.objects.filter(song=duplicate_songs[0],user=user[0])
+                date_added = datetime.datetime.strptime(item['added_at'], "%Y-%m-%dT%H:%M:%SZ")
+                duplicate_user_songs = UserSong.objects.filter(song=duplicate_songs[0],user=user[0],uploaded_at=date_added)
                 if len(duplicate_user_songs) == 0:
                     usersong = UserSong(user=user[0],song=duplicate_songs[0])
                     usersong.save()
-                    print(duplicate_songs[0].track_name)
-                    print("user song success")
+                    print("Saved New User Song: {0}".format(usersong.song.track_name))
         except:
             continue
     return save_count
@@ -177,13 +176,10 @@ def get_user_saved_tracks(sp, user):
     return True
 
 def get_user_playlist_tracks(sp, user):
-    print("playlist")
     username = sp.current_user()['id']
     playlists = sp.user_playlists(username)
     for playlist in playlists['items']:
-    	print(playlist['name'])
     	if playlist['owner']['id'] == username:
-            print("got here")
             playlist_results = sp.user_playlist_tracks(username, playlist['id'],
                 fields="total,items")
             count = 0
