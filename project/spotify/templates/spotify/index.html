@@ -26,13 +26,15 @@
         </div>
 
         <div class="col-md-4">
-            <h4>Search for a song</h4>
+            <h4>What's on your mind?</h4>
             <form id="songsearch" action="search" method="GET">
                 {% csrf_token %}
-                <input type="text" name="search_query">
-                <input type="submit" value="Search">
+                <p><textarea id="comment" rows="4" cols="40"></textarea></p>
+                <p>Include a song from your library <input type="text" name="search_query"> <button id="song-search-button">search</button></p>
+                <input type="submit" value="Post it!" data-toggle="modal" data-target="#myModal">
             </form>
             <div id="searchresult"><ul id="searchresult_list"></ul></div>
+
         </div>
 
         <div class="col-md-4">
@@ -44,8 +46,25 @@
                 </ul>
             {% endif %}
         </div>
+
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+            <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Creating post...</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="song-reference"></p>
+                        <p id="song-comment"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="modal-button" type="button" class="btn btn-default" data-dismiss="modal">Do it!</button>
+                    </div>
+                </div>
+            </div>
+        </div>       
     </div>
-
-
 </body>
 </html>
