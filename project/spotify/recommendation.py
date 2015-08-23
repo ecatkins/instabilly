@@ -112,7 +112,6 @@ def create_playlist(user,neighbors,number_songs,recency_effect,recommendation_ef
 
 #s.create_playlist(s.test_user,4,10,1,1,1,1)
 	### Weighting factor 1, similarity to current user
-	print(similar)
 	distances = [1/x[1] for x in similar]
 	for song_number in song_choice:
 		recommendation_array = []
@@ -136,25 +135,19 @@ def create_playlist(user,neighbors,number_songs,recency_effect,recommendation_ef
 			### Weighting factor 4, already in playlist
 			existing = UserSong.objects.filter(user=user,song = user_song.song)
 			if len(existing) == 1:
-				print(user_song.song.track_name)
-				print(user_song.user.username)
-				print("existing")
+
 				existing_playlist_array.append(1-existing_playlist_effect)
 			else:
 				existing_playlist_array.append(1)
 		#Multiply arrays
-		print("Distances {}".format(distances))
-		print("Replication of artist {}".format(replication_array))
-		print("existing in playlist {}".format(existing_playlist_array))
 		final_weighting_array = []
 		for x in range(len(distances)):
 			final_weighting  = distances[x] * recommendation_array[x] * replication_array[x] * existing_playlist_array[x]
 			final_weighting_array.append(final_weighting)
+		# Needs fixing to ensure that playlist is of conistent length
 		if sum(final_weighting_array) == 0:
-			"zeores"
 			continue
 		### select song
-		print(final_weighting_array)
 		choice = weighted_choice(final_weighting_array)
 		playlist.append(song_number[choice])
 	for song in playlist:
