@@ -42,7 +42,7 @@ class FollowList(models.Model):
 class UserSong(models.Model):
     song = models.ForeignKey(Song)
     user = models.ForeignKey(User)
-    uploaded_at = models.DateField(auto_now_add=True)
+    uploaded_at = models.DateField()
     synced_at = models.DateField(auto_now_add=True)
 
 
