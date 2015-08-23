@@ -5,7 +5,7 @@ from spotipy import oauth2
 import spotipy.util as util
 import requests
 from spotify.secret import *
-from spotify.models import Song, User, UserSong, UserProfile, FollowList, Artist
+from spotify.models import Song, User, UserSong, UserProfile, FollowList, Artist, Post
 from spotify.forms import UserForm, RegistrationForm
 from django.http import JsonResponse
 from django.contrib.auth.hashers import check_password, make_password
@@ -38,7 +38,7 @@ class RegistrationView(View):
             request.session['session_id'] = user.pk
             follow_list = FollowList(user=user)
             follow_list.save()
-            profile = Profile(user=user, is_real=True)
+            profile = UserProfile(user=user, is_real=True)
             profile.save()
             return redirect("oauth")
         else:
@@ -114,6 +114,44 @@ class UnfollowView(View):
         user_follow_list[0].following.remove(unfollow[0])
         print("follow list after unfollow: ", user_follow_list[0].following.all())
         return JsonResponse({"user": user[0].username, "unfollow": unfollow[0].username})
+
+
+
+class SearchView(View): 
+
+        def get(self, request):
+            query = request.GET.get('search_query').lower()
+            user = User.objects.filter(pk=request.session['session_id'])
+            usersongs = UserSong.objects.filter(user=user[0])
+            search_result = []
+            for item in usersongs:
+                if query in item.song.track_name.lower():
+                    search_result.append(item.song.track_name)
+            if len(search_result) > 0:
+                return JsonResponse({"search_result": search_result})
+            else:
+                return JsonResponse({"search_result": ["No results found..."]})
+
+
+class TrackURIView(View):
+
+    def get(self, request):
+        track_name = request.GET.get('track_name')
+        song = Song.objects.filter(track_name=track_name)
+        track_uri = song[0].track_uri
+        return JsonResponse({"track_uri": track_uri})
+
+class CreatePostView(View):
+
+    def post(self, request):
+        user = User.objects.filter(pk=request.session['session_id'])
+        track_uri = request.POST.get('track_uri')
+        content = request.POST.get('comment')
+        song = Song.objects.filter(track_uri=track_uri)
+        usersong = UserSong.objects.filter(user=user, song=song)
+        new_post = Post(user=user[0], song=usersong[0], content=content)
+        new_post.save()
+        return JsonResponse({"status": "success"})
 
 
 def save_songs(song_list, user):
