@@ -9,8 +9,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
     <link rel="stylesheet" type="text/css" href ="{% static 'spotify/main.css' %}">
-    <script src="{%static 'spotify/django_ajax.js' %}"></script>
-    <script src="{% static 'spotify/frontend.js' %}"> </script>
+    <title>Our Music App</title>
+{% block js %}
+{% endblock %}
+
 </head>
 <body>
 <div class = "container">
@@ -27,7 +29,6 @@
 
 	<footer>
 		{% block footer %}
-		Byte Academy Blog
 		{% endblock %}
 	</footer>
 </div>
