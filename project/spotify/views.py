@@ -12,7 +12,7 @@ from django.contrib.auth.hashers import check_password, make_password
 from spotify.seedgenre import seed_genre
 import pdb
 import datetime
-
+from spotify.recommendation import *
 
 class HomeView(View):
     template = "spotify/home.html"
@@ -228,7 +228,6 @@ def get_user_playlist_tracks(sp, user):
 class SeedUserLibraryView(View):
 
     def get(self, request):
-        print("here")
         user = User.objects.filter(pk=request.session['session_id'])
         if len(user) == 1:
             post_route = "https://accounts.spotify.com/api/token"
@@ -258,17 +257,20 @@ class EngineView(View):
 class PlaylistView(View):
 
     def post(self,request):
-        import spotify.recommendation as r
-        user = User.objects.filter(pk=request.session['session_id'])
-
-        number_songs = request.POST.get('number_songs')
-        neighbors = request.POST.get('neighbors')
-        recency_effect = request.POST.get('recency_effect')
-        rating_effect = request.POST.get('rating_effect')
-        duplicate_artist = request.POST.get('duplicate_artist')
-        existing_playlist = request.POST.get('existing_playlist')
-        user = 
-        
+        #switch comment later
+        user = User.objects.get(username="ecatkins")
+        # user = User.objects.get(pk=request.session['session_id'])
+    
+        number_songs = int(request.POST.get('number_songs'))
+        neighbors = int(request.POST.get('neighbors'))
+        recency_effect = int(request.POST.get('recency_effect'))/10.0
+        rating_effect = int(request.POST.get('rating_effect'))/10.0
+        duplicate_artist = int(request.POST.get('duplicate_artist'))/10.0
+        existing_playlist = int(request.POST.get('existing_playlist'))/10.0
+        playlist =create_playlist(user=user,neighbors=neighbors,number_songs=number_songs,recency_effect=recency_effect,rating_effect=rating_effect,duplicate_artist_effect=duplicate_artist,existing_playlist_effect=existing_playlist)
+    
+        for song in playlist:
+             print ("{0}: {1}".format(song.song.track_name, song.song.artists.name))
 
 
         return JsonResponse({"Anything":"Anything"})

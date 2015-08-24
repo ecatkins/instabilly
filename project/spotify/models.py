@@ -18,9 +18,6 @@ class Song(models.Model):
     users = models.ManyToManyField(User, through='UserSong')
     artists = models.ForeignKey('Artist')
 
-# first = Artist.objects.get(pk=1)
-
-
 class Genre(models.Model):
     name = models.CharField(max_length=100)
 
@@ -61,4 +58,4 @@ class Post(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-###Need the table for Users and non-owned songs
+

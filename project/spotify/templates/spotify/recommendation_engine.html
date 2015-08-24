@@ -2,8 +2,7 @@
 {%load staticfiles %}
 
 {% block extras %} 
-  <link rel="stylesheet" type="text/css" href ="{% static 'spotify/slider/css/slider.css' %}">
-  <script src="{% static 'spotify/slider/js/bootstrap-slider.js' %}"> </script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
 {% endblock %} 
 
@@ -22,7 +21,8 @@
 
 <div class="row">
   <div class="col-md-3">
-    Number of songs in playlist
+    Number of songs in playlist <i id="number_songs_info" class="fa fa-question"data-container="body" data-toggle="popover" data-placement="right" data-content="Select the number of songs to be in your custom playlist."
+></i> 
     <select id="number_songs" class="form-control" default="5">
       <option>1</option>
       <option>2</option>
@@ -37,8 +37,8 @@
     </select>
     <br>
   
-    Neighbors
-    <select id="neigbors" class="form-control">
+    Neighbors <i id="neighbors_info" class="fa fa-question" data-container="body" data-toggle="popover" data-placement="right" data-content="Select number of similar users to inform your playlist."></i>
+    <select id="neighbors" class="form-control">
       <option>0</option>
       <option>1</option>
       <option>2</option>
@@ -53,7 +53,7 @@
     </select>
     <br>
 
-    Recency effect
+    Recency effect <i id="recency_info" class="fa fa-question" data-container="body" data-toggle="popover" data-placement="right" data-content="Select number of similar users to inform your playlist."></i>
     <select id="recency" class="form-control">
       <option>0</option>
       <option>1</option>
@@ -69,7 +69,7 @@
     </select>
     <br>
 
-    Rating effect
+    Rating effect <i id="rating_info" class="fa fa-question" data-container="body" data-toggle="popover" data-placement="right" data-content="Select number of similar users to inform your playlist."></i>
     <select id="rating"  class="form-control">
       <option>0</option>
       <option>1</option>
@@ -85,7 +85,7 @@
     </select>
     <br>
 
-    Duplicate artist effect
+    Duplicate artist effect <i id="duplicate_artist_info"  class="fa fa-question" data-container="body" data-toggle="popover" data-placement="right" data-content="Select number of similar users to inform your playlist."></i>
       <select id="duplicateartist" class="form-control">
         <option>0</option>
         <option>1</option>
@@ -101,7 +101,7 @@
       </select>
       <br>
 
-      Existing playlist effect
+      Existing playlist effect <i id="existing_playlist_info" class="fa fa-question" data-container="body" data-toggle="popover"  data-placement="right" data-content="Select number of similar users to inform your playlist."></i>
       <select id="existingplaylist" class="form-control">
         <option>0</option>
         <option>1</option>
