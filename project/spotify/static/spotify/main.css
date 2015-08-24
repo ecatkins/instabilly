@@ -8,3 +8,19 @@ header {
 .fa-question {
 	cursor: pointer;
 }
+
+.btn:hover {
+    color: white;
+}
+
+.followButton {
+    background-color: blue;
+}
+
+.following {
+    background-color: green;
+}
+
+.unfollow {
+    background-color: red;
+}
