@@ -60,4 +60,5 @@ class Post(models.Model):
     song = models.ForeignKey(UserSong)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
 ###Need the table for Users and non-owned songs
