@@ -253,23 +253,28 @@ class SeedUserLibraryView(View):
             else:
                 return JsonResponse({"status":"incomplete seed"})
 
-# track_id=print(item['track']['id'])
-# track_uri=print(item['track']['uri'])
-# artist=print(item['track']['artists'][0]['name'])
-# artist_id=print(item['track']['artists'][0]['id'])
-# album=print(item['track']['album']['name'])
-# album_id=print(item['track']['album']['id'])
-# album_uri=print(item['track']['album']['uri'])
-# spotify_popularity=print(item['track']['popularity'])
-# preview_url=print(item['track']['preview_url'])
-# image_300=print(item['track']['album']['images'][1]['url'])
-# image_64=print(item['track']['album']['images'][2]['url'])
-
-
-# song = Song(track_name="Ghost Ship", track_id="61JDaStnXY3vbaEjliB5WA", track_uri="spotify:track:61JDaStnXY3vbaEjliB5WA", artist="Blur", artist_id="7MhMgCo0Bl0Kukl93PZbYS", album="The Magic Whip", album_id="0nSzBICzQHea8grwfqa5Gb", album_uri="spotify:album:0nSzBICzQHea8grwfqa5Gb", spotify_popularity=56, preview_url="https://p.scdn.co/mp3-preview/250765ca652fc1b71c66ff17b5b7ffa3c7dbcfe6", image_300="https://i.scdn.co/image/9a19621ef5380cded361f5144dc5ad32332a3fad", image_64="https://i.scdn.co/image/ceb4e64d9f204b3553e48cfe1b879555d272fada")
+###########################
 
 class EngineView(View):
     template = "spotify/recommendation_engine.html"
 
     def get(self,request):
         return render(request,self.template)
+
+class PlaylistView(View):
+
+    def post(self,request):
+        import spotify.recommendation as r
+        user = User.objects.filter(pk=request.session['session_id'])
+
+        number_songs = request.POST.get('number_songs')
+        neighbors = request.POST.get('neighbors')
+        recency_effect = request.POST.get('recency_effect')
+        rating_effect = request.POST.get('rating_effect')
+        duplicate_artist = request.POST.get('duplicate_artist')
+        existing_playlist = request.POST.get('existing_playlist')
+        user = 
+        
+
+
+        return JsonResponse({"Anything":"Anything"})

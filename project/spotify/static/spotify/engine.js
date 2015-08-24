@@ -15,7 +15,13 @@ $(document).ready(function() {
 		var duplicate_artist = $("#duplicateartist").val()
 		var existing_playlist = $("#existingplaylist").val()
 
-	
+		var post_data = {"number_songs":number_songs, "neighbors":neighbors, "recency_effect":recency_effect,"rating_effect":rating_effect,"duplicate_artist":duplicate_artist, "existing_playlist": existing_playlist}
+
+		$.post('playlist', post_data, function(data) {
+			console.log("anything")
+
+		})
+
 	})
 })
 
