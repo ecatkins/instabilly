@@ -114,8 +114,8 @@ $(document).ready(function(){
         $.post("create_post", {"comment": comment, "track_uri": track_uri}, function(data) {
             console.log(data)
         })
-        $("#comment").empty(); //NOT WORKING
-        $("[name=search_query]").empty();//NOT WORKING
+        $("#comment").val('');
+        $("[name=search_query]").val('');
     })
 })
 
