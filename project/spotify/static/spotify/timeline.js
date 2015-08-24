@@ -22,6 +22,13 @@ $(document).ready(function(){
         });
     });
 
+    $.getJSON("/get_minifeed", function(data){
+        var all_posts = data['all_posts'];
+        for (post in all_posts) {
+            $("#mini-feed").append("<li><p>" + all_posts[post].user + "</p><p>" + all_posts[post].content + "</p><p><iframe src='https://embed.spotify.com/?uri=" + all_posts[post].track_uri + "'width=300 height=80 frameborder=0 allowtransparency=true></iframe></p></li>")
+        }
+    })
+
     $(document).ajaxStart(function(){
         $('#loading').html('<img src="/static/spotify/ajax-loader.gif"/>')  
     });

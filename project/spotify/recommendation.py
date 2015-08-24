@@ -4,9 +4,9 @@ import random
 import datetime
 
 
-test_user = User.objects.get(username="ecatkins")
-test_user2 = User.objects.get(username="Wilson")
-test_user3 = User.objects.get(username="adamrj")
+# test_user = User.objects.get(username="ecatkins")
+# test_user2 = User.objects.get(username="Wilson")
+# test_user3 = User.objects.get(username="adamrj")
 
 
 def genre_user_array(user):

@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% block js %}
     <script src="{% static 'spotify/timeline.js' %}"> </script>
+    <script src="{% static 'spotify/django_ajax.js' %}"> </script>
 {% endblock %}
 
 
@@ -24,9 +25,11 @@
             <input type="submit" value="Post it!" data-toggle="modal" data-target="#myModal">
         </form>
         <div id="searchresult"><ul id="searchresult_list"></ul></div>
-
     </div>
-    <div class="col-md-3">This is where the mini feed goes</div>
+
+    <div class="col-md-3">
+        <ul id="mini-feed"></ul>
+    </div>
 
     <div class="col-md-3">
         {% if user_list %}
