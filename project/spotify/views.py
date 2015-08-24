@@ -144,14 +144,31 @@ class TrackURIView(View):
 class CreatePostView(View):
 
     def post(self, request):
+        print('here')
         user = User.objects.filter(pk=request.session['session_id'])
+        print(user)
         track_uri = request.POST.get('track_uri')
+        print(track_uri)
         content = request.POST.get('comment')
+        print(content)
         song = Song.objects.filter(track_uri=track_uri)
+        print(song)
         usersong = UserSong.objects.filter(user=user, song=song)
+        print(usersong)
         new_post = Post(user=user[0], song=usersong[0], content=content)
         new_post.save()
         return JsonResponse({"status": "success"})
+
+class GetMiniFeedView(View):
+
+    def get(self, request):
+        user = User.objects.filter(pk=request.session['session_id'])
+        all_posts = Post.objects.all().exclude(user=user[0])
+        JSON_all_posts = []
+        for post in all_posts:
+            post_dict = {"user": post.user.username, "track_uri": post.song.song.track_uri, "created_at": post.created_at, "content": post.content}
+            JSON_all_posts.append(post_dict)
+        return JsonResponse({"all_posts": JSON_all_posts})
 
 
 def save_songs(song_list, user):
