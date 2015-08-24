@@ -260,9 +260,9 @@ class EngineView(View):
 class PlaylistView(View):
 
     def post(self,request):
-        #switch comment later
-        user = User.objects.get(username="ecatkins")
-        # user = User.objects.get(pk=request.session['session_id'])
+        
+        # user = User.objects.get(username="ecatkins")
+        user = User.objects.get(pk=request.session['session_id'])
     
         number_songs = int(request.POST.get('number_songs'))
         neighbors = int(request.POST.get('neighbors'))
@@ -275,5 +275,12 @@ class PlaylistView(View):
         for song in playlist:
              print ("{0}: {1}".format(song.song.track_name, song.song.artists.name))
 
+       
 
-        return JsonResponse({"Anything":"Anything"})
+        track_uris = []
+        for song in playlist:
+            track_uris.append(song.song.track_uri[-22:-1])
+        print(track_uris)
+
+
+        return JsonResponse({"track_uris":track_uris})
