@@ -24,8 +24,10 @@ $(document).ready(function(){
 
     $.getJSON("/get_minifeed", function(data){
         var all_posts = data['all_posts'];
+        var count = 0
         for (post in all_posts) {
-            $("#mini-feed").append("<li><p>" + all_posts[post].user + "</p><p>" + all_posts[post].content + "</p><p><iframe src='https://embed.spotify.com/?uri=" + all_posts[post].track_uri + "'width=300 height=80 frameborder=0 allowtransparency=true></iframe></p></li>")
+            $("#mini-feed").append("<div id=minifeed" + count + "><p>posted by: " + all_posts[post].user + "</p><p>" + all_posts[post].content + "</p><p><iframe src='https://embed.spotify.com/?uri=" + all_posts[post].track_uri + "'width=265 height=80 frameborder=0 allowtransparency=true></iframe></p>")
+            count += 1
         }
     })
 
