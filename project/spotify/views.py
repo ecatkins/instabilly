@@ -10,9 +10,10 @@ from spotify.forms import UserForm, RegistrationForm
 from django.http import JsonResponse
 from django.contrib.auth.hashers import check_password, make_password
 from spotify.seedgenre import seed_genre
-import pdb
 import datetime
+import pdb
 from spotify.recommendation import *
+
 
 class HomeView(View):
     template = "spotify/home.html"
@@ -157,12 +158,15 @@ class GetMiniFeedView(View):
 
     def get(self, request):
         user = User.objects.filter(pk=request.session['session_id'])
-        all_posts = Post.objects.all().exclude(user=user[0])
-        JSON_all_posts = []
+        user_followlist_obj = FollowList.objects.filter(user=user[0])
+        follow_list = user_followlist_obj[0].following.all()
+        JSON_all_posts = []            
+        all_posts = Post.objects.all().exclude(user=user[0]).order_by('-created_at')
         for post in all_posts:
-            post_dict = {"user": post.user.username, "track_uri": post.song.song.track_uri, "created_at": post.created_at, "content": post.content}
-            JSON_all_posts.append(post_dict)
-        return JsonResponse({"all_posts": JSON_all_posts})
+            if post.user in follow_list:
+                post_dict = {"user": post.user.username, "track_uri": post.song.song.track_uri, "created_at": post.created_at, "content": post.content}
+                JSON_all_posts.append(post_dict)
+        return JsonResponse({"all_posts": JSON_all_posts[:5]})
 
 
 def save_songs(song_list, user):
@@ -171,7 +175,6 @@ def save_songs(song_list, user):
         try:
             duplicate_songs = Song.objects.filter(track_name=item['track']['name'])
             if len(duplicate_songs) == 0:
-                pdb.set_trace()
                 artist_search = Artist.objects.filter(name=item['track']['artists'][0]['name'])
                 if len(artist_search) == 1:
                     artist = artist_search[0]
@@ -187,10 +190,10 @@ def save_songs(song_list, user):
                 print("Saved New Song: {0}".format(song.track_name))
                 save_count += 1
             else:
-                date_added = datetime.datetime.strptime(item['added_at'], "%Y-%m-%dT%H:%M:%SZ")
+                date_added = datetime.datetime.strptime(item['added_at'], "%Y-%m-%dT%H:%M:%SZ").date()
                 duplicate_user_songs = UserSong.objects.filter(song=duplicate_songs[0],user=user[0],uploaded_at=date_added)
                 if len(duplicate_user_songs) == 0:
-                    usersong = UserSong(user=user[0],song=duplicate_songs[0])
+                    usersong = UserSong(user=user[0],song=duplicate_songs[0], uploaded_at=date_added)
                     usersong.save()
                     print("Saved New User Song: {0}".format(usersong.song.track_name))
         except:
