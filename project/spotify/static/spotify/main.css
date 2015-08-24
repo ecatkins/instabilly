@@ -4,3 +4,7 @@ header {
 	color:white;
 	height:4em;
 }
+
+.fa-question {
+	cursor: pointer;
+}
