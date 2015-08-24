@@ -1,4 +1,9 @@
 {% extends "spotify/base.html" %}
+{%load staticfiles %}
+
+{% block js %}
+    <script src="{% static 'spotify/engine.js' %}"> </script>
+{% endblock %}
 
 {% block content %}
 <h1>Recommendation engine</h1>
@@ -9,6 +14,18 @@ Recency_effect
 Recommendation_effect
 Replicated_artist_effect
 Existing_playlist_effect
+
+<div class="row">
+  <div class="small-10 medium-11 columns">
+    <div class="range-slider" data-slider data-options="display_selector: #sliderOutput3;">
+      <span class="range-slider-handle" role="slider" tabindex="0"></span>
+      <span class="range-slider-active-segment"></span>
+    </div>
+  </div>
+  <div class="small-2 medium-1 columns">
+    <span id="sliderOutput3"></span>
+  </div>
+</div>
 
 
 {% endblock %}
