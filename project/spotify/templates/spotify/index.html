@@ -13,14 +13,15 @@
             <button id='sync'>Sync</button>
             <div id="loading"></div>
         </div>
-        <a id='logout' href="/logout">Logout</a>
+        <p><a id='engine' href="/engine">Recommendation Engine</a></p>
+        <p><a id='logout' href="/logout">Logout</a></p>
     </div>
 
     <div class="col-md-3">
         <h4>What's on your mind?</h4>
         <form id="songsearch" action="search" method="GET">
             {% csrf_token %}
-            <p><textarea id="comment" rows="4" cols="33"></textarea></p>
+            <p><textarea id="comment" rows="4" cols="30"></textarea></p>
             <p>Include a song from your library <input type="text" name="search_query"> <button id="song-search-button">search</button></p>
             <input type="submit" value="Post it!" data-toggle="modal" data-target="#myModal">
         </form>
@@ -28,10 +29,12 @@
     </div>
 
     <div class="col-md-3">
-        <ul id="mini-feed"></ul>
+        <h4>MINI-FEED</h4>
+        <div id="mini-feed"></div>
     </div>
 
     <div class="col-md-3">
+        <h4>ALL USERS</h4>
         {% if user_list %}
             <ul>
             {% for user in user_list %}
