@@ -1,31 +1,130 @@
 {% extends "spotify/base.html" %}
 {%load staticfiles %}
 
+{% block extras %} 
+  <link rel="stylesheet" type="text/css" href ="{% static 'spotify/slider/css/slider.css' %}">
+  <script src="{% static 'spotify/slider/js/bootstrap-slider.js' %}"> </script>
+
+{% endblock %} 
+
 {% block js %}
     <script src="{% static 'spotify/engine.js' %}"> </script>
 {% endblock %}
 
 {% block content %}
-<h1>Recommendation engine</h1>
-
-Neighbors
-Number_songs
-Recency_effect
-Recommendation_effect
-Replicated_artist_effect
-Existing_playlist_effect
 
 <div class="row">
-  <div class="small-10 medium-11 columns">
-    <div class="range-slider" data-slider data-options="display_selector: #sliderOutput3;">
-      <span class="range-slider-handle" role="slider" tabindex="0"></span>
-      <span class="range-slider-active-segment"></span>
+    <div class="col-md-12">
+        <h1>Recommendation engine</h1>
     </div>
-  </div>
-  <div class="small-2 medium-1 columns">
-    <span id="sliderOutput3"></span>
-  </div>
 </div>
+
+<div class="row">
+  <div class="col-md-3">
+    Number of songs in playlist
+    <select id="number_songs" class="form-control" default="5">
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+      <option>6</option>
+      <option>7</option>
+      <option>8</option>
+      <option>9</option>
+      <option>10</option>
+    </select>
+    <br>
+  
+    Neighbors
+    <select id="neigbors" class="form-control">
+      <option>0</option>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+      <option>6</option>
+      <option>7</option>
+      <option>8</option>
+      <option>9</option>
+      <option>10</option>
+    </select>
+    <br>
+
+    Recency effect
+    <select id="recency" class="form-control">
+      <option>0</option>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+      <option>6</option>
+      <option>7</option>
+      <option>8</option>
+      <option>9</option>
+      <option>10</option>
+    </select>
+    <br>
+
+    Rating effect
+    <select id="rating"  class="form-control">
+      <option>0</option>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+      <option>6</option>
+      <option>7</option>
+      <option>8</option>
+      <option>9</option>
+      <option>10</option>
+    </select>
+    <br>
+
+    Duplicate artist effect
+      <select id="duplicateartist" class="form-control">
+        <option>0</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+      </select>
+      <br>
+
+      Existing playlist effect
+      <select id="existingplaylist" class="form-control">
+        <option>0</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+      </select>
+      <br>
+
+       <button id ="generate_button" type="button" class="btn btn-primary btn-lg btn-block">Generate Playlist </button>
+
+
+</div>
+
+ 
+
+
+
 
 
 {% endblock %}
