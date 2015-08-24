@@ -12,6 +12,7 @@ from django.contrib.auth.hashers import check_password, make_password
 from spotify.seedgenre import seed_genre
 import datetime
 import pdb
+from spotify.recommendation import *
 
 
 class HomeView(View):
@@ -230,7 +231,6 @@ def get_user_playlist_tracks(sp, user):
 class SeedUserLibraryView(View):
 
     def get(self, request):
-        print("here")
         user = User.objects.filter(pk=request.session['session_id'])
         if len(user) == 1:
             post_route = "https://accounts.spotify.com/api/token"
@@ -249,23 +249,31 @@ class SeedUserLibraryView(View):
             else:
                 return JsonResponse({"status":"incomplete seed"})
 
-# track_id=print(item['track']['id'])
-# track_uri=print(item['track']['uri'])
-# artist=print(item['track']['artists'][0]['name'])
-# artist_id=print(item['track']['artists'][0]['id'])
-# album=print(item['track']['album']['name'])
-# album_id=print(item['track']['album']['id'])
-# album_uri=print(item['track']['album']['uri'])
-# spotify_popularity=print(item['track']['popularity'])
-# preview_url=print(item['track']['preview_url'])
-# image_300=print(item['track']['album']['images'][1]['url'])
-# image_64=print(item['track']['album']['images'][2]['url'])
-
-
-# song = Song(track_name="Ghost Ship", track_id="61JDaStnXY3vbaEjliB5WA", track_uri="spotify:track:61JDaStnXY3vbaEjliB5WA", artist="Blur", artist_id="7MhMgCo0Bl0Kukl93PZbYS", album="The Magic Whip", album_id="0nSzBICzQHea8grwfqa5Gb", album_uri="spotify:album:0nSzBICzQHea8grwfqa5Gb", spotify_popularity=56, preview_url="https://p.scdn.co/mp3-preview/250765ca652fc1b71c66ff17b5b7ffa3c7dbcfe6", image_300="https://i.scdn.co/image/9a19621ef5380cded361f5144dc5ad32332a3fad", image_64="https://i.scdn.co/image/ceb4e64d9f204b3553e48cfe1b879555d272fada")
+###########################
 
 class EngineView(View):
     template = "spotify/recommendation_engine.html"
 
     def get(self,request):
         return render(request,self.template)
+
+class PlaylistView(View):
+
+    def post(self,request):
+        #switch comment later
+        user = User.objects.get(username="ecatkins")
+        # user = User.objects.get(pk=request.session['session_id'])
+    
+        number_songs = int(request.POST.get('number_songs'))
+        neighbors = int(request.POST.get('neighbors'))
+        recency_effect = int(request.POST.get('recency_effect'))/10.0
+        rating_effect = int(request.POST.get('rating_effect'))/10.0
+        duplicate_artist = int(request.POST.get('duplicate_artist'))/10.0
+        existing_playlist = int(request.POST.get('existing_playlist'))/10.0
+        playlist =create_playlist(user=user,neighbors=neighbors,number_songs=number_songs,recency_effect=recency_effect,rating_effect=rating_effect,duplicate_artist_effect=duplicate_artist,existing_playlist_effect=existing_playlist)
+    
+        for song in playlist:
+             print ("{0}: {1}".format(song.song.track_name, song.song.artists.name))
+
+
+        return JsonResponse({"Anything":"Anything"})

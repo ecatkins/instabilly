@@ -1,31 +1,131 @@
 {% extends "spotify/base.html" %}
 {%load staticfiles %}
 
+{% block extras %} 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+{% endblock %} 
+
 {% block js %}
     <script src="{% static 'spotify/engine.js' %}"> </script>
+    <script src="{% static 'spotify/django_ajax.js' %}"> </script>
 {% endblock %}
 
 {% block content %}
-<h1>Recommendation engine</h1>
-
-Neighbors
-Number_songs
-Recency_effect
-Recommendation_effect
-Replicated_artist_effect
-Existing_playlist_effect
 
 <div class="row">
-  <div class="small-10 medium-11 columns">
-    <div class="range-slider" data-slider data-options="display_selector: #sliderOutput3;">
-      <span class="range-slider-handle" role="slider" tabindex="0"></span>
-      <span class="range-slider-active-segment"></span>
+    <div class="col-md-12">
+        <h1>Recommendation engine</h1>
     </div>
-  </div>
-  <div class="small-2 medium-1 columns">
-    <span id="sliderOutput3"></span>
-  </div>
 </div>
+
+<div class="row">
+  <div class="col-md-3">
+    Number of songs in playlist <i id="number_songs_info" class="fa fa-question"data-container="body" data-toggle="popover" data-placement="right" data-content="Select the number of songs to be in your custom playlist."
+></i> 
+    <select id="number_songs" class="form-control" default="5">
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+      <option>6</option>
+      <option>7</option>
+      <option>8</option>
+      <option>9</option>
+      <option>10</option>
+    </select>
+    <br>
+  
+    Neighbors <i id="neighbors_info" class="fa fa-question" data-container="body" data-toggle="popover" data-placement="right" data-content="Select number of similar users to inform your playlist."></i>
+    <select id="neighbors" class="form-control">
+      <option>0</option>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+      <option>6</option>
+      <option>7</option>
+      <option>8</option>
+      <option>9</option>
+      <option>10</option>
+    </select>
+    <br>
+
+    Recency effect <i id="recency_info" class="fa fa-question" data-container="body" data-toggle="popover" data-placement="right" data-content="Select number of similar users to inform your playlist."></i>
+    <select id="recency" class="form-control">
+      <option>0</option>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+      <option>6</option>
+      <option>7</option>
+      <option>8</option>
+      <option>9</option>
+      <option>10</option>
+    </select>
+    <br>
+
+    Rating effect <i id="rating_info" class="fa fa-question" data-container="body" data-toggle="popover" data-placement="right" data-content="Select number of similar users to inform your playlist."></i>
+    <select id="rating"  class="form-control">
+      <option>0</option>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+      <option>6</option>
+      <option>7</option>
+      <option>8</option>
+      <option>9</option>
+      <option>10</option>
+    </select>
+    <br>
+
+    Duplicate artist effect <i id="duplicate_artist_info"  class="fa fa-question" data-container="body" data-toggle="popover" data-placement="right" data-content="Select number of similar users to inform your playlist."></i>
+      <select id="duplicateartist" class="form-control">
+        <option>0</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+      </select>
+      <br>
+
+      Existing playlist effect <i id="existing_playlist_info" class="fa fa-question" data-container="body" data-toggle="popover"  data-placement="right" data-content="Select number of similar users to inform your playlist."></i>
+      <select id="existingplaylist" class="form-control">
+        <option>0</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+      </select>
+      <br>
+
+       <button id ="generate_button" type="button" class="btn btn-primary btn-lg btn-block">Generate Playlist </button>
+
+
+</div>
+
+ 
+
+
+
 
 
 {% endblock %}
