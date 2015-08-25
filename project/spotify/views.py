@@ -13,6 +13,7 @@ from spotify.seedgenre import seed_genre
 import datetime
 import pdb
 from spotify.recommendation import *
+from spotify.rating import *
 
 
 class HomeView(View):
@@ -284,6 +285,9 @@ class RatingView(View):
         user = User.objects.filter(pk=request.session['session_id'])
         decision = request.POST.get('decision')
         track_uris = request.POST.getlist('uris[]')
-        for uri in track_uris:
-            print(uri)
+
+        status = update_ratings(user,track_uris,decision)
+        
+
+
         return JsonResponse({"status": "Success"})
