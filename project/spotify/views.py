@@ -286,6 +286,6 @@ class RatingView(View):
         print(user)
         decision = request.POST.get('decision')
         print(decision)
-        track_uris = request.POST.get('uris[]')
+        track_uris = request.POST.get('uristest[]')
         print(track_uris)
         return JsonResponse({"status": "Success"})

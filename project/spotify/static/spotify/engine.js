@@ -30,17 +30,18 @@ $(document).ready(function() {
 			}
 			string = string.substring(0, string.length - 1);
 			console.log(string)
+			var uristest = ['random','random2','random3']
 
 			$('#playlist_player').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="300" height="380" frameborder="0" allowtransparency="true"></iframe><button id=like>YES</button><button id=dislike>NOPE</button>')
 
 			$("#like").on("click", function() {
-				$.post("rating", {"uris": uris, "decision": "like"}, function(data){
-					console.log(uris)
+				$.post("rating", {"uris": uristest, "decision": "like"}, function(data){
+					console.log(uristest)
 					console.log('hello')
 				})
 			})
 			$("#dislike").on("click", function() {
-				$.post("rating", {"uris": uris, "decision": "dislike"}, function(data){
+				$.post("rating", {"uristest[]": uristest, "decision": "dislike"}, function(data){
 					console.log('hello')
 				})
 			})			
