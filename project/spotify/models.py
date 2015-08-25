@@ -43,6 +43,7 @@ class UserSong(models.Model):
     synced_at = models.DateField(auto_now_add=True)
 
 
+#Could delete likes, neturals, dislikes
 class ArtistRecommendation(models.Model):
     user = models.ForeignKey(User)
     artist = models.ForeignKey(Artist)
