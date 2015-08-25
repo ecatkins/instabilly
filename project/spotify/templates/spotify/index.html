@@ -10,7 +10,7 @@
     <div class="col-md-3">
         <h4>Please hit sync to let us download your library</h4>
         <div id="sync-library">
-            <button id='sync'>Sync</button>
+            <button class="btn btn-info" id='sync'>Sync</button>
             <div id="loading"></div>
         </div>
         <p><a id='engine' href="/engine">Recommendation Engine</a></p>
@@ -22,7 +22,7 @@
         <form id="songsearch" action="search" method="GET">
             {% csrf_token %}
             <p><textarea id="comment" rows="4" cols="30"></textarea></p>
-            <p>Include a song from your library <input type="text" name="search_query"> <button id="song-search-button">search</button></p>
+            <p>Include a song from your library <input type="text" name="search_query"> <button class="btn btn-info" id="song-search-button">search</button></p>
             <input type="submit" value="Post it!" data-toggle="modal" data-target="#myModal">
         </form>
         <div id="searchresult"><ul id="searchresult_list"></ul></div>
@@ -36,7 +36,7 @@
     <div class="col-md-3">
         <h4>ALL USERS</h4>
         {% if user_list %}
-            <ul>
+            <ul id="all-users-list">
             {% for user in user_list %}
                 <li id="{{ user }}-button">{{ user }}<button class="btn followButton"> follow</button></li>
             {% endfor %}
