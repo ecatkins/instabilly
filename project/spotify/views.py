@@ -281,11 +281,9 @@ class RatingView(View):
 
     def post(self, request):
         #NEED TO SPLIT ON LIKE OR DISLIKE
-        print(request.POST)
         user = User.objects.filter(pk=request.session['session_id'])
-        print(user)
         decision = request.POST.get('decision')
-        print(decision)
-        track_uris = request.POST.get('uris[]')
-        print(track_uris)
+        track_uris = request.POST.getlist('uris[]')
+        for uri in track_uris:
+            print(uri)
         return JsonResponse({"status": "Success"})
