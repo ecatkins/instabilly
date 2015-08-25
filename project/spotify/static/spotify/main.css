@@ -1,8 +1,17 @@
-header {
-	text-align: center;
-	background-color:#2ebd59;
+
+body {
+	background-color: #1c1c1f;
 	color:white;
-	height:4em;
+}
+
+
+h1 {
+	text-align: center;
+	color:#2ebd59
+}
+
+i {
+	color:green;
 }
 
 .fa-question {

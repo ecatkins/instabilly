@@ -279,7 +279,7 @@ class PlaylistView(View):
 
         track_uris = []
         for song in playlist:
-            track_uris.append(song.song.track_uri[-22:-1])
+            track_uris.append(song.song.track_uri[-22:])
         print(track_uris)
 
 
