@@ -45,5 +45,14 @@ $(document).ready(function() {
 
 	$(document).foundation();
 	$(document).foundation('slider', 'reflow');
+	// $('#playlist_player').append('<img src="/static/spotify/spiffygif.png"/>') 
+
+	$(document).ajaxStart(function(){
+        $('#playlist_player').append('<img src="/static/spotify/spiffygif.gif"/>')  
+    });
+
+
+    // $(document).ajaxComplete(function(){
+    //     $("#playlist_player").empty();
 })
 
