@@ -101,52 +101,42 @@ def create_playlist(user,neighbors,number_songs,recency_effect,rating_effect,dup
 	'''Pass: the active user, number of neighbors to inform recommendation and
 	 number of songs desired in playlist
 	 Returns: Array of song objects '''
-	print("0")
 	similar = similar_users(user,neighbors)
 	playlist = []
 	user_songs = get_user_song_array(similar)
-	print("1")
 	song_choice = return_tracks_recency_bias(user_songs,number_songs,recency_effect)
 
 
 	### Weighting factor 1, similarity to current user
-	print("2")
 	distances = [1/x[1] for x in similar]
-	print("Distances{}".format(distances))
 	for song_number in song_choice:
-		print("3")
 		recommendation_array = []
 		replication_array = []
 		existing_playlist_array = []
 		for user_song in song_number:
-			print("4")
 			### Weighting factor 2, user previous recommendations of artist
 			recommendation = ArtistRecommendation.objects.filter(user=user,artist=user_song.song.artists)
-			print("5")
 			if len(recommendation) == 1:
 				score = recommendation.score
 			else:
 				score = 0.5
-			print("6")
 			#Adjusts for effect
 			score = score - (score-0.5)*(1-rating_effect)
 			recommendation_array.append(score)
-			print("7")
 			### Weighting factor 3, no replicated artists in playlist
 			if duplicate_artist(playlist,user_song) == True:
 				replication_array.append(1-(duplicate_artist_effect))
 			else:
 				replication_array.append(1)
-			print("8")
 			### Weighting factor 4, already in user playlist
 			existing = UserSong.objects.filter(user=user,song = user_song.song)
 			if len(existing) == 1:
 				existing_playlist_array.append(1-existing_playlist_effect)
 			else:
 				existing_playlist_array.append(1)
-			print("9")
 		#Multiply arrays
 		final_weighting_array = []
+		#change len(distances) to len(neighbors)
 		for x in range(len(distances)):
 			final_weighting  = distances[x] * recommendation_array[x] * replication_array[x] * existing_playlist_array[x]
 			final_weighting_array.append(final_weighting)
@@ -156,9 +146,6 @@ def create_playlist(user,neighbors,number_songs,recency_effect,rating_effect,dup
 		### select song
 		choice = weighted_choice(final_weighting_array)
 		playlist.append(song_number[choice])
-		print("10")
-	
-
 	return playlist
 
 
