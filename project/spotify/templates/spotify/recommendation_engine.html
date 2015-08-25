@@ -1,25 +1,25 @@
 {% extends "spotify/base.html" %}
-{%load staticfiles %}
+{% load staticfiles %}
 
 {% block extras %} 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/css/foundation.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation/foundation.slider.min.js"></script>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/css/foundation.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation/foundation.slider.min.js"></script>
 {% endblock %} 
+
 
 {% block js %}
     <script src="{% static 'spotify/engine.js' %}"> </script>
     <script src="{% static 'spotify/django_ajax.js' %}"> </script>
 {% endblock %}
 
+
 {% block content %}
 
 
 <div class="row">
     <div class="col-md-12">
-        <h1>Recommendation engine</h1>
         <p><a id='home' href="/callback">Home</a></p>
     </div>
 </div>

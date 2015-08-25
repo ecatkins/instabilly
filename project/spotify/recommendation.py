@@ -138,7 +138,7 @@ def create_playlist(user,neighbors,number_songs,recency_effect,rating_effect,dup
 			else:
 				replication_array.append(1)
 			print("8")
-			### Weighting factor 4, already in playlist
+			### Weighting factor 4, already in user playlist
 			existing = UserSong.objects.filter(user=user,song = user_song.song)
 			if len(existing) == 1:
 				existing_playlist_array.append(1-existing_playlist_effect)

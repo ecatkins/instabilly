@@ -30,9 +30,8 @@ $(document).ready(function() {
 			}
 			string = string.substring(0, string.length - 1);
 			console.log(string)
-			
 
-			$('#playlist_player').append('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>')
+			$('#playlist_player').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>')
 
 			
 
