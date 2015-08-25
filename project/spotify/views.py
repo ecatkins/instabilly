@@ -270,17 +270,22 @@ class PlaylistView(View):
         rating_effect = int(request.POST.get('rating_effect'))/10.0
         duplicate_artist = int(request.POST.get('duplicate_artist'))/10.0
         existing_playlist = int(request.POST.get('existing_playlist'))/10.0
-        playlist =create_playlist(user=user,neighbors=neighbors,number_songs=number_songs,recency_effect=recency_effect,rating_effect=rating_effect,duplicate_artist_effect=duplicate_artist,existing_playlist_effect=existing_playlist)
-    
-        for song in playlist:
-             print ("{0}: {1}".format(song.song.track_name, song.song.artists.name))
-
-       
-
+        playlist =create_playlist(user=user,neighbors=neighbors,number_songs=number_songs,recency_effect=recency_effect,rating_effect=rating_effect,duplicate_artist_effect=duplicate_artist,existing_playlist_effect=existing_playlist)    
         track_uris = []
         for song in playlist:
             track_uris.append(song.song.track_uri[-22:])
-        print(track_uris)
-
 
         return JsonResponse({"track_uris":track_uris})
+
+class RatingView(View):
+
+    def post(self, request):
+        #NEED TO SPLIT ON LIKE OR DISLIKE
+        print(request.POST)
+        user = User.objects.filter(pk=request.session['session_id'])
+        print(user)
+        decision = request.POST.get('decision')
+        print(decision)
+        track_uris = request.POST.get('uris[]')
+        print(track_uris)
+        return JsonResponse({"status": "Success"})

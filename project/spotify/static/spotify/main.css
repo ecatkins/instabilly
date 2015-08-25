@@ -1,9 +1,16 @@
 
 body {
 	background-color: #1c1c1f;
-	color:white;
+    color: white;
 }
 
+input, textarea {
+    color:black;
+}
+
+textarea {
+    resize: none;
+}
 
 h1 {
 	text-align: center;
@@ -12,6 +19,10 @@ h1 {
 
 i {
 	color:green;
+}
+
+#all-users-list li {
+    margin-top: .5em;
 }
 
 .fa-question {
