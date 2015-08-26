@@ -18,14 +18,23 @@ class Song(models.Model):
     users = models.ManyToManyField(User, through='UserSong')
     artists = models.ForeignKey('Artist')
 
+
 class Genre(models.Model):
     name = models.CharField(max_length=100)
+    users = models.ManyToManyField(User, through="UserGenre")
+
+
+class UserGenre(models.Model):
+    user = models.ForeignKey(User)
+    genre = models.ForeignKey(Genre)
+    proportion = models.FloatField()
 
 
 class Artist(models.Model):
     name = models.CharField(max_length=100)
     genres = models.ManyToManyField(Genre)
-    
+ 
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     is_real = models.BooleanField()

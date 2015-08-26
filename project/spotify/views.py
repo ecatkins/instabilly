@@ -281,13 +281,8 @@ class PlaylistView(View):
 class RatingView(View):
 
     def post(self, request):
-        
         user = User.objects.get(pk=request.session['session_id'])
         decision = request.POST.get('decision')
         track_uris = request.POST.getlist('uris[]')
-
         status = update_ratings(user,track_uris,decision)
-        
-
-
         return JsonResponse({"status": "Success"})
