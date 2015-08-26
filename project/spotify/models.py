@@ -38,12 +38,12 @@ class Artist(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     is_real = models.BooleanField()
+    updated_genres = models.DateTimeField()
 
 
 class FollowList(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     following = models.ManyToManyField(User, related_name='following')
-
 
 class UserSong(models.Model):
     song = models.ForeignKey(Song)
