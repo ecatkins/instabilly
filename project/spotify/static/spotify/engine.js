@@ -19,7 +19,7 @@ $(document).ready(function() {
 		var duplicate_artist = $("#duplicateartist").attr('data-slider')
 		var existing_playlist = $("#existingplaylist").attr('data-slider')
 		var post_data = {"number_songs":number_songs, "neighbors":neighbors, "recency_effect":recency_effect,"rating_effect":rating_effect,"duplicate_artist":duplicate_artist, "existing_playlist": existing_playlist}
-		console.log(post_data)
+		
 
 		$.post('playlist', post_data, function(data) {
 			console.log(data['track_uris'])
@@ -30,12 +30,13 @@ $(document).ready(function() {
 			}
 			string = string.substring(0, string.length - 1);
 			console.log(string)
+	
 
 			$('#playlist_player').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="300" height="380" frameborder="0" allowtransparency="true"></iframe><button id=like>YES</button><button id=dislike>NOPE</button>')
 
 			$("#like").on("click", function() {
 				$.post("rating", {"uris": uris, "decision": "like"}, function(data){
-					console.log(uris)
+			
 					console.log('hello')
 				})
 			})

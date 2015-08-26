@@ -51,14 +51,16 @@ class UserSong(models.Model):
     uploaded_at = models.DateField()
     synced_at = models.DateField(auto_now_add=True)
 
-
-class ArtistRecommendation(models.Model):
+class ArtistRating(models.Model):
     user = models.ForeignKey(User)
     artist = models.ForeignKey(Artist)
-    likes = models.IntegerField()
-    neutrals = models.IntegerField()
-    dislikes = models.IntegerField()
-    score = models.DecimalField(max_digits=6, decimal_places=4)
+    score = models.DecimalField(max_digits=6, decimal_places=4,default=0.5)
+
+# #Could delete likes, neturals, dislikes
+# class ArtistRecommendation(models.Model):
+#     user = models.ForeignKey(User)
+#     artist = models.ForeignKey(Artist)
+#     score = models.DecimalField(max_digits=6, decimal_places=4)
 
 
 class Post(models.Model):
