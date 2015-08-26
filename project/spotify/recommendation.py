@@ -1,4 +1,4 @@
-from spotify.models import User, UserSong, Song, Genre, Artist, ArtistRating
+from spotify.models import User, UserSong, Song, Genre, Artist, ArtistRating, UserGenre
 from sklearn.neighbors import KNeighborsClassifier
 import random
 import datetime
@@ -10,34 +10,50 @@ import pdb
 # test_user3 = User.objects.get(username="adamrj")
 
 
+# def genre_user_array(user):
+# 	all_genre_names = [x.name for x in Genre.objects.all()]
+# 	genre_array = [0]*len(all_genre_names)
+# 	user_songs = UserSong.objects.filter(user=user)
+# 	number_songs = max(1,len(user_songs))
+# 	all_artists = Artist.objects.all()
+# 	for song in user_songs:
+# 		artist = song.song.artists
+# 		genres = artist.genres.all()
+# 		for genre in genres:
+# 			index = all_genre_names.index(genre.name)
+# 			genre_array[index] += 1
+# 	genre_percent_array = [x/number_songs for x in genre_array]
+# 	return (genre_percent_array)
+
+
 def genre_user_array(user):
-	all_genre_names = [x.name for x in Genre.objects.all()]
-	genre_array = [0]*len(all_genre_names)
-	user_songs = UserSong.objects.filter(user=user)
-	number_songs = max(1,len(user_songs))
-	all_artists = Artist.objects.all()
-	for song in user_songs:
-		artist = song.song.artists
-		genres = artist.genres.all()
-		for genre in genres:
-			index = all_genre_names.index(genre.name)
-			genre_array[index] += 1
-	genre_percent_array = [x/number_songs for x in genre_array]
-	return (genre_percent_array)
+	all_genres = list(Genre.objects.all())
+	if len(UserSong.objects.filter(user=user)) != 0:
+		genre_array = [0] * len(all_genres)
+		for index, genre in enumerate(all_genres):
+			user_genre = UserGenre.objects.filter(user=user,genre=genre)
+			if len(user_genre) == 1:
+				genre_array[index] = user_genre[0].proportion
+			else:
+				genre_array[index] = (0)
+		return genre_array
+	else:
+		return False
 
 
 def similar_users(user,neighbors):
 	''' Pass: the active user object and the number of neighbors to calculate
 		Returns: An array of similar users, containing the username and the distance to that user on the genre-dimensional plot
 	 '''
+	
 	name_array = []
 	x_array = []
 	all_users = User.objects.exclude(pk=user.pk)
 	# all_users = User.objects.all()
 	for other_user in all_users:
-		if len(UserSong.objects.filter(user=other_user)) != 0:
+		genre_array = genre_user_array(other_user)
+		if genre_array:
 			name_array.append(other_user.username)
-			genre_array = genre_user_array(other_user)
 			x_array.append(genre_array)
 	y_array = [random.random() for x in range(len(x_array))]
 	neigh = KNeighborsClassifier(n_neighbors=neighbors)
@@ -45,6 +61,7 @@ def similar_users(user,neighbors):
 	user_genres = genre_user_array(user)
 	result = neigh.kneighbors((user_genres),neighbors)
 	similar_users = [[name_array[result[1][0][x]],result[0][0][x]] for x in range(neighbors)]
+	print(similar_users)
 	return similar_users
 
 def weighted_choice(weights):
@@ -101,7 +118,6 @@ def create_playlist(user,neighbors,number_songs,recency_effect,rating_effect,dup
 	'''Pass: the active user, number of neighbors to inform recommendation and
 	 number of songs desired in playlist
 	 Returns: Array of song objects '''
-	
 	similar = similar_users(user,neighbors)
 	playlist = []
 	user_songs = get_user_song_array(similar)

@@ -14,6 +14,7 @@ import datetime
 import pdb
 from spotify.recommendation import *
 from spotify.rating import *
+from spotify.user_genre_seed import *
 
 
 class HomeView(View):
@@ -245,6 +246,7 @@ class SeedUserLibraryView(View):
             sp = spotipy.Spotify(auth=token)
             saved_tracks = get_user_saved_tracks(sp, user)
             playlist_tracks = get_user_playlist_tracks(sp, user)
+            seed_one_user(user)
             if saved_tracks & playlist_tracks:
                 return JsonResponse({"status": "Success"})
             else:
