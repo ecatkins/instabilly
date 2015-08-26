@@ -19,7 +19,7 @@ $(document).ready(function() {
 		var duplicate_artist = $("#duplicateartist").attr('data-slider')
 		var existing_playlist = $("#existingplaylist").attr('data-slider')
 		var post_data = {"number_songs":number_songs, "neighbors":neighbors, "recency_effect":recency_effect,"rating_effect":rating_effect,"duplicate_artist":duplicate_artist, "existing_playlist": existing_playlist}
-		console.log(post_data)
+		
 
 		$.post('playlist', post_data, function(data) {
 			console.log(data['track_uris'])

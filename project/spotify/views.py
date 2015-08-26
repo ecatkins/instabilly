@@ -281,8 +281,8 @@ class PlaylistView(View):
 class RatingView(View):
 
     def post(self, request):
-        #NEED TO SPLIT ON LIKE OR DISLIKE
-        user = User.objects.filter(pk=request.session['session_id'])
+        
+        user = User.objects.get(pk=request.session['session_id'])
         decision = request.POST.get('decision')
         track_uris = request.POST.getlist('uris[]')
 

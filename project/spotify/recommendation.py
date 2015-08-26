@@ -1,4 +1,4 @@
-from spotify.models import User, UserSong, Song, Genre, Artist, ArtistRecommendation
+from spotify.models import User, UserSong, Song, Genre, Artist, ArtistRating
 from sklearn.neighbors import KNeighborsClassifier
 import random
 import datetime
@@ -101,6 +101,7 @@ def create_playlist(user,neighbors,number_songs,recency_effect,rating_effect,dup
 	'''Pass: the active user, number of neighbors to inform recommendation and
 	 number of songs desired in playlist
 	 Returns: Array of song objects '''
+	
 	similar = similar_users(user,neighbors)
 	playlist = []
 	user_songs = get_user_song_array(similar)
@@ -109,15 +110,16 @@ def create_playlist(user,neighbors,number_songs,recency_effect,rating_effect,dup
 
 	### Weighting factor 1, similarity to current user
 	distances = [1/x[1] for x in similar]
+	# pdb.set_trace()
 	for song_number in song_choice:
 		recommendation_array = []
 		replication_array = []
 		existing_playlist_array = []
 		for user_song in song_number:
 			### Weighting factor 2, user previous recommendations of artist
-			recommendation = ArtistRecommendation.objects.filter(user=user,artist=user_song.song.artists)
+			recommendation = ArtistRating.objects.filter(user=user,artist=user_song.song.artists)
 			if len(recommendation) == 1:
-				score = recommendation.score
+				score = float(recommendation[0].score)
 			else:
 				score = 0.5
 			#Adjusts for effect
