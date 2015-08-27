@@ -26,19 +26,30 @@ import pdb
 # 	return (genre_percent_array)
 
 
-def genre_user_array(user):
-	all_genres = list(Genre.objects.all())
-	if len(UserSong.objects.filter(user=user)) != 0:
-		genre_array = [0] * len(all_genres)
-		for index, genre in enumerate(all_genres):
-			user_genre = UserGenre.objects.filter(user=user,genre=genre)
-			if len(user_genre) == 1:
-				genre_array[index] = user_genre[0].proportion
-			else:
-				genre_array[index] = (0)
-		return genre_array
-	else:
+# def genre_user_array(user):
+# 	all_genres = list(Genre.objects.all())
+# 	if len(UserSong.objects.filter(user=user)) != 0:
+# 		genre_array = [0] * len(all_genres)
+# 		for index, genre in enumerate(all_genres):
+# 			user_genre = UserGenre.objects.filter(user=user,genre=genre)
+# 			if len(user_genre) == 1:
+# 				genre_array[index] = user_genre[0].proportion
+# 			else:
+# 				genre_array[index] = (0)
+# 		return genre_array
+# 	else:
+# 		return False
+
+def genre_user_array(user, genre_count):
+	if len(UserSong.objects.filter(user=user)) == 0:
 		return False
+	else:
+		genre_array = [0] * genre_count
+		user_genre = UserGenre.objects.filter(user=user) 
+		for genre in user_genre:
+			genre_array[genre.genre.pk-1] = genre.proportion
+		return genre_array
+
 
 
 def similar_users(user,neighbors):
@@ -50,8 +61,9 @@ def similar_users(user,neighbors):
 	x_array = []
 	all_users = User.objects.exclude(pk=user.pk)
 	# all_users = User.objects.all()
+	genre_count = Genre.objects.count()
 	for other_user in all_users:
-		genre_array = genre_user_array(other_user)
+		genre_array = genre_user_array(user, genre_count)
 		if genre_array:
 			name_array.append(other_user.username)
 			x_array.append(genre_array)

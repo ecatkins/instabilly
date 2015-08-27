@@ -56,6 +56,7 @@ class ArtistRating(models.Model):
     artist = models.ForeignKey(Artist)
     score = models.DecimalField(max_digits=6, decimal_places=4,default=0.5)
 
+
 class Post(models.Model):
     user = models.ForeignKey(User)
     song = models.ForeignKey(UserSong)
