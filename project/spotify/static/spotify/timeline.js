@@ -122,5 +122,52 @@ $(document).ready(function(){
         $("#comment").val('');
         $("[name=search_query]").val('');
     })
+
+    /////// Generates playlists ///////
+    /// Personal ///
+    var number_songs = 10
+    var neighbors = 4
+    var recency_effect = 5
+    var rating_effect = 5
+    var duplicate_artist = 5
+    var existing_playlist = 5
+    var post_data = {"type":"your_home","number_songs":number_songs, "neighbors":neighbors, "recency_effect":recency_effect,"rating_effect":rating_effect,"duplicate_artist":duplicate_artist, "existing_playlist": existing_playlist}
+
+    $.post('playlist', post_data, function(data) {
+            var uris = data['track_uris']
+            var cover_art = data['cover_art']
+            console.log(cover_art)
+            console.log($(".yourplaylist_image"))
+            $("#yourplaylist_image").append('<img src="'+ cover_art +'">')
+            string = ""
+            for (song in uris) {
+                string += uris[song] + ','
+            }
+            string = string.substring(0, string.length - 1);
+            $('#yourplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="300" height="300" frameborder="0" allowtransparency="true"></iframe>')
+
+            $('.timelineplaylist img').on('click', function() {
+                console.log($("#widgetContainer"))
+                $("#widgetContainer").css('width',300)
+                $(this).fadeOut(2000)
+            })
+
+
+            $("#like").on("click", function() {
+                $.post("rating", {"uris": uris, "decision": "like"}, function(data){
+            
+                    console.log('hello')
+                })
+            })
+            $("#dislike").on("click", function() {
+                $.post("rating", {"uris": uris, "decision": "dislike"}, function(data){
+                    console.log('hello')
+                })
+            })          
+        })
+
+
+
+
 })
 

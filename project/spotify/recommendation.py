@@ -10,45 +10,43 @@ import pdb
 # test_user3 = User.objects.get(username="adamrj")
 
 
-# def genre_user_array(user):
-# 	all_genre_names = [x.name for x in Genre.objects.all()]
-# 	genre_array = [0]*len(all_genre_names)
-# 	user_songs = UserSong.objects.filter(user=user)
-# 	number_songs = max(1,len(user_songs))
-# 	all_artists = Artist.objects.all()
-# 	for song in user_songs:
-# 		artist = song.song.artists
-# 		genres = artist.genres.all()
-# 		for genre in genres:
-# 			index = all_genre_names.index(genre.name)
-# 			genre_array[index] += 1
-# 	genre_percent_array = [x/number_songs for x in genre_array]
-# 	return (genre_percent_array)
+
+def test_get_usergenre_for_these_users(search=None):
+	if not search:
+		UserGenre.objects.values('id','proportion', 'user_id', 'genre_id')
 
 
-# def genre_user_array(user):
-# 	all_genres = list(Genre.objects.all())
-# 	if len(UserSong.objects.filter(user=user)) != 0:
-# 		genre_array = [0] * len(all_genres)
-# 		for index, genre in enumerate(all_genres):
-# 			user_genre = UserGenre.objects.filter(user=user,genre=genre)
-# 			if len(user_genre) == 1:
-# 				genre_array[index] = user_genre[0].proportion
-# 			else:
-# 				genre_array[index] = (0)
-# 		return genre_array
-# 	else:
-# 		return False
 
-def genre_user_array(user, genre_count):
-	if len(UserSong.objects.filter(user=user)) == 0:
-		return False
-	else:
-		genre_array = [0] * genre_count
-		user_genre = UserGenre.objects.filter(user=user) 
-		for genre in user_genre:
-			genre_array[genre.genre.pk-1] = genre.proportion
-		return genre_array
+
+def get_genre_arrays(user):
+
+	all_user_genres = UserGenre.objects.values('id','proportion', 'user_id', 'genre_id').order_by('user_id')
+	genre_count = Genre.objects.count()
+	counter = -1
+	current_user_id = 0
+	id_array = []
+	x_array = []
+	user_array = []
+	for row in all_user_genres:
+		if row['user_id'] != current_user_id and row['user_id'] != user.pk:
+			if current_user_id and not any(x_array[counter]):
+				id_array[counter] = row['user_id']
+			else:	
+				id_array.append(row['user_id'])
+				x_array.append([0] * genre_count)
+				counter+=1
+			current_user_id = row['user_id']
+			array = x_array[counter]
+		elif row['user_id'] == user.pk and not user_array:
+			user_array = [0] * genre_count
+			array = user_array
+		array[row['genre_id']-1] = row['proportion']
+
+	if not any(x_array[-1]):
+		x_array.pop()
+		id_array.pop()
+
+	return id_array, x_array, user_array
 
 
 
@@ -56,24 +54,16 @@ def similar_users(user,neighbors):
 	''' Pass: the active user object and the number of neighbors to calculate
 		Returns: An array of similar users, containing the username and the distance to that user on the genre-dimensional plot
 	 '''
-	
-	name_array = []
-	x_array = []
-	all_users = User.objects.exclude(pk=user.pk)
-	# all_users = User.objects.all()
-	genre_count = Genre.objects.count()
-	for other_user in all_users:
-		genre_array = genre_user_array(user, genre_count)
-		if genre_array:
-			name_array.append(other_user.username)
-			x_array.append(genre_array)
+	id_array, x_array,user_array = get_genre_arrays(user)
 	y_array = [random.random() for x in range(len(x_array))]
 	neigh = KNeighborsClassifier(n_neighbors=neighbors)
 	neigh.fit(x_array, y_array)
-	user_genres = genre_user_array(user)
-	result = neigh.kneighbors((user_genres),neighbors)
-	similar_users = [[name_array[result[1][0][x]],result[0][0][x]] for x in range(neighbors)]
-	print(similar_users)
+	
+	result = neigh.kneighbors((user_array),neighbors)
+	similar_users = [[id_array[result[1][0][x]],result[0][0][x]] for x in range(neighbors)]
+	# print(similar_users)
+	print(User.objects.filter(pk__in=[x[0] for x in similar_users]).values_list('username',flat=True))
+
 	return similar_users
 
 def weighted_choice(weights):
@@ -93,8 +83,8 @@ def weighted_choice(weights):
 def get_user_song_array(similar):
 	user_songs_array = []
 	for user in similar:
-		user_object = User.objects.get(username=user[0])
-		user_songs = UserSong.objects.filter(user=user_object)
+		# user_object = User.objects.get(pk=user[0])
+		user_songs = UserSong.objects.filter(user__pk=user[0])
 		user_songs_array.append(user_songs)
 	return user_songs_array
 
@@ -106,15 +96,15 @@ def return_tracks_recency_bias(user_songs_array,number_songs,recency_effect):
 	return_array = []
 	for x in range(number_songs):
 		return_array.append([])
-	for user in user_songs_array:
-		age = [(datetime.datetime.now().date() - song.uploaded_at).days for song in user]
+	for user_songs in user_songs_array:
+		age = [(datetime.datetime.now().date() - song.uploaded_at).days for song in user_songs]
 		weighted_age = [1/(0.0005*(x+20)) for x in age]
 		average = sum(weighted_age) / len(weighted_age)
 		#Adjusts for effect
 		weighted_age = [x - (x-average)*(1-recency_effect) for x in weighted_age]
 		for song in range(number_songs):
 			choice = weighted_choice(weighted_age)
-			return_array[song].append(user[choice])
+			return_array[song].append(user_songs[choice])
 	return return_array
 
 	
@@ -130,6 +120,7 @@ def create_playlist(user,neighbors,number_songs,recency_effect,rating_effect,dup
 	'''Pass: the active user, number of neighbors to inform recommendation and
 	 number of songs desired in playlist
 	 Returns: Array of song objects '''
+	
 	similar = similar_users(user,neighbors)
 	playlist = []
 	user_songs = get_user_song_array(similar)

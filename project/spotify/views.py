@@ -267,7 +267,8 @@ class PlaylistView(View):
         
         # user = User.objects.get(username="ecatkins")
         user = User.objects.get(pk=request.session['session_id'])
-    
+        playlist_type = request.POST.get("type")
+        print(playlist_type)
         number_songs = int(request.POST.get('number_songs'))
         neighbors = int(request.POST.get('neighbors'))
         recency_effect = int(request.POST.get('recency_effect'))/10.0
@@ -276,10 +277,20 @@ class PlaylistView(View):
         existing_playlist = int(request.POST.get('existing_playlist'))/10.0
         playlist =create_playlist(user=user,neighbors=neighbors,number_songs=number_songs,recency_effect=recency_effect,rating_effect=rating_effect,duplicate_artist_effect=duplicate_artist,existing_playlist_effect=existing_playlist)    
         track_uris = []
+        cover_track_uri = playlist[0].song.track_uri
         for song in playlist:
             track_uris.append(song.song.track_uri[-22:])
-
-        return JsonResponse({"track_uris":track_uris})
+        if playlist_type == "your_home":
+            print("here")
+            first_track = track_uris[0]
+            print(first_track)
+            first_track_object = Song.objects.get(track_uri=cover_track_uri)
+            print(first_track_object)
+            cover_art = first_track_object.image_300
+            print(cover_art)
+            return JsonResponse({"track_uris":track_uris,"cover_art":cover_art})
+        else:
+            return JsonResponse({"track_uris":track_uris})
 
 class RatingView(View):
 

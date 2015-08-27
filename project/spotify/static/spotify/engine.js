@@ -18,21 +18,17 @@ $(document).ready(function() {
 		var rating_effect = $('#rating').attr('data-slider')
 		var duplicate_artist = $("#duplicateartist").attr('data-slider')
 		var existing_playlist = $("#existingplaylist").attr('data-slider')
-		var post_data = {"number_songs":number_songs, "neighbors":neighbors, "recency_effect":recency_effect,"rating_effect":rating_effect,"duplicate_artist":duplicate_artist, "existing_playlist": existing_playlist}
+		var post_data = {"type":"engine","number_songs":number_songs, "neighbors":neighbors, "recency_effect":recency_effect,"rating_effect":rating_effect,"duplicate_artist":duplicate_artist, "existing_playlist": existing_playlist}
 		
 
 		$.post('playlist', post_data, function(data) {
-			console.log(data['track_uris'])
 			var uris = data['track_uris']
 			string = ""
 			for (song in uris) {
 				string += uris[song] + ','
 			}
 			string = string.substring(0, string.length - 1);
-			console.log(string)
-	
-
-			$('#playlist_player').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="300" height="380" frameborder="0" allowtransparency="true"></iframe><button id=like>YES</button><button id=dislike>NOPE</button>')
+			$('#yourplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="300" height="380" frameborder="0" allowtransparency="true"></iframe><span id="like" class="glyphicon glyphicon-ok" aria-hidden="true"></span><span id="dislike" class="glyphicon glyphicon-remove" aria-hidden="true">')
 
 			$("#like").on("click", function() {
 				$.post("rating", {"uris": uris, "decision": "like"}, function(data){
