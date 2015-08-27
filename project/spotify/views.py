@@ -28,7 +28,9 @@ class HomeView(View):
 class RegistrationView(View):
 
     def post(self, request):
+        print('in registration view')
         registration_form = RegistrationForm(request.POST)
+        print(registration_form)
         if registration_form.is_valid():
             username = registration_form.cleaned_data['username']
             password = registration_form.cleaned_data['password']
@@ -45,8 +47,9 @@ class RegistrationView(View):
             profile.save()
             return redirect("oauth")
         else:
-            return render(request, 'spotify/home.html', {"login_form": UserForm(), "registration_form": registration_form})
-
+            errors = registration_form.errors.as_json()
+            # return render(request, 'spotify/home.html', {"login_form": UserForm(), "registration_form": registration_form})
+            return JsonResponse({"errors": errors})
 
 class LoginView(View):
 
