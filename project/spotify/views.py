@@ -228,8 +228,6 @@ def get_user_playlist_tracks(sp, user):
                 saved_songs = save_songs(results['items'], user)
     return True
 
-# spotify:user:11800860
-
 
 class SeedUserLibraryView(View):
 
@@ -253,7 +251,6 @@ class SeedUserLibraryView(View):
             else:
                 return JsonResponse({"status":"incomplete seed"})
 
-###########################
 
 class EngineView(View):
     template = "spotify/recommendation_engine.html"

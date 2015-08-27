@@ -1,4 +1,6 @@
 
+
+
 body {
 	background-color: #1c1c1f;
     color: white;
@@ -14,11 +16,41 @@ textarea {
 
 h1 {
 	text-align: center;
-	color:#2ebd59
+	color:#2ebd59;
+    font-family: 'Molengo', sans-serif;
+    font-size:5em;
+}
+
+#homespace {
+    height:15em;
+}
+.carouselimage {
+    width: :100%;
+}
+
+.btn-home {
+    height:3em;
+    width:100%;
+    background : transparent;
+    border-color:white;
+    border-width: 0.3em;
+    border-radius: 3%;
+    font-size: 2em;
+    -webkit-transition-property: border-color; /* Safari */
+    transition-property: border-color;
+    transition-duration: 1s;
+}
+
+.btn-home:hover {
+    border-color:#2ebd59;
 }
 
 i {
 	color:green;
+}
+
+.modal-content {
+    color: black;
 }
 
 #all-users-list li {
