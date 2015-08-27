@@ -92,8 +92,20 @@ i {
 }
 
 /*index.html specific*/
+
 #eddy {
     height: 40em;
+    background-color: grey;
+}
+
+.createpost_div {
+    float: left;
+    display: inline-block;
+    width: 50%;
+}
+
+.modal-footer {
+    bottom: 0em;
 }
 
 .timelineplaylist {
@@ -108,5 +120,3 @@ i {
     position: absolute;
     z-index:-1;
 }
-
-
