@@ -10,6 +10,7 @@ $(document).ready(function(){
     ga('send', 'pageview');
 
     $.getJSON("/getfollowing", function(data){
+        console.log('doing getfollowing')
         var followlist = data['JSON_follow_list'];
         var buttonIDs = [];
         $(".followButton").each(function(idx, button){

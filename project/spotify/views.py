@@ -91,6 +91,7 @@ class GetFollowingView(View):
     def get(self, request):
         user = User.objects.filter(pk=request.session['session_id'])
         user_follow_list = FollowList.objects.filter(user=user[0])
+        print(user_follow_list)
         JSON_follow_list = []
         for item in user_follow_list[0].following.all():
             JSON_follow_list.append(item.username)
