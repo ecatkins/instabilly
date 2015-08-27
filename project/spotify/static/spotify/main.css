@@ -76,3 +76,13 @@ i {
 .unfollow {
     background-color: red;
 }
+
+#test {
+    height: 10em;
+    background-color: white;
+}
+
+#eddy {
+    height: 20em;
+    background-color: grey;
+}
