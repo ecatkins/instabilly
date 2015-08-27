@@ -1,27 +1,87 @@
 
 {% extends 'spotify/base.html' %}
 {% block content %}
-    <h1> Testing </h1>
-    <h3>This app is under construction...Please excuse our appearance.</h3>
-    <h4>Existing user login</h4>
-    <form name="login" action="login" method="POST">
-        {%if login_error%}
-            {{login_error}}
-        {%endif%}
-        {% csrf_token %}
-        {{ login_form.as_p }}
-        <input class="btn btn-info" type="submit" value="Login">
-    </form>
+{%load staticfiles%}
 
-    <h4>New user registration</h4>
-    <form name="registration" action="registration" method="POST">
-        {% csrf_token %}
-        {% for field in registration_form%}
-        <p>
-            {{field.errors}}
-            {{field.label_tag}}{{field}}
-        </p>
-        {%endfor%}
-        <input class="btn btn-info" type="submit" value="Create User">
-    </form>
+<div class ="row">
+    <div id="homespace">
+</div>
+
+
+
+
+
+<div class="row">
+    <div class="col-md-1"> </div>
+
+    <div class="col-md-4">
+        <button type="button" class="btn-home" data-toggle="modal" data-target="#loginModal">Login</button>
+
+        <!-- Login Modal -->
+        <div id="loginModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Register Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Login</h4>
+              </div>
+              <div class="modal-body">
+                <form name="login" action="login" method="POST">
+                    {%if login_error%}
+                        {{login_error}}
+                    {%endif%}
+                    {% csrf_token %}
+                    {{ login_form.as_p }}
+                    <input class="btn btn-info" type="submit" value="Login">
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+    </div>
+
+    <div class="col-md-4">
+        <button type="button" class="btn-home" data-toggle="modal" data-target="#registerModal">Register</button>
+
+        <!-- Register Modal -->
+        <div id="registerModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Register Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Register</h4>
+              </div>
+              <div class="modal-body">
+                <form name="registration" action="registration" method="POST">
+                    {% csrf_token %}
+                    {% for field in registration_form%}
+                    <p>
+                        {{field.errors}}
+                        {{field.label_tag}}{{field}}
+                    </p>
+                    {%endfor%}
+                    <input class="btn btn-info" type="submit" value="Create User">
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+    </div>
+    <div class="col-md-1"> </div>
+</div>
+
 {% endblock %}
