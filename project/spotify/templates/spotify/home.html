@@ -1,7 +1,12 @@
 
 {% extends 'spotify/base.html' %}
-{% block content %}
 {%load staticfiles%}
+{% block js %}
+    <script src="{% static 'spotify/home.js' %}"> </script>
+    <script src="{% static 'spotify/django_ajax.js' %}"> </script>
+{% endblock %}
+
+{% block content %}
 
 <div class ="row">
     <div id="homespace">
@@ -21,14 +26,14 @@
         <div id="loginModal" class="modal fade" role="dialog">
           <div class="modal-dialog">
 
-            <!-- Register Modal content-->
+            <!-- Login Modal content-->
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Login</h4>
               </div>
               <div class="modal-body">
-                <form name="login" action="login" method="POST">
+                <form id="login" name="login" action="login" method="POST">
                     {%if login_error%}
                         {{login_error}}
                     {%endif%}
@@ -41,7 +46,6 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
             </div>
-
           </div>
         </div>
     </div>
@@ -62,7 +66,7 @@
                 <h4 class="modal-title">Register</h4>
               </div>
               <div class="modal-body">
-                <form name="registration" action="registration" method="POST">
+                <form id="registration" name="registration" action="registration" method="POST">
                     {% csrf_token %}
                     {% for field in registration_form%}
                     <p>
@@ -72,6 +76,7 @@
                     {%endfor%}
                     <input class="btn btn-info" type="submit" value="Create User">
                 </form>
+                <div id='errors'></div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -83,5 +88,4 @@
     </div>
     <div class="col-md-1"> </div>
 </div>
-
 {% endblock %}
