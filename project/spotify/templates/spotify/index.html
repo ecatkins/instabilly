@@ -5,29 +5,58 @@
     <script src="{% static 'spotify/django_ajax.js' %}"> </script>
 {% endblock %}
 
-
 {% block content %}
-    <div class="row">
-        <div id="test" class="col-md-12"></div>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a id='logout' class="navbar-brand" href="/callback">App Logo</a>
     </div>
-    <div class="row">    
-        <div class="col-md-3">
-            <h4>Please hit sync to let us download your library</h4>
-            <div id="sync-library">
-                <button class="btn btn-info" id='sync'>Sync</button>
-                <div id="loading"></div>
-            </div>
-            <p><a id='engine' href="/engine">Recommendation Engine</a></p>
-            <p><a id='logout' href="/logout">Logout</a></p>
-            <button class="btn btn-info">New Post</button>
-        </div>
 
-        <div class="col-md-3">
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a id='logout' href="/logout">Logout</a></li>
+        <li><a id='engine' href="/engine">Recommendation Engine</a></li>
+        <li><a id='createpost' href='' data-toggle="modal" data-target="#mySearchModal">Create Post</a></li>
+        <li><a id='sync' href=''>Sync Library</a></li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+    <div class="row">  
+        <div class="col-md-4">
             <h4>MINI-FEED</h4>
             <div id="mini-feed"></div>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-4">
             <h4>ALL USERS</h4>
             {% if user_list %}
                 <ul id="all-users-list">
@@ -40,24 +69,6 @@
         <div id="eddy" class="col-md-4">
         </div>
     </div>
-    <div id="myModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-        <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Creating post...</h4>
-                </div>
-                <div class="modal-body">
-                    <p id="song-reference"></p>
-                    <p id="song-comment"></p>
-                </div>
-                <div class="modal-footer">
-                    <button id="modal-button" type="button" class="btn btn-default" data-dismiss="modal">Do it!</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div id="mySearchModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -65,11 +76,26 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Search Results</h4>
+                    <h4 class="modal-title">Create Post</h4>
                 </div>
                 <div class="modal-body">
-                    <div id="searchresult"><ul id="searchresult_list"></ul></div>
+                    <div class="createpost_div" id="create-post-form">
+                        <form id="songsearch" action="search" method="GET">
+                            {% csrf_token %}
+                            <p>What's on your mind?</p>
+                            <p><textarea id="comment" rows="4" cols="30"></textarea></p>
+                            <p>Include a song from your library</p> 
+                            <p><input type="text" name="search_query"> <button class="btn btn-info" id="song-search-button">search</button></p>
+                        </form>
+                    </div>
+                    <div class="createpost_div">
+                        <div id="searchresult">
+                            <ul id="searchresult_list"></ul>
+                        </div>
+                    </div>
+                    <div id="post-creation"></div>
                 </div>
+
                 <div class="modal-footer">
                     <button id="modal-button" type="button" class="btn btn-default" data-dismiss="modal">Do it!</button>
                 </div>

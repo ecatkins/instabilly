@@ -79,9 +79,13 @@ $(document).ready(function(){
             $button.text('Following');
         }
     });
+    $("#createpost").on("click", function() {
+        $("#searchresult_list").empty();
+    })
     $("#song-search-button").on("click", function(event) {
         event.preventDefault();
         $("#searchresult_list").empty();
+        $("#searchresult_list").css("overflow-y", "scroll").css("height", "10em");
         var query = $("[name=search_query]").val();
         $.getJSON("search", {"search_query": query}, function(data){
             var count = 0;

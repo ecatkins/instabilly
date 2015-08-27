@@ -86,3 +86,13 @@ i {
     height: 20em;
     background-color: grey;
 }
+
+.createpost_div {
+    float: left;
+    display: inline-block;
+    width: 50%;
+}
+
+.modal-footer {
+    bottom: 0em;
+}
