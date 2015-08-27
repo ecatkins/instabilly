@@ -17,8 +17,14 @@ def seed_one_user(user):
 	genre_percent_array = [x/number_songs for x in genre_array]
 	for index, genre_name in enumerate(all_genre_names):
 		genre = Genre.objects.get(name=genre_name)
-		user_genre_object, created = UserGenre.objects.get_or_create(user=user,genre=genre,proportion= genre_percent_array[index])
-		user_genre_object.save()
+		user_genre_object = UserGenre.objects.filter(user=user,genre=genre)
+		if len(user_genre_object) == 0:
+			new_object = UserGenre(user=user,genre=genre,proportion = genre_percent_array[index])
+			new_object.save()
+		else:
+			old_object = user_genre_object[0]
+			old_object.proportion = genre_percent_array[index]
+			old_object.save()
 	profile = UserProfile.objects.get(user=user)
 	profile.updated_genres = datetime.datetime.now()
 	profile.save()
@@ -28,6 +34,7 @@ def update_latest_user():
 	all_user_profiles = UserProfile.objects.all().order_by('updated_genres')
 	user = all_user_profiles[0].user
 	seed_one_user(user)
+	print(user.username)
 
 
 # def quick_seed():

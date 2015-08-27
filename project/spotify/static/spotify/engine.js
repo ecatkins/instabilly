@@ -22,16 +22,12 @@ $(document).ready(function() {
 		
 
 		$.post('playlist', post_data, function(data) {
-			console.log(data['track_uris'])
 			var uris = data['track_uris']
 			string = ""
 			for (song in uris) {
 				string += uris[song] + ','
 			}
 			string = string.substring(0, string.length - 1);
-			console.log(string)
-	
-
 			$('#playlist_player').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="300" height="380" frameborder="0" allowtransparency="true"></iframe><button id=like>YES</button><button id=dislike>NOPE</button>')
 
 			$("#like").on("click", function() {
