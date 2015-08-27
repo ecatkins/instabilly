@@ -1,9 +1,12 @@
 
-
-
 body {
 	background-color: #1c1c1f;
     color: white;
+}
+
+.container {
+    width:110em;
+    margin: auto;
 }
 
 input, textarea {
@@ -82,7 +85,28 @@ i {
     background-color: white;
 }
 
-#eddy {
-    height: 20em;
-    background-color: grey;
+
+
+.glyphicon {
+    font-size: 5em;
 }
+
+/*index.html specific*/
+#eddy {
+    height: 40em;
+}
+
+.timelineplaylist {
+    position: relative
+}
+
+.timelineplaylist .playlist_image {
+    position: absolute;
+}
+
+.timelineplaylist .playlist_playlist {
+    position: absolute;
+    z-index:-1;
+}
+
+
