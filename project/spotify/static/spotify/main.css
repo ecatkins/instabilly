@@ -89,7 +89,7 @@ i {
 
 #searchresult_list {
     overflow-y: scroll;
-    height: 10;
+    height: 10em;
 }
 
 .glyphicon {
