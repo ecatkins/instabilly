@@ -85,14 +85,17 @@ i {
     background-color: white;
 }
 
-
+#searchresult_list {
+    overflow-y: scroll;
+    height: 10;
+}
 
 .glyphicon {
     font-size: 5em;
 }
 
 /*index.html specific*/
-
+        
 #eddy {
     height: 40em;
     background-color: grey;
