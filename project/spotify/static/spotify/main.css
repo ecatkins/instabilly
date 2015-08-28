@@ -93,6 +93,10 @@ i {
     height: 10em;
 }
 
+td {
+    color: black;
+}
+
 .glyphicon {
     font-size: 5em;
 }
