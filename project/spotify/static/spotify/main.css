@@ -92,6 +92,10 @@ i {
     height: 10em;
 }
 
+#following-list {
+    width: 20em;
+}
+
 td {
     color: black;
 }

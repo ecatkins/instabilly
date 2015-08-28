@@ -9,17 +9,19 @@ $(document).ready(function(){
     ga('create', 'UA-66616301-1', 'auto');
     ga('send', 'pageview');
 
-
-    $.getJSON("/getfollowing", function(data){
-        var followlist = data['JSON_follow_list'];
-        var buttonIDs = [];
-        $(".followButton").each(function(idx, button){
-            for (item in followlist) {
-                if (button.parentNode.innerText.indexOf(followlist[item]) != -1) {
-                    $(this).addClass('following');
-                    $(this).text('Following');
-                }
-            }       
+    $("#following").on("click", function(event){
+        event.preventDefault();
+        $.getJSON("/getfollowing", function(data){
+            var followlist = data['JSON_follow_list'];
+            console.log(followlist)
+            $(".followButton").each(function(idx, button){
+                for (item in followlist) {
+                    if ($(this).closest('tr').attr('id') === followlist[item]) {
+                        $(this).addClass('following');
+                        $(this).text('Following');
+                    }
+                }       
+            });
         });
     });
 
@@ -30,7 +32,8 @@ $(document).ready(function(){
             $("#mini-feed").append("<div id=minifeed" + count + "><p>posted by: " + all_posts[post].user + "</p><p>" + all_posts[post].content + "</p><p><iframe src='https://embed.spotify.com/?uri=" + all_posts[post].track_uri + "'width=250 height=80 frameborder=0 allowtransparency=true></iframe></p>");
             count += 1;
         }
-    })
+    });
+
 
     $(document).ajaxStart(function(){
         $('#loading').html('<img src="/static/spotify/ajax-loader.gif"/>')  
@@ -46,21 +49,21 @@ $(document).ready(function(){
 
     $('button.followButton').on('click', function(event){
         event.preventDefault();
-        console.log('clicked');
         $button = $(this);
-        var id = $(this).parent().attr('id')
-        var strippedID = id.replace("-button","") // ADAM'S NOTE TO SELF: COME BACK AND DO THIS PROPERLY
+        var id = $(this).closest('tr').attr('id')
+        console.log(id)
         if($button.hasClass('following')){
             
             
-            $.post("/unfollow", {"id": strippedID}, function(data){
+            $.post("/unfollow", {"id": id}, function(data){
                 console.log(data);
                 $button.removeClass('following');
                 $button.removeClass('unfollow');
                 $button.text('Follow');
+                $button.closest('tr').remove()
             })       
         } else {
-                $.post("/follow", {'id': strippedID}, function(data) {
+                $.post("/follow", {'id': id}, function(data) {
                 console.log(data);
                 $button.addClass('following');
                 $button.text('Following');

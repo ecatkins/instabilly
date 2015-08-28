@@ -88,7 +88,8 @@ class SyncView(View):
         user = User.objects.filter(pk=request.session['session_id'])
         followlist_obj = FollowList.objects.filter(user=user[0])
         follow_list = followlist_obj[0].following.all()
-        return render(request, self.template, {"follow_list": follow_list})
+        post_list = Post.objects.all().order_by('-created_at')
+        return render(request, self.template, {"follow_list": follow_list, "post_list": post_list})
 
 
 class GetFollowingView(View):
@@ -96,7 +97,6 @@ class GetFollowingView(View):
     def get(self, request):
         user = User.objects.filter(pk=request.session['session_id'])
         user_follow_list = FollowList.objects.filter(user=user[0])
-        print(user_follow_list)
         JSON_follow_list = []
         for item in user_follow_list[0].following.all():
             JSON_follow_list.append(item.username)

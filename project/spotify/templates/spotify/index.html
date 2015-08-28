@@ -27,6 +27,7 @@
         <li><a id='createpost' href='' data-toggle="modal" data-target="#mySearchModal">Create Post</a></li>
         <li><a id='sync' href=''>Sync Library</a></li>
         <li><a id='following' href='' data-toggle="modal" data-target="#UsersModal">Following</a></li>
+        <li><a id='find' href='' data-toggle="modal" data-target="#FindModal">Find</a></li>
       </ul>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
@@ -73,9 +74,9 @@
         </div>
     </div>
 
+<!-- Post Modal-->
     <div id="mySearchModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-        <!-- Modal content-->
+        <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -109,19 +110,18 @@
             </div>
         </div>
     </div>
+<!-- END Post Modal-->
 
-<!-- Users Modal -->
+<!-- Followers Modal -->
     <div id="UsersModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-          <!-- Users Modal content-->
+        <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Following</h4>
                 </div>
                 <div class="modal-body">
                     {% if follow_list %}
-                        <table id="all-users-list">
+                        <table id="following-list">
                         {% for user in follow_list %}
                             <tr id="{{ user }}">
                                 <td>{{ user }}</td>
@@ -137,7 +137,35 @@
             </div>
         </div>
     </div> 
-<!-- close Users Modal -->
+<!-- END Followers Modal -->
 
-
+<!-- Find Modal -->
+<div id="FindModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Find users</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Latest user posts</h4>
+                {% if post_list %}
+                    <table id="users-list">
+                    {% for post in post_list %}
+                        <tr id="{{ post.pk }}">
+                            <td>{{ post.user }}</td>
+                            <td>{{ post.content }}</td>
+<!--                             <td><iframe src='https://embed.spotify.com/?uri=' + {{ post.song.song.track_uri }} + 'width=250 height=80 frameborder=0 allowtransparency=true></iframe></td> -- >
+                        </tr>
+                    {% endfor %}
+                    </table>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END Find Modal -->
 {% endblock %}
