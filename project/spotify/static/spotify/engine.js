@@ -38,7 +38,8 @@ $(document).ready(function() {
 
 	
 
-	$('.fa-question').popover()
+	$('.fa-info').popover()
+
 
 	$(document).foundation();
 	$(document).foundation('slider', 'reflow');
