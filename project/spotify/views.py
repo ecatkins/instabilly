@@ -88,7 +88,8 @@ class SyncView(View):
         user = User.objects.filter(pk=request.session['session_id'])
         followlist_obj = FollowList.objects.filter(user=user[0])
         follow_list = followlist_obj[0].following.all()
-        post_list = Post.objects.all().order_by('-created_at')
+        exclude_list = list(follow_list) + list(user)
+        post_list = Post.objects.exclude(user__in=exclude_list).order_by('-created_at')
         return render(request, self.template, {"follow_list": follow_list, "post_list": post_list})
 
 
