@@ -264,18 +264,18 @@ class EngineView(View):
 class PlaylistView(View):
 
     def post(self,request):
-        
-        # user = User.objects.get(username="ecatkins")
         user = User.objects.get(pk=request.session['session_id'])
         playlist_type = request.POST.get("type")
         print(playlist_type)
         number_songs = int(request.POST.get('number_songs'))
-        neighbors = int(request.POST.get('neighbors'))
+        # neighbors = int(request.POST.get('neighbors'))
+        neighbors = 5
+        follow_effect = int(request.POST.get('follow'))/10.0
         recency_effect = int(request.POST.get('recency_effect'))/10.0
         rating_effect = int(request.POST.get('rating_effect'))/10.0
         duplicate_artist = int(request.POST.get('duplicate_artist'))/10.0
         existing_playlist = int(request.POST.get('existing_playlist'))/10.0
-        playlist =create_playlist(user=user,neighbors=neighbors,number_songs=number_songs,recency_effect=recency_effect,rating_effect=rating_effect,duplicate_artist_effect=duplicate_artist,existing_playlist_effect=existing_playlist)    
+        playlist =create_playlist(user=user,neighbors=neighbors, follow_effect=follow_effect, number_songs=number_songs,recency_effect=recency_effect,rating_effect=rating_effect,duplicate_artist_effect=duplicate_artist,existing_playlist_effect=existing_playlist)    
         track_uris = []
         cover_track_uri = playlist[0].song.track_uri
         for song in playlist:
