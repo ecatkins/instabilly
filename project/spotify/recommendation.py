@@ -1,4 +1,4 @@
-from spotify.models import User, UserSong, Song, Genre, Artist, ArtistRating, UserGenre
+from spotify.models import User, UserSong, Song, Genre, Artist, ArtistRating, UserGenre, FollowList
 from sklearn.neighbors import KNeighborsClassifier
 import random
 import datetime
@@ -61,10 +61,19 @@ def similar_users(user,neighbors):
 	
 	result = neigh.kneighbors((user_array),neighbors)
 	similar_users = [[id_array[result[1][0][x]],result[0][0][x]] for x in range(neighbors)]
-	# print(similar_users)
+	print(similar_users)
 	print(User.objects.filter(pk__in=[x[0] for x in similar_users]).values_list('username',flat=True))
-
 	return similar_users
+
+def follow_users(similar,follow_number,follow_list):
+	similar_distances_average = sum([x[1] for x in similar]) / len(similar)
+	follow_users = []
+	for x in range(follow_number):
+		random_follow_id = random.choice(follow_list).pk
+		follow_users.append([random_follow_id,similar_distances_average])
+	print(follow_users)
+	print(User.objects.filter(pk__in=[x[0] for x in follow_users]).values_list('username',flat=True))
+	return follow_users
 
 def weighted_choice(weights):
     totals = []
@@ -120,10 +129,20 @@ def create_playlist(user,neighbors,follow_effect,number_songs,recency_effect,rat
 	'''Pass: the active user, number of neighbors to inform recommendation and
 	 number of songs desired in playlist
 	 Returns: Array of song objects '''
+	#Ensures that the neighbors are limited while the userbase is small
+	neighbors = int(min(neighbors,User.objects.all().count()/2))
+	follow_list = FollowList(user=user).following.all()
+	follow_number = int(neighbors * follow_effect)
+	reduced_neighbors = neighbors - follow_number
+	similar = similar_users(user,reduced_neighbors)
+	if follow_number > 0:
+		followees = follow_users(similar,follow_number,follow_list)
+		follow_similar = similar = followees
+	else:
+		follow_similar = similar
 	
-	similar = similar_users(user,neighbors)
 	playlist = []
-	user_songs = get_user_song_array(similar)
+	user_songs = get_user_song_array(follow_similar)
 	song_choice = return_tracks_recency_bias(user_songs,number_songs,recency_effect)
 
 
@@ -146,6 +165,7 @@ def create_playlist(user,neighbors,follow_effect,number_songs,recency_effect,rat
 			recommendation_array.append(score)
 			### Weighting factor 3, no replicated artists in playlist
 			if duplicate_artist(playlist,user_song) == True:
+				print("here")
 				replication_array.append(1-(duplicate_artist_effect))
 			else:
 				replication_array.append(1)

@@ -9,6 +9,7 @@ h1 {
 body {
 	background-color: #1c1c1f;
     color: white;
+    font-family: 'PT Sans', sans-serif;
 }
 
 .container {
@@ -100,6 +101,12 @@ td {
     font-size: 5em;
 }
 
+
+/*ALL*/
+.popover-content{
+    color:black;
+}
+
 /*index.html specific*/
         
 #eddy {
@@ -129,3 +136,46 @@ td {
 .timelineplaylist .playlist_playlist {
     position: absolute;
 }
+
+/*engine.html specific*/
+.btn-generate {
+    font-family: 'PT Sans', sans-serif;
+    height:3em;
+    width:100%;
+    background : transparent;
+    border-color:white;
+    border-width: 0.3em;
+    border-radius: 3%;
+    font-size: 1.2em;
+    -webkit-transition-property: border-color, color; /* Safari */
+    transition-property: border-color, color;
+    transition-duration: 1s;
+}
+
+.btn-generate:hover {
+    border-color:#2ebd59;
+    border-width: 0.2em;
+    border-style: solid;
+    color:#2ebd59;;
+    background : transparent;
+
+}
+
+
+#playlist_player {
+    border-color:white;
+    border-width: 0.2em;
+    border-style: solid;
+    width: 80%;
+    margin:auto;
+    position:absolute;
+}
+
+#engineplaylist_image {
+    position:absolute;
+}
+
+
+
+
+

@@ -271,7 +271,7 @@ class PlaylistView(View):
         print(playlist_type)
         number_songs = int(request.POST.get('number_songs'))
         # neighbors = int(request.POST.get('neighbors'))
-        neighbors = 5
+        neighbors = 10
         follow_effect = int(request.POST.get('follow'))/10.0
         recency_effect = int(request.POST.get('recency_effect'))/10.0
         rating_effect = int(request.POST.get('rating_effect'))/10.0
@@ -282,18 +282,11 @@ class PlaylistView(View):
         cover_track_uri = playlist[0].song.track_uri
         for song in playlist:
             track_uris.append(song.song.track_uri[-22:])
-        if playlist_type == "your_home":
-            print("here")
-            first_track = track_uris[0]
-            print(first_track)
-            first_track_object = Song.objects.get(track_uri=cover_track_uri)
-            print(first_track_object)
-            cover_art = first_track_object.image_300
-            print(cover_art)
-            return JsonResponse({"track_uris":track_uris,"cover_art":cover_art})
-        else:
-            return JsonResponse({"track_uris":track_uris})
-
+        first_track = track_uris[0]
+        first_track_object = Song.objects.get(track_uri=cover_track_uri)
+        cover_art = first_track_object.image_300
+        return JsonResponse({"track_uris":track_uris,"cover_art":cover_art})
+    
 class RatingView(View):
 
     def post(self, request):
