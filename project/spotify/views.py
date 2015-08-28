@@ -277,7 +277,7 @@ class PlaylistView(View):
         rating_effect = int(request.POST.get('rating_effect'))/10.0
         duplicate_artist = int(request.POST.get('duplicate_artist'))/10.0
         existing_playlist = int(request.POST.get('existing_playlist'))/10.0
-        playlist =create_playlist(user=user,neighbors=neighbors, follow_effect=follow_effect, number_songs=number_songs,recency_effect=recency_effect,rating_effect=rating_effect,duplicate_artist_effect=duplicate_artist,existing_playlist_effect=existing_playlist)    
+        playlist =create_playlist(user=user,neighbors=neighbors, follow_effect=follow_effect, number_songs=number_songs,recency_effect=recency_effect,rating_effect=rating_effect,duplicate_artist_effect=duplicate_artist,existing_playlist_effect=existing_playlist)
         track_uris = []
         cover_track_uri = playlist[0].song.track_uri
         for song in playlist:
@@ -285,6 +285,7 @@ class PlaylistView(View):
         first_track = track_uris[0]
         first_track_object = Song.objects.get(track_uri=cover_track_uri)
         cover_art = first_track_object.image_300
+
         return JsonResponse({"track_uris":track_uris,"cover_art":cover_art})
     
 class RatingView(View):
