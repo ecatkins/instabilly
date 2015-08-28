@@ -1,5 +1,7 @@
 
 $(document).ready(function(){
+    console.log(window);
+    console.log(window.test2.eddy);
     
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -138,19 +140,15 @@ $(document).ready(function(){
     $.post('playlist', post_data, function(data) {
             var uris = data['track_uris']
             var cover_art = data['cover_art']
-            console.log(cover_art)
-            console.log($(".yourplaylist_image"))
             $("#yourplaylist_image").append('<img src="'+ cover_art +'">')
-            string = ""
-            for (song in uris) {
+            var string = ""
+            for (var song in uris) {
                 string += uris[song] + ','
             }
             string = string.substring(0, string.length - 1);
             $('#yourplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="300" height="300" frameborder="0" allowtransparency="true"></iframe>')
 
             $('.timelineplaylist img').on('click', function() {
-                console.log($("#widgetContainer"))
-                $("#widgetContainer").css('width',300)
                 $(this).fadeOut(2000)
             })
 
