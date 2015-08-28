@@ -114,8 +114,15 @@ td {
 /*index.html specific*/
         
 #eddy {
-    height: 100em;
-    background-color: grey;
+   border-left:rgba(255, 255, 255, 1) 0.2em solid;
+   border-radius:10%;
+}
+
+#eddy h3 {
+    text-align: right;
+}
+#eddy h4 {
+    text-align: right;
 }
 
 .createpost_div {
@@ -136,10 +143,12 @@ td {
 .timelineplaylist .playlist_image {
     position: absolute;
     z-index: 1;
+    right:0
 }
 
 .timelineplaylist .playlist_playlist {
     position: absolute;
+    right:0;
 }
 
 /*engine.html specific*/
