@@ -97,7 +97,14 @@ i {
     width: 20em;
 }
 
+#users-list {
+    width: 40em;
+    height: 30em;
+    overflow-y: scroll;
+}
+
 td {
+    text-align: center;
     color: black;
 }
 
