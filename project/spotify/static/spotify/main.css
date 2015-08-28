@@ -1,3 +1,10 @@
+h1 {
+    text-align: center;
+    color:#2ebd59;
+    font-family: 'Nunito', sans-serif;
+    font-size:5em;
+    font-weight: 400
+}
 
 body {
 	background-color: #1c1c1f;
@@ -17,12 +24,7 @@ textarea {
     resize: none;
 }
 
-h1 {
-	text-align: center;
-	color:#2ebd59;
-    font-family: 'Molengo', sans-serif;
-    font-size:5em;
-}
+
 
 #homespace {
     height:15em;
@@ -117,9 +119,9 @@ i {
 
 .timelineplaylist .playlist_image {
     position: absolute;
+    z-index: 1;
 }
 
 .timelineplaylist .playlist_playlist {
     position: absolute;
-    z-index:-1;
 }
