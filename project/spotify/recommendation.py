@@ -1,4 +1,4 @@
-from spotify.models import User, UserSong, Song, Genre, Artist, ArtistRating, UserGenre
+from spotify.models import User, UserSong, Song, Genre, Artist, ArtistRating, UserGenre, FollowList
 from sklearn.neighbors import KNeighborsClassifier
 import random
 import datetime
@@ -66,6 +66,10 @@ def similar_users(user,neighbors):
 
 	return similar_users
 
+
+
+	followees = follow_users(user,follow_number,follow_list)
+
 def weighted_choice(weights):
     totals = []
     running_total = 0
@@ -120,7 +124,22 @@ def create_playlist(user,neighbors,follow_effect,number_songs,recency_effect,rat
 	'''Pass: the active user, number of neighbors to inform recommendation and
 	 number of songs desired in playlist
 	 Returns: Array of song objects '''
+	#Ensures that the neighbors are limited while the userbase is small
+	neighbors = int(min(neighbors,User.objects.all().count/2))
+	follow_list = FollowList(user=user).following()
+	if len(follow_list) > 0:
+		follow_number = int(neighbors * follow_effect)
+		followees = follow_users(user,follow_number,follow_list)
 	
+	reduced_neighbors = neighbors - follow_number
+
+
+
+
+	#follow_effect
+	# follow_effect
+	
+
 	similar = similar_users(user,neighbors)
 	playlist = []
 	user_songs = get_user_song_array(similar)

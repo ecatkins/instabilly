@@ -269,7 +269,7 @@ class PlaylistView(View):
         print(playlist_type)
         number_songs = int(request.POST.get('number_songs'))
         # neighbors = int(request.POST.get('neighbors'))
-        neighbors = 5
+        neighbors = 10
         follow_effect = int(request.POST.get('follow'))/10.0
         recency_effect = int(request.POST.get('recency_effect'))/10.0
         rating_effect = int(request.POST.get('rating_effect'))/10.0
