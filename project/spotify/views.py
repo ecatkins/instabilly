@@ -85,8 +85,10 @@ class SyncView(View):
     def get(self,request):
         code = request.GET.get('code')
         request.session['spotify_code'] = code
-        user_list = User.objects.all().exclude(pk=request.session['session_id'])
-        return render(request, self.template, {"user_list": user_list})
+        user = User.objects.filter(pk=request.session['session_id'])
+        followlist_obj = FollowList.objects.filter(user=user[0])
+        follow_list = followlist_obj[0].following.all()
+        return render(request, self.template, {"follow_list": follow_list})
 
 
 class GetFollowingView(View):

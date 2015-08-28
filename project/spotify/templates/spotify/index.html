@@ -52,13 +52,13 @@
 </nav>
 
 <div class="row">  
-    <div class="col-md-6">
+    <div class="col-md-8">
         <h4>MINI-FEED</h4>
         <div id="mini-feed"></div>
     </div>
 
 
-    <div id="eddy" class="col-md-6">
+    <div id="eddy" class="col-md-4">
         <h3> Your personalised playlists </h3>
         <h4>You</h4>
             <div class = "timelineplaylist" id="yourplaylist"> 
@@ -117,16 +117,18 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modal Header</h4>
+                    <h4 class="modal-title">Following</h4>
                 </div>
                 <div class="modal-body">
-                    <h4>ALL USERS</h4>
-                    {% if user_list %}
-                        <ul id="all-users-list">
-                        {% for user in user_list %}
-                            <li id="{{ user }}-button">{{ user }}<button class="btn followButton"> follow</button></li>
+                    {% if follow_list %}
+                        <table id="all-users-list">
+                        {% for user in follow_list %}
+                            <tr id="{{ user }}">
+                                <td>{{ user }}</td>
+                                <td><button class="btn followButton">follow</button></td>
+                            </tr>
                         {% endfor %}
-                        </ul>
+                        </table>
                     {% endif %}
                 </div>
                 <div class="modal-footer">
