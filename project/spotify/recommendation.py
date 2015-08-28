@@ -116,7 +116,7 @@ def duplicate_artist(playlist,user_song):
 
 
 
-def create_playlist(user,neighbors,number_songs,recency_effect,rating_effect,duplicate_artist_effect,existing_playlist_effect):
+def create_playlist(user,neighbors,follow_effect,number_songs,recency_effect,rating_effect,duplicate_artist_effect,existing_playlist_effect):
 	'''Pass: the active user, number of neighbors to inform recommendation and
 	 number of songs desired in playlist
 	 Returns: Array of song objects '''

@@ -126,12 +126,12 @@ $(document).ready(function(){
     /////// Generates playlists ///////
     /// Personal ///
     var number_songs = 10
-    var neighbors = 4
-    var recency_effect = 5
-    var rating_effect = 5
-    var duplicate_artist = 5
-    var existing_playlist = 5
-    var post_data = {"type":"your_home","number_songs":number_songs, "neighbors":neighbors, "recency_effect":recency_effect,"rating_effect":rating_effect,"duplicate_artist":duplicate_artist, "existing_playlist": existing_playlist}
+    var follow = 1
+    var recency_effect = 10
+    var rating_effect = 10
+    var duplicate_artist = 0
+    var existing_playlist = 0
+    var post_data = {"type":"your_home","number_songs":number_songs, "follow":1, "recency_effect":recency_effect,"rating_effect":rating_effect,"duplicate_artist":duplicate_artist, "existing_playlist": existing_playlist}
 
     $.post('playlist', post_data, function(data) {
             var uris = data['track_uris']

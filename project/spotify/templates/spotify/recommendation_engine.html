@@ -56,7 +56,7 @@
     </select>
     <br>
   
-    Neighbors <i id="neighbors_info" class="fa fa-question" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Select number of similar users to inform your playlist."></i>
+   <!--  Neighbors <i id="neighbors_info" class="fa fa-question" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Select number of similar users to inform your playlist."></i>
    
    <div class="row">
         <div class="col-md-9">
@@ -70,20 +70,36 @@
             <input type="number" id="neighbors-count" value="5" />
         </div>
     </div>
-    <br>
+    <br> -->
 
-    Recency effect <i id="recency_info" class="fa fa-question" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Select number of similar users to inform your playlist."></i>
-    
-     <div class="row">
+    Follow <i id="follow_info" class="fa fa-question" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Select number of similar users to inform your playlist."></i>
+   
+   <div class="row">
         <div class="col-md-9">
-            <div id="recency" class="range-slider round" data-slider data-options="display_selector: #recency-count; initial: 5; start: 0; end: 10;">
+            <div id="follow" class="range-slider round" data-slider data-options="display_selector: #follow-count; initial: 1; start: 1; end: 10;">
             <span class="range-slider-handle" role="slider" tabindex="0"></span>
             <span class="range-slider-active-segment"></span>
         </div>
         </div> 
 
         <div class="col-md-3">
-            <input type="number" id="recency-count" value="5" />
+            <input type="number" id="follow-count" value="1" />
+        </div>
+    </div>
+    <br>
+
+    Recency effect <i id="recency_info" class="fa fa-question" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Select number of similar users to inform your playlist."></i>
+    
+     <div class="row">
+        <div class="col-md-9">
+            <div id="recency" class="range-slider round" data-slider data-options="display_selector: #recency-count; initial: 10; start: 0; end: 10;">
+            <span class="range-slider-handle" role="slider" tabindex="0"></span>
+            <span class="range-slider-active-segment"></span>
+        </div>
+        </div> 
+
+        <div class="col-md-3">
+            <input type="number" id="recency-count" value="10" />
         </div>
     </div>
     <br>
@@ -92,14 +108,14 @@
     
      <div class="row">
         <div class="col-md-9">
-            <div id="rating" class="range-slider round" data-slider data-options="display_selector: #rating-count; initial: 5; start: 0; end: 10;">
+            <div id="rating" class="range-slider round" data-slider data-options="display_selector: #rating-count; initial: 10; start: 0; end: 10;">
             <span class="range-slider-handle" role="slider" tabindex="0"></span>
             <span class="range-slider-active-segment"></span>
         </div>
         </div> 
 
         <div class="col-md-3">
-            <input type="number" id="rating-count" value="5" />
+            <input type="number" id="rating-count" value="10" />
         </div>
     </div>
     <br>
@@ -108,14 +124,14 @@
       
     <div class="row">
         <div class="col-md-9">
-            <div id="duplicateartist" class="range-slider round" data-slider data-options="display_selector: #duplicate-count; initial: 5; start: 0; end: 10;">
+            <div id="duplicateartist" class="range-slider round" data-slider data-options="display_selector: #duplicate-count; initial: 0; start: 0; end: 10;">
             <span class="range-slider-handle" role="slider" tabindex="0"></span>
             <span class="range-slider-active-segment"></span>
         </div>
         </div> 
 
         <div class="col-md-3">
-            <input type="number" id="duplicate-count" value="5" />
+            <input type="number" id="duplicate-count" value="0" />
         </div>
     </div>
     <br>
@@ -125,14 +141,14 @@
       
       <div class="row">
         <div class="col-md-9">
-            <div id="existingplaylist" class="range-slider round" data-slider data-options="display_selector: #existing-count; initial: 5; start: 0; end: 10;">
+            <div id="existingplaylist" class="range-slider round" data-slider data-options="display_selector: #existing-count; initial: 0; start: 0; end: 10;">
             <span class="range-slider-handle" role="slider" tabindex="0"></span>
             <span class="range-slider-active-segment"></span>
         </div>
         </div> 
 
         <div class="col-md-3">
-            <input type="number" id="existing-count" value="5" />
+            <input type="number" id="existing-count" value="0" />
         </div>
     </div>
     <br>
