@@ -9,8 +9,8 @@ $(document).ready(function(){
     ga('create', 'UA-66616301-1', 'auto');
     ga('send', 'pageview');
 
+
     $.getJSON("/getfollowing", function(data){
-        console.log('doing getfollowing')
         var followlist = data['JSON_follow_list'];
         var buttonIDs = [];
         $(".followButton").each(function(idx, button){
@@ -85,7 +85,6 @@ $(document).ready(function(){
     $("#song-search-button").on("click", function(event) {
         event.preventDefault();
         $("#searchresult_list").empty();
-        $("#searchresult_list").css("overflow-y", "scroll").css("height", "10em");
         var query = $("[name=search_query]").val();
         $.getJSON("search", {"search_query": query}, function(data){
             var count = 0;
@@ -112,7 +111,7 @@ $(document).ready(function(){
         $("#song-comment").append($("#comment").val());
         });
     })
-    $("#modal-button").on("click", function() {
+    $("#post-it-button").on("click", function() {
         var comment = $("#song-comment").text();
         var src = $("#song-reference")[0].firstChild.src;
         var track_uri = src.replace("https://embed.spotify.com/?uri=","")
