@@ -130,12 +130,12 @@ $(document).ready(function(){
     /////// Generates playlists ///////
     /// Personal ///
     var number_songs = 10
-    var follow = 1
+    var follow = 0
     var recency_effect = 10
     var rating_effect = 10
-    var duplicate_artist = 0
-    var existing_playlist = 0
-    var post_data = {"type":"your_home","number_songs":number_songs, "follow":1, "recency_effect":recency_effect,"rating_effect":rating_effect,"duplicate_artist":duplicate_artist, "existing_playlist": existing_playlist}
+    var duplicate_artist = 10
+    var existing_playlist = 10
+    var post_data = {"type":"your_home","number_songs":number_songs, "follow":follow, "recency_effect":recency_effect,"rating_effect":rating_effect,"duplicate_artist":duplicate_artist, "existing_playlist": existing_playlist}
 
     $.post('playlist', post_data, function(data) {
             var uris = data['track_uris']
@@ -148,7 +148,7 @@ $(document).ready(function(){
             string = string.substring(0, string.length - 1);
             $('#yourplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="300" height="300" frameborder="0" allowtransparency="true"></iframe>')
 
-            $('.timelineplaylist img').on('click', function() {
+            $('#yourplaylist img').on('click', function() {
                 $(this).fadeOut(2000)
             })
 
@@ -166,7 +166,32 @@ $(document).ready(function(){
             })          
         })
 
+    /// Friends ///
+    var number_songs2 = 10
+    var follow2 = 10
+    var recency_effect2 = 10
+    var rating_effect2 = 10
+    var duplicate_artist2 = 5
+    var existing_playlist2 = 9
+    var post_data2 = {"type":"your_friends","number_songs":number_songs2, "follow":follow2, "recency_effect":recency_effect2,"rating_effect":rating_effect2,"duplicate_artist":duplicate_artist2, "existing_playlist": existing_playlist2}
 
+
+    $.post('playlist', post_data2, function(data) {
+            var uris = data['track_uris']
+            var cover_art = data['cover_art']
+            $("#friendsplaylist_image").html('<img src="'+ cover_art +'">')
+            var string = ""
+            for (var song in uris) {
+                string += uris[song] + ','
+            }
+            string = string.substring(0, string.length - 1);
+            $('#friendsplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="300" height="300" frameborder="0" allowtransparency="true"></iframe>')
+
+            $('#friendsplaylist img').on('click', function() {
+                $(this).fadeOut(2000)
+            })
+         
+        })
 
 
 })

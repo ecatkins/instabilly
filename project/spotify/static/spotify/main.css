@@ -114,7 +114,7 @@ td {
 /*index.html specific*/
         
 #eddy {
-    height: 40em;
+    height: 100em;
     background-color: grey;
 }
 
@@ -129,7 +129,8 @@ td {
 }
 
 .timelineplaylist {
-    position: relative
+    position: relative;
+    height:25em;
 }
 
 .timelineplaylist .playlist_image {
