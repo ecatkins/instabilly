@@ -154,9 +154,28 @@ td {
 
 .btn-generate:hover {
     border-color:#2ebd59;
+    border-width: 0.2em;
+    border-style: solid;
     color:#2ebd59;;
     background : transparent;
 
 }
+
+
+#playlist_player {
+    border-color:white;
+    border-width: 0.2em;
+    border-style: solid;
+    width: 80%;
+    margin:auto;
+    position:absolute;
 }
+
+#engineplaylist_image {
+    position:absolute;
+}
+
+
+
+
 

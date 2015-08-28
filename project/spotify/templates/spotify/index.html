@@ -1,6 +1,7 @@
 {%extends 'spotify/base.html' %}
 {% load staticfiles %}
 {% block js %}
+    <script src="{% static 'spotify/test.js' %}"> </script>
     <script src="{% static 'spotify/timeline.js' %}"> </script>
     <script src="{% static 'spotify/django_ajax.js' %}"> </script>
 {% endblock %}
