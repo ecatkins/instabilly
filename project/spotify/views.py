@@ -297,3 +297,7 @@ class RatingView(View):
         track_uris = request.POST.getlist('uris[]')
         status = update_ratings(user,track_uris,decision)
         return JsonResponse({"status": "Success"})
+
+class SavePlaylistView(View):
+    def post(self,request):
+        pass
