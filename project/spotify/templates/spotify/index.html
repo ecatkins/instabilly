@@ -124,7 +124,8 @@
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Following</h4>
+                    <button id="following-button" class="btn btn-info">Following</button>
+                    <button id="followers-button" class="btn btn-info">Followers</button>
                 </div>
                 <div class="modal-body">
                     {% if follow_list %}
@@ -132,6 +133,16 @@
                         {% for user in follow_list %}
                             <tr id="{{ user }}">
                                 <td>{{ user }}</td>
+                                <td><button class="btn followButton">follow</button></td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                    {% endif %}
+                    {% if followers %}
+                        <table id="followers-list">
+                        {% for user in followers %}
+                            <tr id="{{ user.user }}">
+                                <td>{{ user.user }}</td>
                                 <td><button class="btn followButton">follow</button></td>
                             </tr>
                         {% endfor %}

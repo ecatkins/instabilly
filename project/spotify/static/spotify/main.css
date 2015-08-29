@@ -92,7 +92,7 @@ i {
     height: 10em;
 }
 
-#following-list {
+#following-list, #followers-list {
     width: 20em;
 }
 
