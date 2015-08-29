@@ -10,6 +10,7 @@ body {
 	background-color: #1c1c1f;
     color: white;
     font-family: 'PT Sans', sans-serif;
+    font-size: 2em;
 }
 
 
@@ -17,6 +18,7 @@ body {
     margin-left: 10em;
     margin-right:10em;
 }
+
 input, textarea {
     color:black;
 }
@@ -82,10 +84,7 @@ i {
     background-color: red;
 }
 
-#test {
-    height: 10em;
-    background-color: white;
-}
+
 
 #searchresult_list {
     overflow-y: scroll;
@@ -108,7 +107,7 @@ td {
 }
 
 .glyphicon {
-    font-size: 5em;
+    font-size: 2em;
 }
 
 
@@ -158,6 +157,23 @@ td {
 }
 
 /*engine.html specific*/
+
+
+#playlist {
+    height:450px;
+}
+
+.engine_choice {
+    border-color:white;
+    border-width:0.2em;
+    border-style:solid;
+    width:80%;
+    margin:auto;
+    height:4em
+}
+
+
+
 .btn-generate {
     font-family: 'PT Sans', sans-serif;
     height:3em;
@@ -186,13 +202,24 @@ td {
     border-color:white;
     border-width: 0.2em;
     border-style: solid;
-    width: 50%;
-    margin:auto;
+    width: 450px;
     position:absolute;
 }
 
 #engineplaylist_image {
     position:absolute;
+}
+
+
+
+
+.slider-handle {
+    background:#2ebd59;
+
+}
+
+.slider.slider-horizontal {
+    width:100%
 }
 
 

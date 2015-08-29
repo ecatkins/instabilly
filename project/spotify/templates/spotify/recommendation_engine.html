@@ -31,64 +31,74 @@
 
 
 <div class="row page">
-  <div class="col-md-4">
-    Number of songs <i id="number_songs_info" class="fa fa-info"data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Select the number of songs to be in your custom playlist."
-></i>
+      <div class="col-md-5">
+        <div class="row">
+            <div class="col-md-4">
+                Number of songs <i id="number_songs_info" class="fa fa-info"data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Select the number of songs to be in your custom playlist."
+                ></i>
+            </div>
 
-    <select id="number_songs" class="form-control" default="5">
-      <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option>
-    </select>
-    <br>
+            <div class="col-md-8">
+            <input class="engineslider" id="number_songs" data-slider-id='number_songsSlider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="10"/> 
+            </div>
+        </div>
+        <br>
+        <br>
   
    
    <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             Who You Follow <i id="follow_info" class="fa fa-info" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Do you want the music in your custom playlist to be generated based on the people you follow or by our awesome algorithm that finds other users on our site who have similar music preferences to you. Selecting 10 will ensure that your custom playlist is only selected from the playlists of people that you follow."></i>
         </div>
-        <div class="col-md-9">
-             <input class="engineslider" id="follow" data-slider-id='followSlider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>
+        <div class="col-md-8">
+             <input class="engineslider" id="follow" data-slider-id='followSlider' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="0"/>
         </div>
     </div>
     <br>
+    <br>
 
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             Recent <i id="recency_info" class="fa fa-info" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="How much do you care that the music in your custom playlist is the latest and greatest? Selecting 10 will give high favor to songs that have recently been uploaded by our users and people you follow."></i>
         </div>
-        <div class="col-md-9">
-             <input class="engineslider" id="recency" data-slider-id='recencySlider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>
+        <div class="col-md-8">
+             <input class="engineslider" id="recency" data-slider-id='recencySlider' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="10"/>
         </div>
     </div>
     <br>
+    <br>
 
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
              Your Ratings <i id="rating_info" class="fa fa-info" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="How much do you care about previous ratings that you have given to playlists we have served you? Selecting 10 will give high favor to artists in playlists that you have previously liked"></i>
         </div>
-        <div class="col-md-9">
-             <input class="engineslider" id="rating" data-slider-id='ratingSlider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>
+        <div class="col-md-8">
+             <input class="engineslider" id="rating" data-slider-id='ratingSlider' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="10"/>
         </div>
     </div>
     <br>
+    <br>
 
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
              Diversity <i id="duplicate_artist_info"  class="fa fa-info" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="How much do you care about similar artists appearing in the same playlist? Selecting 10 will ensure that your playlist is comprised of entirely unique artists "></i>
         </div>
-        <div class="col-md-9">
-             <input class="engineslider" id="duplicateartist" data-slider-id='duplicateartistSlider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>
+        <div class="col-md-8">
+             <input class="engineslider" id="duplicateartist" data-slider-id='duplicateartistSlider' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="10"/>
         </div>
     </div>
     <br>
+    <br>
 
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
              What You Listen To <i id="existing_playlist_info" class="fa fa-info" data-container="body" data-toggle="popover"  data-placement="right" data-trigger="hover" data-content="Do you want to hear some of your old favourites, or do you want a completely new playlist? Selecting 10 will ensure that no song will appear in your custom playlist, that already exists in your Spotify library."></i>
         </div>
-        <div class="col-md-9">
-             <input class="engineslider" id="existingplaylist" data-slider-id='existingplaylist' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>
+        <div class="col-md-8">
+             <input class="engineslider" id="existingplaylist" data-slider-id='existingplaylistSlider' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="10"/>
         </div>
     </div>
+    <br>
     <br>
 
 
@@ -96,11 +106,48 @@
 
     </div>
 
- <div class="col-md-8">
-        <div class = "playlist_image" id ="engineplaylist_image"> </div>
-        <div id="playlist_player"> <p>YOUR CUSTOM PLAYLIST </p> </div>
+
+   <div class="col-md-1">
+      <div id="test">  
+      </div>
+
+   </div>
+
+ 
+
+   <div class="col-md-6">
+      <div class = "row">  
+         <div id="playlist"> 
+          <div class = "playlist_image" id ="engineplaylist_image"> </div>
+          <div id="playlist_player"> <p>YOUR CUSTOM PLAYLIST </p> </div>
+        </div>
+      </div>
+
+      <div class = "row">  
+        <div class="col-md-4">
+          <div class="engine_choice" id="engine_like"> 
+            <span id="like" class="glyphicon glyphicon-ok" aria-hidden="true"></span> 
+          </div> 
+        </div>
+        <div class="col-md-4"> 
+          <div class="engine_choice" id="engine_dislike"> 
+            <span id="dislike" class="glyphicon glyphicon-remove" aria-hidden="true">
+          </div>
+        </div>
+        <div class="col-md-4"> 
+         <div class="engine_choice" id="engine_save"> 
+            <span id="save" class="glyphicon glyphicon-floppy-disk" aria-hidden="true"> 
+          </div>
+
+        </div>
+
+      </div>
+
 
   </div>
+
+  
+
 
 
 </div>
