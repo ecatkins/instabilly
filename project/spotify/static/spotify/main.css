@@ -12,11 +12,11 @@ body {
     font-family: 'PT Sans', sans-serif;
 }
 
-.container {
-    width:110em;
-    margin: auto;
-}
 
+.row {
+    margin-left: 10em;
+    margin-right:10em;
+}
 input, textarea {
     color:black;
 }
@@ -30,9 +30,7 @@ textarea {
 #homespace {
     height:15em;
 }
-.carouselimage {
-    width: :100%;
-}
+
 
 .btn-home {
     height:3em;
@@ -43,12 +41,13 @@ textarea {
     border-radius: 3%;
     font-size: 2em;
     -webkit-transition-property: border-color; /* Safari */
-    transition-property: border-color;
+    transition-property: border-color,color;
     transition-duration: 1s;
 }
 
 .btn-home:hover {
     border-color:#2ebd59;
+    color:#2ebd59;
 }
 
 i {
@@ -158,7 +157,7 @@ td {
     width:100%;
     background : transparent;
     border-color:white;
-    border-width: 0.3em;
+    border-width: 0.2em;
     border-radius: 3%;
     font-size: 1.2em;
     -webkit-transition-property: border-color, color; /* Safari */
@@ -180,7 +179,7 @@ td {
     border-color:white;
     border-width: 0.2em;
     border-style: solid;
-    width: 80%;
+    width: 50%;
     margin:auto;
     position:absolute;
 }

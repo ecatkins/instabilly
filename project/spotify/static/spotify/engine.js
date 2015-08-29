@@ -66,8 +66,8 @@ $(document).ready(function() {
 	$('.fa-info').popover()
 
 
-	$(document).foundation();
-	$(document).foundation('slider', 'reflow');
+	// $(document).foundation();
+	// $(document).foundation('slider', 'reflow');
 	// $('#playlist_player').append('<img src="/static/spotify/spiffygif.png"/>') 
 
 	$(document).ajaxStart(function(){
