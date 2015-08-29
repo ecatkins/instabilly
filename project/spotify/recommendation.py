@@ -4,24 +4,18 @@ import random
 import datetime
 import pdb
 
-
-# test_user = User.objects.get(username="ecatkins")
-# test_user2 = User.objects.get(username="Wilson")
-# test_user3 = User.objects.get(username="adamrj")
-
-
-
 def test_get_usergenre_for_these_users(search=None):
 	if not search:
 		UserGenre.objects.values('id','proportion', 'user_id', 'genre_id')
-
-
-
 
 def get_genre_arrays(user):
 
 	all_user_genres = UserGenre.objects.values('id','proportion', 'user_id', 'genre_id').order_by('user_id')
 	genre_count = Genre.objects.count()
+	genres = Genre.objects.all()
+	genre_count_array = [i for i in range(genre_count)]
+	all_user_genres_pks = [j.pk for j in genres]
+	zipped_genre_dictionary = dict(zip(all_user_genres_pks,genre_count_array))
 	counter = -1
 	current_user_id = 0
 	id_array = []
@@ -40,7 +34,7 @@ def get_genre_arrays(user):
 		elif row['user_id'] == user.pk and not user_array:
 			user_array = [0] * genre_count
 			array = user_array
-		array[row['genre_id']-1] = row['proportion']
+		array[zipped_genre_dictionary[row['genre_id']]] = row['proportion']
 
 	if not any(x_array[-1]):
 		x_array.pop()
