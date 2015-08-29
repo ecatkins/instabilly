@@ -79,6 +79,11 @@ $(document).ready(function() {
 	$('#playlist_player').css({'height':pw+'px'});
 
 
+	// With JQuery
+	
+	$('.engineslider').slider()
+
+
     // $(document).ajaxComplete(function(){
     //     $("#playlist_player").empty();
 })
