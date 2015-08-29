@@ -121,6 +121,18 @@ $(document).ready(function(){
                 $button.text('Following');
                 $("#following-list tr:last").after("<tr id=" + following + "><td>" + following + "</td><td><button>Following</button>")
                 $("#" + following).find("button").addClass("btn followButton following")
+                $('button.followButton').hover(function(){
+                    $button = $(this);
+                    if($button.hasClass('following')){
+                        $button.addClass('unfollow');
+                        $button.text('Unfollow');
+                    }
+                }, function(){
+                    if($button.hasClass('following')){
+                        $button.removeClass('unfollow');
+                        $button.text('Following');
+                    }
+                });
             })
         }
     });
