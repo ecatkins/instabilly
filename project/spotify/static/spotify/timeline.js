@@ -1,3 +1,22 @@
+function updateFollowButtons(){
+    $.getJSON("/getfollowing", function(data){
+        var followlist = data['JSON_follow_list'];
+        $(".followButton").each(function(idx, button){
+            for (item in followlist) {
+                if ($(this).closest('tr').attr('id') === followlist[item]) {
+                    $(this).addClass('following');
+                    $(this).text('Following');
+                }
+                // else {
+                //     $(this).removeClass('following');
+                //     $(this).removeClass('unfollow');
+                //     $(this).text('Follow');
+                // }
+            }
+        });
+        console.log(followlist)       
+    });
+}        
 
 $(document).ready(function(){
     console.log(window);
@@ -16,17 +35,7 @@ $(document).ready(function(){
         $("#following-button").addClass("disabled").prop('disabled', true);
         $("#followers-button").addClass("active").prop('disabled', false);
         $("#followers-list").hide();
-        $.getJSON("/getfollowing", function(data){
-            var followlist = data['JSON_follow_list'];
-            $(".followButton").each(function(idx, button){
-                for (item in followlist) {
-                    if ($(this).closest('tr').attr('id') === followlist[item]) {
-                        $(this).addClass('following');
-                        $(this).text('Following');
-                    }
-                }       
-            });
-        });
+        updateFollowButtons();
     });
     $("#following-button").on("click", function() {
         if ($(this).hasClass("active")){
@@ -36,12 +45,14 @@ $(document).ready(function(){
             $("#followers-button").addClass("active").prop('disabled', false);
             $("#followers-list").hide();
             $("#following-list").show();
+            updateFollowButtons()
         }
         else {
             $(this).removeClass("disabled");
             $(this).addClass("active").prop('disabled', false);
             $("#followers-button").removeClass("active");
             $("#followers-button").addClass("disabled").prop('disabled', true);
+            updateFollowButtons()
         }
     })
 
@@ -53,12 +64,14 @@ $(document).ready(function(){
             $("#following-button").addClass("active").prop('disabled', false);
             $("#following-list").hide();
             $("#followers-list").show();
+            updateFollowButtons();
         }
         else {
             $(this).removeClass("disabled");
             $(this).addClass("active").prop('disabled', false);
             $("#following-button").removeClass("active");
             $("#following-button").addClass("disabled").prop('disabled', true);
+            updateFollowButtons();
         }
     })
 
@@ -90,25 +103,29 @@ $(document).ready(function(){
         var id = $(this).closest('tr').attr('id')
         console.log(id)
         if($button.hasClass('following')){
-            
-            
+                        
             $.post("/unfollow", {"id": id}, function(data){
                 console.log(data);
                 $button.removeClass('following');
                 $button.removeClass('unfollow');
                 $button.text('Follow');
-                $button.closest('tr').remove()
+                if ($button.closest('table').attr('id') === "following-list"){
+                    $button.closest('tr').remove()
+                }
             })       
         } else {
                 $.post("/follow", {'id': id}, function(data) {
-                console.log(data);
+                console.log("following ", data["following"]);
+                var following = data["following"]
                 $button.addClass('following');
                 $button.text('Following');
+                $("#following-list tr:last").after("<tr id=" + following + "><td>" + following + "</td><td><button>Following</button>")
+                $("#" + following).find("button").addClass("btn followButton following")
             })
         }
     });
     $('button.followButton').hover(function(){
-         $button = $(this);
+        $button = $(this);
         if($button.hasClass('following')){
             $button.addClass('unfollow');
             $button.text('Unfollow');
