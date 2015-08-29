@@ -6,15 +6,15 @@ $(document).ready(function() {
 
 		
 		
+		
 		var number_songs = $("#number_songs").val()
-		var follow = $('#follow').attr('data-slider')
-		var recency_effect =$('#recency').attr('data-slider')
-		var rating_effect = $('#rating').attr('data-slider')
-		var duplicate_artist = $("#duplicateartist").attr('data-slider')
-		var existing_playlist = $("#existingplaylist").attr('data-slider')
+		var follow = $('#follow').val()
+		var recency_effect =$('#recency').val()
+		var rating_effect = $('#rating').val()
+		var duplicate_artist = $("#duplicateartist").val()
+		var existing_playlist = $("#existingplaylist").val()
 		var post_data = {"type":"engine","number_songs":number_songs, "follow":follow, "recency_effect":recency_effect,"rating_effect":rating_effect,"duplicate_artist":duplicate_artist, "existing_playlist": existing_playlist}
 		
-
 		$.post('playlist', post_data, function(data) {
 			var uris = data['track_uris']
 			var cover_art = data['cover_art']
@@ -40,24 +40,43 @@ $(document).ready(function() {
 			 $('#engineplaylist_image_image').on('click', function() {
                 $(this).fadeOut(2000)
                 $("#playlist_player").css(({"border-color":"transparent",'z-index':'1'}));
-              	 $("#playlist_player").append('<span id="like" class="glyphicon glyphicon-ok" aria-hidden="true"></span><span id="dislike" class="glyphicon glyphicon-remove" aria-hidden="true">')  
-            })
+              	   
+            
 
-
-
-			// <span id="like" class="glyphicon glyphicon-ok" aria-hidden="true"></span><span id="dislike" class="glyphicon glyphicon-remove" aria-hidden="true">
-
-			$("#like").on("click", function() {
+              	$("#like").on("click", function() {
 				$.post("rating", {"uris": uris, "decision": "like"}, function(data){
+	
+					console.log('liked')
+				})
+					})
+				
+
+				$("#dislike").on("click", function() {
+						
+						$.post("rating", {"uris": uris, "decision": "dislike"}, function(data){
+							console.log('disliked')
+						})
+				})
+
+				$("#save").on("click", function() {
+						
+						$.post("saveplaylist", {"uris": uris}, function(data){
+							console.log('saved')
+						})
+				})	
+
+
+		   	})
+
+
+// $("#playlist_player").append('<span id="like" class="glyphicon glyphicon-ok" aria-hidden="true"></span><span id="dislike" class="glyphicon glyphicon-remove" aria-hidden="true">')
+
+
 			
-					console.log('hello')
-				})
-			})
-			$("#dislike").on("click", function() {
-				$.post("rating", {"uris": uris, "decision": "dislike"}, function(data){
-					console.log('hello')
-				})
-			})			
+
+					
+		
+
 		})
 	})
 
@@ -66,13 +85,10 @@ $(document).ready(function() {
 	$('.fa-info').popover()
 
 
-	// $(document).foundation();
-	// $(document).foundation('slider', 'reflow');
-	// $('#playlist_player').append('<img src="/static/spotify/spiffygif.png"/>') 
 
-	$(document).ajaxStart(function(){
-        $('#playlist_player').append('<img src="/static/spotify/spiffygif.gif"/>')  
-    });
+	// $(document).ajaxStart(function(){
+ //        $('#playlist_player').append('<img src="/static/spotify/spiffygif.gif"/>')  
+ //    });
 
 
     var pw = $('#playlist_player').width();
@@ -83,8 +99,10 @@ $(document).ready(function() {
 	
 	$('.engineslider').slider()
 
-
-    // $(document).ajaxComplete(function(){
-    //     $("#playlist_player").empty();
+	$('.engineslider').slider({
+		formatter: function(value) {
+		return 'Current value: ' + value;
+		}
+	});
 })
 

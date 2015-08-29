@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^engine$', EngineView.as_view(), name="engine"),
     url(r'^playlist$', PlaylistView.as_view(), name="playlist"),
     url(r'^rating$', RatingView.as_view(), name="rating"),
+    url(r'^saveplaylist$',SavePlaylistView.as_view(),name="save_playlist")
     url(r'^search$', SearchView.as_view(), name="search"),
     url(r'^track_uri$', TrackURIView.as_view(), name="track_uri"),
     url(r'^create_post$', CreatePostView.as_view(), name="create_post"),
