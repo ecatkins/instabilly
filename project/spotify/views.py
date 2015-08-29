@@ -90,7 +90,8 @@ class SyncView(View):
         follow_list = followlist_obj[0].following.all()
         exclude_list = list(follow_list) + list(user)
         post_list = Post.objects.exclude(user__in=exclude_list).order_by('-created_at')
-        return render(request, self.template, {"follow_list": follow_list, "post_list": post_list})
+        followers = FollowList.objects.filter(following=user[0])
+        return render(request, self.template, {"follow_list": follow_list, "followers": followers, "post_list": post_list})
 
 
 class GetFollowingView(View):

@@ -13,9 +13,11 @@ $(document).ready(function(){
 
     $("#following").on("click", function(event){
         event.preventDefault();
+        $("#following-button").addClass("disabled").prop('disabled', true);
+        $("#followers-button").addClass("active").prop('disabled', false);
+        $("#followers-list").hide();
         $.getJSON("/getfollowing", function(data){
             var followlist = data['JSON_follow_list'];
-            console.log(followlist)
             $(".followButton").each(function(idx, button){
                 for (item in followlist) {
                     if ($(this).closest('tr').attr('id') === followlist[item]) {
@@ -26,6 +28,39 @@ $(document).ready(function(){
             });
         });
     });
+    $("#following-button").on("click", function() {
+        if ($(this).hasClass("active")){
+            $(this).removeClass("active");
+            $(this).addClass("disabled").prop('disabled', true);
+            $("#followers-button").removeClass("disabled");
+            $("#followers-button").addClass("active").prop('disabled', false);
+            $("#followers-list").hide();
+            $("#following-list").show();
+        }
+        else {
+            $(this).removeClass("disabled");
+            $(this).addClass("active").prop('disabled', false);
+            $("#followers-button").removeClass("active");
+            $("#followers-button").addClass("disabled").prop('disabled', true);
+        }
+    })
+
+    $("#followers-button").on("click", function() {
+        if ($(this).hasClass("active")){
+            $(this).removeClass("active");
+            $(this).addClass("disabled").prop('disabled', true);
+            $("#following-button").removeClass("disabled");
+            $("#following-button").addClass("active").prop('disabled', false);
+            $("#following-list").hide();
+            $("#followers-list").show();
+        }
+        else {
+            $(this).removeClass("disabled");
+            $(this).addClass("active").prop('disabled', false);
+            $("#following-button").removeClass("active");
+            $("#following-button").addClass("disabled").prop('disabled', true);
+        }
+    })
 
     $.getJSON("/get_minifeed", function(data){
         var all_posts = data['all_posts'];
