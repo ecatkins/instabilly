@@ -312,6 +312,7 @@ class SavePlaylistView(View):
             r = requests.post(post_route,data=pay_load)
             print(r)
             token = r.json()['access_token']
+            print(r.json().keys())
             request.session['access_token'] = token
         print(token)
         sp = spotipy.Spotify(auth=token)
