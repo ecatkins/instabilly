@@ -112,6 +112,9 @@ $(document).ready(function(){
                 if ($button.closest('table').attr('id') === "following-list"){
                     $button.closest('tr').remove()
                 }
+                else {
+                    $("#following-list").find("#" + id).remove();
+                }
             })       
         } else {
                 $.post("/follow", {'id': id}, function(data) {
