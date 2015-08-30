@@ -248,7 +248,7 @@ class SeedUserLibraryView(View):
             r = requests.post(post_route,data=pay_load)
             token = r.json()['access_token']
             print(token)
-            request.session['user_token'] = token
+            request.session['access_token'] = token
             sp = spotipy.Spotify(auth=token)
             saved_tracks = get_user_saved_tracks(sp, user)
             playlist_tracks = get_user_playlist_tracks(sp, user)
@@ -270,7 +270,6 @@ class PlaylistView(View):
     def post(self,request):
         user = User.objects.get(pk=request.session['session_id'])
         playlist_type = request.POST.get("type")
-        print(playlist_type)
         number_songs = int(request.POST.get('number_songs'))
         # neighbors = int(request.POST.get('neighbors'))
         neighbors = 10
@@ -301,4 +300,23 @@ class RatingView(View):
 
 class SavePlaylistView(View):
     def post(self,request):
-        pass
+        if 'access_token' in request.session.keys():
+            token = request.session['access_token']
+        else:
+            user = User.objects.get(pk=request.session['session_id'])
+            post_route = "https://accounts.spotify.com/api/token"
+            callback = SPOTIPY_REDIRECT_URI
+            print(request.session['spotify_code'])
+            grant_type = "authorization_code"
+            pay_load = {"grant_type":grant_type, "code":request.session['spotify_code'], "redirect_uri":callback,"client_id":SPOTIPY_CLIENT_ID,"client_secret":SPOTIPY_CLIENT_SECRET}
+            r = requests.post(post_route,data=pay_load)
+            print(r)
+            token = r.json()['access_token']
+            request.session['access_token'] = token
+        print(token)
+        sp = spotipy.Spotify(auth=token)
+
+        username = sp.current_user()['id']
+        playlist_id = sp.user_playlist_create(username,"Hey hey")
+        print(playlist_id)
+        return JsonResponse({"Success":"success"})
