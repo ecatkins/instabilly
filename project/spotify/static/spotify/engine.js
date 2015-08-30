@@ -26,8 +26,6 @@ $(document).ready(function() {
 			$('#engineplaylist_image_image').css({'z-index':'1'});
 
 
-
-			// $("#engineplaylist_image").css('background-image',cover_art)
 			string = ""
 			for (song in uris) {
 				string += uris[song] + ','
@@ -61,7 +59,10 @@ $(document).ready(function() {
 				$("#save").on("click", function() {
 						
 						$.post("saveplaylist", {"uris": uris}, function(data){
-							console.log('saved')
+							if (data['status'] === "success") {
+								console.log("Success")
+
+							}
 						})
 				})	
 

@@ -46,7 +46,6 @@ class RegistrationView(View):
             follow_list.save()
             profile = UserProfile(user=user, is_real=True, updated_genres=datetime.datetime.now())
             profile.save()
-            request.session['post_oauth'] = 'timeline'
             return redirect("oauth")
         else:
             errors = registration_form.errors.as_json()
@@ -61,7 +60,6 @@ class LoginView(View):
         user = User.objects.filter(username=username)
         if len(user) == 1 and check_password(password, user[0].password):
             request.session['session_id'] = user[0].pk
-            request.session['post_oauth'] = 'timeline'
             return redirect("oauth")
         else:
             return render(request, 'spotify/home.html', {"login_form": UserForm(), "login_error": "Invalid credentials.", "registration_form": RegistrationForm()})
@@ -82,20 +80,12 @@ class OauthView(View):
         return redirect(url)
 
 
-
-class CallbackView(View):
+class SyncView(View):
+    template = "spotify/index.html"
 
     def get(self,request):
         code = request.GET.get('code')
         request.session['spotify_code'] = code
-        if request.session['post_oauth'] == 'timeline':
-            return redirect('timeline')
-
-
-class TimelineView(View):
-    template = "spotify/index.html"
-
-    def get(self,request):
         user = User.objects.filter(pk=request.session['session_id'])
         followlist_obj = FollowList.objects.filter(user=user[0])
         follow_list = followlist_obj[0].following.all()
@@ -317,23 +307,19 @@ class SavePlaylistView(View):
             user = User.objects.get(pk=request.session['session_id'])
             post_route = "https://accounts.spotify.com/api/token"
             callback = SPOTIPY_REDIRECT_URI
-            print(request.session['spotify_code'])
             grant_type = "authorization_code"
             pay_load = {"grant_type":grant_type, "code":request.session['spotify_code'], "redirect_uri":callback,"client_id":SPOTIPY_CLIENT_ID,"client_secret":SPOTIPY_CLIENT_SECRET}
             r = requests.post(post_route,data=pay_load)
-            print(r)
             token = r.json()['access_token']
             refresh_token = r.json()['refresh_token']
             request.session['access_token'] = token
             request.session['refresh_token'] = refresh_token
-        print(token)
         sp = spotipy.Spotify(auth=token)
-
         username = sp.current_user()['id']
         name = "NewPlaylist{0}".format(random.randrange(1,1000))
         new_playlist = sp.user_playlist_create(username,name)
-        
+        new_playlist_id = new_playlist['id']
         track_uris = request.POST.getlist('uris[]')
-        print(track_uris)
-        print(new_playlist)
-        return JsonResponse({"Success":"success"})
+        full_track_uris = ["spotify:track:" + track for track in track_uris]
+        sp.user_playlist_add_tracks(username,new_playlist_id,full_track_uris)
+        return JsonResponse({"status":"success"})
