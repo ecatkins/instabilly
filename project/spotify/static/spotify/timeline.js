@@ -1,7 +1,8 @@
 function updateFollowButtons(){
     $.getJSON("/getfollowing", function(data){
         var followlist = data['JSON_follow_list'];
-        $(".followButton").each(function(idx, button){
+        $(".followButton").each(function(){
+            console.log($(this))
             for (item in followlist) {
                 if ($(this).closest('tr').attr('id') === followlist[item]) {
                     $(this).addClass('following');
