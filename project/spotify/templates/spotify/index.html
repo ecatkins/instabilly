@@ -59,7 +59,7 @@
 <div class="row page">  
     <div class="col-md-9">
         <h3>Your Stream</h3>
-        <div id="mini-feed"></div>
+        <table id="mini-feed" class="table table-striped"></table>
     </div>
 
 
@@ -200,7 +200,7 @@
                 {% if post_list %}
                     <table id="users-list">
                     {% for post in post_list %}
-                        <tr id="{{ post.pk }}">
+                        <tr id="{{ post.user }}">
                             <td>{{ post.user }}</td>
                             <td>{{ post.content }}</td>
                             <td><iframe src="https://embed.spotify.com/?uri={{ post.song.song.track_uri }}" width="250" height="80" frameborder="0" allowtransparency="true"></iframe></td>

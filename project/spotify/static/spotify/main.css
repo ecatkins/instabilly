@@ -106,6 +106,22 @@ td {
     color: black;
 }
 
+.minifeed-post td p {
+    color: white;
+
+}
+
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+/*   background-color: #1c1c1f;
+*/   background-color: #383838;
+}  
+
+
+.table-striped:nth-child(even) {
+/*    background-color: #383838;
+*/    background-color: #1c1c1f;
+}   
+
 .glyphicon {
     font-size: 2em;
 }

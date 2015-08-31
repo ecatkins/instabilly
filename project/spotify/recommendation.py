@@ -10,7 +10,7 @@ def test_get_usergenre_for_these_users(search=None):
 
 def get_genre_arrays(user):
 
-	all_user_genres = UserGenre.objects.values('id','proportion', 'user_id', 'genre_id').order_by('user_id')
+	all_user_genres = UserGenre.objects.filter(proportion__gt = 0).values('id','proportion', 'user_id', 'genre_id').order_by('user_id')
 	genre_count = Genre.objects.count()
 	genres = Genre.objects.all()
 	genre_count_array = [i for i in range(genre_count)]
@@ -23,23 +23,15 @@ def get_genre_arrays(user):
 	user_array = []
 	for row in all_user_genres:
 		if row['user_id'] != current_user_id and row['user_id'] != user.pk:
-			if current_user_id and not any(x_array[counter]):
-				id_array[counter] = row['user_id']
-			else:	
-				id_array.append(row['user_id'])
-				x_array.append([0] * genre_count)
-				counter+=1
+			id_array.append(row['user_id'])
+			x_array.append([0] * genre_count)
+			counter += 1
 			current_user_id = row['user_id']
 			array = x_array[counter]
 		elif row['user_id'] == user.pk and not user_array:
 			user_array = [0] * genre_count
 			array = user_array
 		array[zipped_genre_dictionary[row['genre_id']]] = row['proportion']
-
-	if not any(x_array[-1]):
-		x_array.pop()
-		id_array.pop()
-
 	return id_array, x_array, user_array
 
 
@@ -55,8 +47,6 @@ def similar_users(user,neighbors):
 	neigh.fit(x_array, y_array)
 	result = neigh.kneighbors((user_array),neighbors)
 	similar_users = [[id_array[result[1][0][x]],result[0][0][x]] for x in range(neighbors)]
-	# print(similar_users)
-	# print(User.objects.filter(pk__in=[x[0] for x in similar_users]).values_list('username',flat=True))
 	return similar_users
 
 def follow_users(similar,follow_number,follow_list):
@@ -65,8 +55,6 @@ def follow_users(similar,follow_number,follow_list):
 	for x in range(follow_number):
 		random_follow_id = random.choice(follow_list).pk
 		follow_users.append([random_follow_id,similar_distances_average])
-	# print(follow_users)
-	# print(User.objects.filter(pk__in=[x[0] for x in follow_users]).values_list('username',flat=True))
 	return follow_users
 
 def weighted_choice(weights):
@@ -125,10 +113,12 @@ def create_playlist(user,neighbors,follow_effect,number_songs,recency_effect,rat
 	 Returns: Array of song objects '''
 	#Ensures that the neighbors are limited while the userbase is small
 	neighbors = int(min(neighbors,User.objects.all().count()/2))
-	follow_list = FollowList(user=user).following.all()
+
+	follow_list = [follower for follower in FollowList(user=user).following.all() if follower.song_set.exists()]
 	follow_number = int(neighbors * follow_effect)
 	reduced_neighbors = neighbors - follow_number
 	if reduced_neighbors == 0:
+		# pdb.set_trace()
 		similar = [[None,1]]
 	else:
 		similar = similar_users(user,reduced_neighbors)

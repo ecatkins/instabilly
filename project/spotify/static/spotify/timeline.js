@@ -77,7 +77,7 @@ $(document).ready(function(){
         var all_posts = data['all_posts'];
         var count = 0;
         for (post in all_posts) {
-            $("#mini-feed").append("<div id=minifeed" + count + "><p>posted by: " + all_posts[post].user + "</p><p>" + all_posts[post].content + "</p><p><iframe src='https://embed.spotify.com/?uri=" + all_posts[post].track_uri + "'width=250 height=80 frameborder=0 allowtransparency=true></iframe></p>");
+            $("#mini-feed").append("<tr id=minifeed" + count + " class=minifeed-post><td><p>posted by: " + all_posts[post].user + "</p><p>" + all_posts[post].content + "</p></td><td><iframe src='https://embed.spotify.com/?uri=" + all_posts[post].track_uri + "'width=250 height=80 frameborder=0 allowtransparency=true></iframe></td></tr>");
             count += 1;
         }
     });
@@ -114,7 +114,8 @@ $(document).ready(function(){
                 $button.removeClass('unfollow');
                 $button.text('Follow');
                 if ($button.closest('table').attr('id') === "following-list"){
-                    $button.closest('tr').remove()
+                    $button.closest('tr').remove();
+                    $("#followers-list").find("#" + id).find("button").removeClass("following").text("Follow");
                 }
                 else {
                     $("#following-list").find("#" + id).remove();
@@ -155,6 +156,12 @@ $(document).ready(function(){
             $button.text('Following');
         }
     });
+
+    $("#find").on("click", function() {
+        event.preventDefault();
+        updateFollowButtons();
+    })
+
     $("#createpost").on("click", function() {
         $("#searchresult_list").empty();
     })

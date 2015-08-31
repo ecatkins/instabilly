@@ -1,0 +1,13 @@
+{%extends 'spotify/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+We have sent an email with an activation code to the email address provided.  Please copy and paste that code into the field below to activate your account.
+
+<form id="activation" action="oauth" method="GET">
+    <input type="text" name="activation_code" placeholder="activation code">
+    <input type="submit" value="Activate!">
+</form>
+
+{% endblock %}
+
