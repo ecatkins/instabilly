@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.contrib.auth.models import User
 User._meta.get_field('email')._unique = True
@@ -34,12 +35,16 @@ class Artist(models.Model):
     name = models.CharField(max_length=100)
     genres = models.ManyToManyField(Genre)
  
+class UserActivationCode(models.Model):
+    user = models.OneToOneField(User, primary_key=True)
+    code = models.UUIDField(default=uuid.uuid4, editable=False)
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key=True)
-    is_real = models.BooleanField()
+    activated = models.BooleanField(default=False)
     updated_genres = models.DateTimeField()
-
+    active = models.BooleanField(default=False)
+    verified = models.BooleanField(default=False)
 
 class FollowList(models.Model):
     user = models.OneToOneField(User, primary_key=True)

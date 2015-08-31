@@ -1,12 +1,13 @@
 from django.conf.urls import include, url
 from django.contrib import admin
-from spotify.views import HomeView, OauthView, TimelineView, RegistrationView, LoginView, SeedUserLibraryView, LogoutView, GetFollowingView, FollowView, UnfollowView, SearchView, TrackURIView, CreatePostView, EngineView, PlaylistView, GetMiniFeedView, RatingView, SavePlaylistView, CallbackView
+from spotify.views import HomeView, OauthView, TimelineView, RegistrationView, ActivationView, LoginView, SeedUserLibraryView, LogoutView, GetFollowingView, FollowView, UnfollowView, SearchView, TrackURIView, CreatePostView, EngineView, PlaylistView, GetMiniFeedView, RatingView, SavePlaylistView, CallbackView
 
 
 urlpatterns = [
     url(r'^$', HomeView.as_view(), name="home"),
     url(r'^oauth$', OauthView.as_view(), name="oauth"),
     url(r'^registration$', RegistrationView.as_view(), name="registration"),
+    url(r'^activation$', ActivationView.as_view(), name="activation"),
     url(r'^login$', LoginView.as_view(), name="login"),
     url(r'^logout$', LogoutView.as_view(), name="logout"),
     url(r'^callback', CallbackView.as_view(), name="callback"),
