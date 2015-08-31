@@ -40,6 +40,7 @@ def similar_users(user,neighbors):
 	''' Pass: the active user object and the number of neighbors to calculate
 		Returns: An array of similar users, containing the username and the distance to that user on the genre-dimensional plot
 	 '''
+	# pdb.set_trace()
 	id_array, x_array,user_array = get_genre_arrays(user)
 	y_array = [random.random() for x in range(len(x_array))]
 	neigh = KNeighborsClassifier(n_neighbors=neighbors)
@@ -122,7 +123,6 @@ def create_playlist(user,neighbors,follow_effect,number_songs,recency_effect,rat
 	else:
 		similar = similar_users(user,reduced_neighbors)
 	if follow_number > 0:
-		# pdb.set_trace()
 		followees = follow_users(similar,follow_number,follow_list)
 		follow_similar = similar + followees
 		#HACKY
@@ -136,7 +136,6 @@ def create_playlist(user,neighbors,follow_effect,number_songs,recency_effect,rat
 
 	### Weighting factor 1, similarity to current user
 	distances = [1/x[1] for x in similar]
-	# pdb.set_trace()
 	for song_number in song_choice:
 		recommendation_array = []
 		replication_array = []

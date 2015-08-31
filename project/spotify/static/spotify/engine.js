@@ -25,24 +25,44 @@ $(document).ready(function() {
 			$('#engineplaylist_image_image').css({'height':iw+'px'});
 			$('#engineplaylist_image_image').css({'z-index':'1'});
 
+			/// Setting the size of the box and image and player based on the generator width
+			var generator_height = $("#generator_options").height()
+			$("#engineplaylist_image").css("width",generator_height)
+			$("#engineplaylist_image_image").css("width",generator_height)
+			$("#engineplaylist_image_image").css("height",generator_height)
+			$('#playlist_player').css("width",generator_height)
+			$('#playlist_player').css("height",generator_height)
+
+			/// Setting the size of the buttons
+			$(".engine_choice").css(({"height":generator_height/3}))
+
+
+
+
 
 			string = ""
 			for (song in uris) {
 				string += uris[song] + ','
 			}
 			string = string.substring(0, string.length - 1);
-			$('#playlist_player').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="450" height="450" frameborder="0" allowtransparency="true"></iframe>')
+			$('#playlist_player').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="'+generator_height+'" height="'+generator_height+'" frameborder="0" allowtransparency="true"></iframe>')
 			$('#playlist_player').css(({'z-index':'-1'}))
 			$('iframe').css(({'border-color':'white','border-width':'0.2em','border-style':'solid'}))
 
-			
+			/// When the user clicks on the image of the playlist ///
 			 $('#engineplaylist_image_image').on('click', function() {
                 $(this).fadeOut(2000);
+                setTimeout(function() {
+                	$("#playlist_player").css("z-index",1)
+                	$("#engine_buttons").css({"display":"table"})
+                	$(".engine_choice").css({"display":"table-cell","vertical-align":"middle"})
+                },2000)
+
+
 
             
               	   
-            
-
+       
               	$("#like").on("click", function() {
 				$.post("rating", {"uris": uris, "decision": "like"}, function(data){
 	

@@ -31,7 +31,7 @@
 
 
 <div class="row page">
-      <div class="col-md-5">
+      <div class="col-md-5" id="generator_options">
         <div class="row">
             <div class="col-md-4">
                 Number of songs <i id="number_songs_info" class="fa fa-info"data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Select the number of songs to be in your custom playlist."
@@ -117,40 +117,41 @@
 
    <div class="col-md-6">
       <div class = "row">  
-         <div id="playlist"> 
-          <div class = "playlist_image" id ="engineplaylist_image"> </div>
-          <div id="playlist_player">  </div>
-        </div>
-      </div>
-
-      <div class = "row">  
-        <div class="col-md-4">
+         <!-- The playlist -->
+         <div class ="col-md-8">
+          <div id="playlist"> 
+            <div class = "playlist_image" id ="engineplaylist_image"> </div>
+            <div id="playlist_player">  </div>
+          </div>
+         </div>
+        <!--  The buttons -->
+         <div id="engine_buttons" class ="col-md-4">
+         <!-- Like button -->
           <div class="engine_choice" id="engine_like"> 
-            <span id="like" class="glyphicon glyphicon-ok" aria-hidden="true"></span> 
-          </div> 
-        </div>
-        <div class="col-md-4"> 
+            <span id="like" class="glyphicon glyphicon-ok" aria-hidden="true" display="None"></span> 
+          </div>
+          <!-- Dislike button -->
           <div class="engine_choice" id="engine_dislike"> 
             <span id="dislike" class="glyphicon glyphicon-remove" aria-hidden="true">
-          </div>
-        </div>
-        <div class="col-md-4"> 
-         <div class="engine_choice" id="engine_save"> 
+          </div> 
+         <!--  Save button -->
+          <div class="engine_choice" id="engine_save"> 
             <span id="save" class="glyphicon glyphicon-floppy-disk" aria-hidden="true"> 
           </div>
 
+
+        </div>
+
         </div>
 
       </div>
+    </div>
 
-
-  </div>
 
   
 
 
 
-</div>
 
 
 

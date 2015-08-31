@@ -89,9 +89,15 @@ $(document).ready(function(){
     $(document).ajaxComplete(function(){
         $("#loading").empty();
     });
-    $("#sync").on("click", function(){
+
+
+    //// Syncs the users playlist, 
+    $("#sync").on("click", function(event){
+        event.preventDefault();
         $.getJSON("/seed", function(data){
-            console.log(data);
+            if (data['status'] === "redirect") {
+                $(location).attr('href', '/')
+            }
         })
     })
 
@@ -210,14 +216,25 @@ $(document).ready(function(){
     var post_data = {"type":"your_home","number_songs":number_songs, "follow":follow, "recency_effect":recency_effect,"rating_effect":rating_effect,"duplicate_artist":duplicate_artist, "existing_playlist": existing_playlist}
 
     $.post('playlist', post_data, function(data) {
-            var uris = data['track_uris']
+            var your_uris = data['track_uris']
             var cover_art = data['cover_art']
             $("#yourplaylist_image").append('<img id="yourplaylist_image_image" src="'+ cover_art +'">')
             $("#yourplaylist_image").css("width","80%")
             $("#yourplaylist_image_image").css("width","100%");
+
+
+            /// setting the position of the buttons
+            var div_width = $("#yourplaylist").width()
+            var imageheight =  $("#yourplaylist_image").width();
+            var buttons_width = $("#yourplaylist_buttons").width()
+            var buttons_centre = (div_width - imageheight) + 0.5 * imageheight - 0.5 * buttons_width 
+            $("#yourplaylist_buttons").css({"top":imageheight,"left":buttons_centre})
+
+
+
             var string = ""
-            for (var song in uris) {
-                string += uris[song] + ','
+            for (var song in your_uris) {
+                string += your_uris[song] + ','
             }
             string = string.substring(0, string.length - 1);
             $('#yourplaylist_playlist').css("width","80%");
@@ -228,23 +245,31 @@ $(document).ready(function(){
             $('#yourplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="'+pw+'" height="'+pw+'" frameborder="0" allowtransparency="true"></iframe>')
             
 
-
+            /// When the user clicks on the image of the playlist ///
             $('#yourplaylist img').on('click', function() {
                 $(this).fadeOut(2000)
+                $("#yourplaylist_buttons").css("display","inline")
+                /// Bind the like save and dislike events to the button
+                $("#yourplaylist_like").on("click", function() {
+                    $.post("rating", {"uris": your_uris, "decision": "like"}, function(data){
+                        console.log('hello')
+                    })
+                })
+                $("#yourplaylist_dislike").on("click", function() {
+                    $.post("rating", {"uris": your_uris, "decision": "dislike"}, function(data){
+                        console.log('hello')
+                    })
+                })
+                $("#yourplaylist_save").on("click", function() {
+                    $.post("saveplaylist", {"uris": your_uris}, function(data){
+                        console.log('saved')
+                    })
+                })
             })
 
 
-            $("#like").on("click", function() {
-                $.post("rating", {"uris": uris, "decision": "like"}, function(data){
-            
-                    console.log('hello')
-                })
-            })
-            $("#dislike").on("click", function() {
-                $.post("rating", {"uris": uris, "decision": "dislike"}, function(data){
-                    console.log('hello')
-                })
-            })          
+
+                     
         })
 
     /// Friends ///
@@ -258,14 +283,24 @@ $(document).ready(function(){
 
 
     $.post('playlist', post_data2, function(data) {
-            var uris = data['track_uris']
+            var friends_uris = data['track_uris']
             var cover_art = data['cover_art']
             $("#friendsplaylist_image").html('<img id=friendsplaylist_image_image src="'+ cover_art +'">');
             $("#friendsplaylist_image").css("width","80%");
             $("#friendsplaylist_image_image").css("width","100%");
+            
+            /// setting the position of the buttons
+            var div_width = $("#friendsplaylist").width()
+            var imageheight =  $("#friendsplaylist_image").width();
+            var buttons_width = $("#friendsplaylist_buttons").width()
+            var buttons_centre = (div_width - imageheight) + 0.5 * imageheight - 0.5 * buttons_width 
+            $("#friendsplaylist_buttons").css({"top":imageheight,"left":buttons_centre})
+
+
+
             var string = ""
-            for (var song in uris) {
-                string += uris[song] + ','
+            for (var song in friends_uris) {
+                string += friends_uris[song] + ','
             }
             string = string.substring(0, string.length - 1);
             $('#friendsplaylist_playlist').css("width","80%");
@@ -273,8 +308,28 @@ $(document).ready(function(){
             $('#friendsplaylist_playlist').css({'height':pw+'px'});
             $('#friendsplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="'+pw+'" height="'+pw+'" frameborder="0" allowtransparency="true"></iframe>')
 
+
+            /// When the user clicks on the image of the playlist ///
             $('#friendsplaylist img').on('click', function() {
                 $(this).fadeOut(2000)
+                $("#friendsplaylist_buttons").css("display","inline")
+                /// Bind the like save and dislike events to the button
+                $("#friendsplaylist_like").on("click", function() {
+                    $.post("rating", {"uris": friends_uris, "decision": "like"}, function(data){
+                        console.log('hello')
+                    })
+                })
+                $("#friendsplaylist_dislike").on("click", function() {
+                    $.post("rating", {"uris": friends_uris, "decision": "dislike"}, function(data){
+                        console.log('hello')
+                    })
+                })
+                $("#friendsplaylist_save").on("click", function() {
+                    $.post("saveplaylist", {"uris": friends_uris}, function(data){
+                        console.log('saved')
+                    })
+                })
+
             })
          
         })
