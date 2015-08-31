@@ -33,11 +33,13 @@ $(document).ready(function() {
 			string = string.substring(0, string.length - 1);
 			$('#playlist_player').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="450" height="450" frameborder="0" allowtransparency="true"></iframe>')
 			$('#playlist_player').css(({'z-index':'-1'}))
+			$('iframe').css(({'border-color':'white','border-width':'0.2em','border-style':'solid'}))
 
 			
 			 $('#engineplaylist_image_image').on('click', function() {
-                $(this).fadeOut(2000)
-                $("#playlist_player").css(({"border-color":"transparent",'z-index':'1'}));
+                $(this).fadeOut(2000);
+
+            
               	   
             
 
@@ -67,21 +69,11 @@ $(document).ready(function() {
 				})	
 
 
-		   	})
-
-
-// $("#playlist_player").append('<span id="like" class="glyphicon glyphicon-ok" aria-hidden="true"></span><span id="dislike" class="glyphicon glyphicon-remove" aria-hidden="true">')
-
-
-			
-
-					
-		
+		   	})		
 
 		})
 	})
 
-	
 
 	$('.fa-info').popover()
 

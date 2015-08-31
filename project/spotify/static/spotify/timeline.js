@@ -20,9 +20,6 @@ function updateFollowButtons(){
 }        
 
 $(document).ready(function(){
-    console.log(window);
-    console.log(window.test2.eddy);
-    
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -215,13 +212,22 @@ $(document).ready(function(){
     $.post('playlist', post_data, function(data) {
             var uris = data['track_uris']
             var cover_art = data['cover_art']
-            $("#yourplaylist_image").append('<img src="'+ cover_art +'">')
+            $("#yourplaylist_image").append('<img id="yourplaylist_image_image" src="'+ cover_art +'">')
+            $("#yourplaylist_image").css("width","80%")
+            $("#yourplaylist_image_image").css("width","100%");
             var string = ""
             for (var song in uris) {
                 string += uris[song] + ','
             }
             string = string.substring(0, string.length - 1);
-            $('#yourplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="300" height="300" frameborder="0" allowtransparency="true"></iframe>')
+            $('#yourplaylist_playlist').css("width","80%");
+            var pw = $('#yourplaylist_playlist').width();
+            $('#yourplaylist_playlist').css({'height':pw+'px'});
+
+
+            $('#yourplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="'+pw+'" height="'+pw+'" frameborder="0" allowtransparency="true"></iframe>')
+            
+
 
             $('#yourplaylist img').on('click', function() {
                 $(this).fadeOut(2000)
@@ -254,13 +260,18 @@ $(document).ready(function(){
     $.post('playlist', post_data2, function(data) {
             var uris = data['track_uris']
             var cover_art = data['cover_art']
-            $("#friendsplaylist_image").html('<img src="'+ cover_art +'">')
+            $("#friendsplaylist_image").html('<img id=friendsplaylist_image_image src="'+ cover_art +'">');
+            $("#friendsplaylist_image").css("width","80%");
+            $("#friendsplaylist_image_image").css("width","100%");
             var string = ""
             for (var song in uris) {
                 string += uris[song] + ','
             }
             string = string.substring(0, string.length - 1);
-            $('#friendsplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="300" height="300" frameborder="0" allowtransparency="true"></iframe>')
+            $('#friendsplaylist_playlist').css("width","80%");
+            var pw = $('#friendsplaylist_playlist').width();
+            $('#friendsplaylist_playlist').css({'height':pw+'px'});
+            $('#friendsplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="'+pw+'" height="'+pw+'" frameborder="0" allowtransparency="true"></iframe>')
 
             $('#friendsplaylist img').on('click', function() {
                 $(this).fadeOut(2000)
@@ -268,6 +279,15 @@ $(document).ready(function(){
          
         })
 
+
+$('#testpopover').popover({
+    html:true,
+    title:"header",
+    content: function() {
+        return '<span id="like" class="glyphicon glyphicon-ok" aria-hidden="true"></span>'  
+    }
+
+})
 
 })
 
