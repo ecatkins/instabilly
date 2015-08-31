@@ -79,6 +79,7 @@ class OauthView(View):
     def get(self,request):
         x = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID,SPOTIPY_CLIENT_SECRET,SPOTIPY_REDIRECT_URI,scope="playlist-read-private user-library-modify playlist-modify-public playlist-modify-private")
         url = x.get_authorize_url()
+        print("oauth")
         return redirect(url)
 
 
@@ -86,11 +87,13 @@ class OauthView(View):
 class CallbackView(View):
 
     def get(self,request):
+        print("callback")
         code = request.GET.get('code')
         request.session['spotify_code'] = code
         if request.session['post_oauth'] == 'timeline':
             return redirect('timeline')
-        elif request.ession['post_oauth'] == 'seed_user_library':
+        elif request.session['post_oauth'] == 'seed_user_library':
+            print("correct callbkac")
             return redirect('seed')
 
 
@@ -193,6 +196,7 @@ class GetMiniFeedView(View):
 
 
 def save_songs(song_list, user):
+    print("Yes")
     save_count = 0
     for item in song_list:
         try:
@@ -286,9 +290,11 @@ class SeedUserLibraryView(View):
             request.session['post_oauth'] = "seed_user_library"
             return redirect('oauth')
         sp = spotipy.Spotify(auth=token)
+        user = User.objects.get(pk=request.session['session_id'])
         saved_tracks = get_user_saved_tracks(sp, user)
         playlist_tracks = get_user_playlist_tracks(sp, user)
         seed_one_user(user)
+        print("here2")
         if saved_tracks & playlist_tracks:
             return JsonResponse({"status": "Success"})
         else:
