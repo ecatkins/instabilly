@@ -232,6 +232,9 @@ td {
     width:100%
 }
 
+#engine_buttons {
+    display: none;
+}
 
 
 
