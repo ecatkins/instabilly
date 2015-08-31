@@ -132,7 +132,6 @@ def create_playlist(user,neighbors,follow_effect,number_songs,recency_effect,rat
 	else:
 		similar = similar_users(user,reduced_neighbors)
 	if follow_number > 0:
-		# pdb.set_trace()
 		followees = follow_users(similar,follow_number,follow_list)
 		follow_similar = similar + followees
 		#HACKY
@@ -146,7 +145,6 @@ def create_playlist(user,neighbors,follow_effect,number_songs,recency_effect,rat
 
 	### Weighting factor 1, similarity to current user
 	distances = [1/x[1] for x in similar]
-	# pdb.set_trace()
 	for song_number in song_choice:
 		recommendation_array = []
 		replication_array = []

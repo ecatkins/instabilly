@@ -156,6 +156,15 @@ td {
     right:0;
 }
 
+
+#friendsplaylist_buttons {
+    display: none
+}
+
+#yourplaylist_buttons {
+    display: none
+}
+
 /*engine.html specific*/
 
 
