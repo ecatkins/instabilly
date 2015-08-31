@@ -68,16 +68,38 @@
     <div id="eddy" class="col-md-3">
         <h3> Your personalised playlists </h3>
         <br>
-        <h4><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>You</h4>
+        <h4>You</h4>
             <div class = "timelineplaylist" id="yourplaylist"> 
                 <div class = "playlist_image" id ="yourplaylist_image"> </div>
-                <div id="yourplaylist_playlist" class="playlist_playlist"> </div> 
+                <div id="yourplaylist_playlist" class="playlist_playlist"> </div>
+                <div id="yourplaylist_buttons" class="btn-group" role="group" aria-label="...">
+                  <button id="yourplaylist_like" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                  </button>
+                  <button id="yourplaylist_dislike" type="button" class="btn btn-default">
+                      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                  </button>
+                  <button id="yourplaylist_save"  type="button" class="btn btn-default">
+                      <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                  </button>
+    
+                </div> 
             </div>
 
-            <span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span><h4>Your Friends</h4>
+          <h4>Your Friends</h4>
             <div class = "timelineplaylist" id="friendsplaylist"> 
                 <div class = "playlist_image" id ="friendsplaylist_image"> </div>
                 <div class="playlist_playlist" id ="friendsplaylist_playlist"> </div>
+                <div id="friendsplaylist_buttons" class="btn-group" role="group" aria-label="...">
+                  <button id="friendsplaylist_like" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+                  <button type="button" class="btn btn-default">
+                    <span id="friendsplaylist_dislike" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" class="btn btn-default">
+                    <span id="friendsplaylist_save" class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                  </button>
+                </div>
             </div>
         </div>
     </div>

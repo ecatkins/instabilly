@@ -35,14 +35,13 @@ $(document).ready(function() {
 			$('#playlist_player').css(({'z-index':'-1'}))
 			$('iframe').css(({'border-color':'white','border-width':'0.2em','border-style':'solid'}))
 
-			
+			/// When the user clicks on the image of the playlist ///
 			 $('#engineplaylist_image_image').on('click', function() {
                 $(this).fadeOut(2000);
 
             
               	   
-            
-
+       
               	$("#like").on("click", function() {
 				$.post("rating", {"uris": uris, "decision": "like"}, function(data){
 	
