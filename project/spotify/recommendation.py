@@ -48,6 +48,7 @@ def similar_users(user,neighbors):
 	''' Pass: the active user object and the number of neighbors to calculate
 		Returns: An array of similar users, containing the username and the distance to that user on the genre-dimensional plot
 	 '''
+	# pdb.set_trace()
 	id_array, x_array,user_array = get_genre_arrays(user)
 	y_array = [random.random() for x in range(len(x_array))]
 	neigh = KNeighborsClassifier(n_neighbors=neighbors)

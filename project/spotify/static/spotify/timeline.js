@@ -89,9 +89,15 @@ $(document).ready(function(){
     $(document).ajaxComplete(function(){
         $("#loading").empty();
     });
-    $("#sync").on("click", function(){
+
+
+    //// Syncs the users playlist, 
+    $("#sync").on("click", function(event){
+        event.preventDefault();
         $.getJSON("/seed", function(data){
-            console.log(data);
+            if (data['status'] === "redirect") {
+                $(location).attr('href', '/')
+            }
         })
     })
 
