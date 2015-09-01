@@ -1,7 +1,6 @@
 from spotify.models import User, Genre, UserGenre, UserSong, UserProfile
 import datetime
 
-# testuser = User.objects.get(username="ecatkins")
 
 def seed_one_user(user):
 	all_genre_names = [x.name for x in Genre.objects.all()]

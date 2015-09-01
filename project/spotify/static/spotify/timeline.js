@@ -20,7 +20,23 @@ function updateFollowButtons(){
 }       
 
 
- 
+//// Eddy's Space ////
+
+/// Call this on any event that changes the number of ///
+///songs, following or followers of a user ///
+function update_user_profile() {
+        $.get('updateprofile', function(data,status) {
+                var song_count = data['song_count']
+                var following_count = data['following_count']
+                var followers_count = data['followers_count']
+                $("#profile_songs span").html(song_count)
+                $("#profile_followers span").html(following_count)
+                $("#profile_following span").html(followers_count)
+            })
+        }        
+
+/////////////////////////////////////////////
+
 
 $(document).ready(function(){
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -30,6 +46,9 @@ $(document).ready(function(){
 
     ga('create', 'UA-66616301-1', 'auto');
     ga('send', 'pageview');
+
+    update_user_profile()
+
 
     $("#following").on("click", function(event){
         event.preventDefault();
@@ -224,6 +243,15 @@ $(document).ready(function(){
             }
         });
     });
+
+
+    //// Generate user profile ////
+
+    
+
+
+
+
 
 
     /////// Generates playlists ///////

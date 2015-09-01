@@ -69,6 +69,7 @@ class ActivationView(View):
     template = "spotify/activation.html"
 
     def get(self, request):
+        request.session['post_oauth'] = 'timeline'
         return render(request, self.template)
 
 
@@ -146,6 +147,20 @@ class TimelineView(View):
         post_list = Post.objects.exclude(user__in=exclude_list).order_by('-created_at')
         followers = FollowList.objects.filter(following=user[0])
         return render(request, self.template, {"follow_list": follow_list, "followers": followers, "post_list": post_list})
+
+
+class UpdateProfileView(View):
+
+    def get(self,request):
+        user = User.objects.get(pk=request.session['session_id'])
+        print(FollowList.objects.filter(user=user))
+        user_song_count = UserSong.objects.filter(user=user).count()
+        follow_list = FollowList.objects.get(user=user)
+        following_count = follow_list.following.all().count()
+        followers_count = FollowList.objects.filter(following=user).count()
+        print(following_count,followers_count)
+        return JsonResponse(({"song_count":user_song_count,"following_count":following_count,"followers_count":followers_count}))
+
 
 
 class GetFollowingView(View):
@@ -263,19 +278,19 @@ def save_songs(song_list, user):
                 else:
                     artist_name = item['track']['artists'][0]['name']
                     artist = seed_genre(artist_name)
-                song = Song(track_name=item['track']['name'], track_id=item['track']['id'], track_uri=item['track']['uri'], artist_id=item['track']['artists'][0]['id'], album=item['track']['album']['name'], album_id=item['track']['album']['id'], album_uri=item['track']['album']['uri'], spotify_popularity=item['track']['popularity'], preview_url=item['track']['preview_url'], image_300=item['track']['album']['images'][1]['url'], image_64=item['track']['album']['images'][2]['url'], artists=artist)
+                song = Song(track_name=item['track']['name'], track_id=item['track']['id'], track_uri=item['track']['uri'], artist_id=item['track']['artists'][0]['id'], album=item['track']['album']['name'], album_id=item['track']['album']['id'], artist="Blank", album_uri=item['track']['album']['uri'], spotify_popularity=item['track']['popularity'], preview_url=item['track']['preview_url'], image_300=item['track']['album']['images'][1]['url'], image_64=item['track']['album']['images'][2]['url'], artists=artist)
                 date_added = datetime.datetime.strptime(item['added_at'], "%Y-%m-%dT%H:%M:%SZ").date()
                 print(date_added)
                 song.save()
-                usersong = UserSong(user=user[0], song=song, uploaded_at=date_added)
+                usersong = UserSong(user=user, song=song, uploaded_at=date_added)
                 usersong.save()
                 print("Saved New Song: {0}".format(song.track_name))
                 save_count += 1
             else:
                 date_added = datetime.datetime.strptime(item['added_at'], "%Y-%m-%dT%H:%M:%SZ").date()
-                duplicate_user_songs = UserSong.objects.filter(song=duplicate_songs[0],user=user[0],uploaded_at=date_added)
+                duplicate_user_songs = UserSong.objects.filter(song=duplicate_songs[0],user=user,uploaded_at=date_added)
                 if len(duplicate_user_songs) == 0:
-                    usersong = UserSong(user=user[0],song=duplicate_songs[0], uploaded_at=date_added)
+                    usersong = UserSong(user=user,song=duplicate_songs[0], uploaded_at=date_added)
                     usersong.save()
                     print("Saved New User Song: {0}".format(usersong.song.track_name))
         except:
