@@ -36,11 +36,3 @@ def update_latest_user():
 	print(user.username)
 
 
-# def quick_seed():
-# 	eddy = User.objects.get(username="ecatkins")
-# 	all_user_profiles = UserProfile.objects.exclude(user=eddy)
-# 	for x in all_user_profiles:
-# 		x.updated_genres = datetime.datetime.now()
-# 		x.save()
-
-
