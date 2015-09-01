@@ -41,9 +41,7 @@ class UserActivationCode(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key=True)
-    activated = models.BooleanField(default=False)
     updated_genres = models.DateTimeField()
-    active = models.BooleanField(default=False)
     verified = models.BooleanField(default=False)
 
 class FollowList(models.Model):

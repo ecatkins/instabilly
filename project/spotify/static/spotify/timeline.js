@@ -17,7 +17,10 @@ function updateFollowButtons(){
         });
         console.log(followlist)       
     });
-}        
+}       
+
+
+ 
 
 $(document).ready(function(){
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -127,8 +130,7 @@ $(document).ready(function(){
                 var following = data["following"]
                 $button.addClass('following');
                 $button.text('Following');
-                $("#following-list tr:last").after("<tr id=" + following + "><td>" + following + "</td><td><button>Following</button>")
-                $("#" + following).find("button").addClass("btn followButton following")
+                $("#following-list tr:last").after("<tr id=" + following + "><td>" + following + "</td><td><button class='btn followButton following'>Following</button></tr>")
                 $('button.followButton').hover(function(){
                     $button = $(this);
                     if($button.hasClass('following')){
@@ -204,6 +206,25 @@ $(document).ready(function(){
         $("#comment").val('');
         $("[name=search_query]").val('');
     })
+    $("#usersearch").on("submit", function(event) {
+        event.preventDefault();
+        console.log('someting')
+        $("#user-search-results").empty();
+        var usernameQuery = $("[name=user_query]").val();
+        $.getJSON("find_user", {"usernameQuery": usernameQuery}, function(data){
+            var userList = data["search_result"];
+            console.log(userList);
+            if (userList === "No results found..." || userList === "Please input a username.") {
+                $("#user-search-results").append("<tr><td>" + userList + "</td></tr>")
+            }
+            else {
+                for (i in userList) {
+                    $("#user-search-results").append("<tr><td>" + userList[i] + "</td><td><button class='btn followButton'>Follow</button></td></tr>")
+                }
+            }
+        });
+    });
+
 
     /////// Generates playlists ///////
     /// Personal ///
