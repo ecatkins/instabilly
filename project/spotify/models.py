@@ -7,7 +7,6 @@ class Song(models.Model):
     track_name = models.CharField(max_length=200)
     track_id = models.CharField(db_index=True, max_length=200)
     track_uri = models.CharField(max_length=200)
-    artists = models.ForeignKey('Artist')
     artist_id = models.CharField(max_length=200)
     album = models.CharField(max_length=200)
     album_id = models.CharField(max_length=200)
