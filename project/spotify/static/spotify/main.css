@@ -133,6 +133,7 @@ td {
 }
 
 /*index.html specific*/
+    /*playlist specific*/
         
 #eddy {
    border-left:rgba(255, 255, 255, 1) 0.2em solid;
@@ -181,6 +182,14 @@ td {
     display: none
 }
 
+    /*profile specific*/
+
+#profile {
+    width:100%;
+    height:10em;
+    border:white 3px solid;
+}
+
 /*engine.html specific*/
 
 
@@ -188,14 +197,7 @@ td {
     height:450px;
 }
 
-.engine_choice {
-    border-color:white;
-    border-width:0.2em;
-    border-style:solid;
-    width:80%;
-    margin:auto;
-    height:4em
-}
+
 
 
 
@@ -250,9 +252,14 @@ td {
 
 #engine_buttons {
     display: none;
+    position:relative;
 }
 
-
+.engine_choice {
+    width:90%;
+    margin:auto;
+    position:absolute;
+}
 
 
 

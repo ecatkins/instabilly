@@ -34,7 +34,7 @@ $(document).ready(function() {
 			$('#playlist_player').css("height",generator_height)
 
 			/// Setting the size of the buttons
-			$(".engine_choice").css(({"height":generator_height/3}))
+			// $(".engine_choice").css(({"height":generator_height/3}))
 
 
 
@@ -55,8 +55,21 @@ $(document).ready(function() {
                 setTimeout(function() {
                 	$("#playlist_player").css("z-index",1)
                 	$("#engine_buttons").css({"display":"inline"})
-                	$(".engine_choice").css({"display":"table-cell","vertical-align":"middle","width":"100%"})
+                	console.log($('#playlist_player').height())
+                	var glyphicon_size = $('#playlist_player').height() / 10
+
+                	$(".engine_choice").css(({"display":"inline","width":"100%","font-size":""+glyphicon_size+"px"}))
+                	// $(".engine_choice span").css("top","5em")
+                	var playlistheight = $('#playlist_player').height()
+                	var button_height = $("#engine_like").height()
+
+                	$("#engine_like").css("top",1/4 * playlistheight - 1/2 * button_height)
+                	$("#engine_dislike").css("top",1/2 * playlistheight - 1/2 * button_height)
+                	$("#engine_save").css("top",3/4 * playlistheight - 1/2 * button_height)
+                
+
                 },2000)
+
 
 
 
