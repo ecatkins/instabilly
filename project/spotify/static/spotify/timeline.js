@@ -2,7 +2,6 @@ function updateFollowButtons(){
     $.getJSON("/getfollowing", function(data){
         var followlist = data['JSON_follow_list'];
         $(".followButton").each(function(){
-            console.log($(this))
             for (item in followlist) {
                 if ($(this).closest('tr').attr('id') === followlist[item]) {
                     $(this).addClass('following');
@@ -14,28 +13,45 @@ function updateFollowButtons(){
                 //     $(this).text('Follow');
                 // }
             }
-        });
-        console.log(followlist)       
+        });    
     });
 }       
 
 
-//// Eddy's Space ////
-
 /// Call this on any event that changes the number of ///
 ///songs, following or followers of a user ///
-function update_user_profile() {
-        $.get('updateprofile', function(data,status) {
+function update_user_profile() {  
+        $.ajax({
+            url:'updateprofile',
+            dataType:'json',
+            success:function(data) {
                 var song_count = data['song_count']
                 var following_count = data['following_count']
                 var followers_count = data['followers_count']
-                $("#profile_songs span").html(song_count)
-                $("#profile_followers span").html(following_count)
-                $("#profile_following span").html(followers_count)
-            })
-        }        
+                $("#profile_songs").html(song_count)
+                $("#profile_followers").html(following_count)
+                $("#profile_following").html(followers_count)
+              }
+        })
+    } 
 
-/////////////////////////////////////////////
+
+               
+
+function check_song_count() {
+    $.get('hassongs', function(data) {
+        if (data['has_songs'] === false) {
+            $("#syncModal").modal('show')
+            $("#sync_button").on('click', function() {
+                $.getJSON("/seed", function(data){
+                    if (data['status'] === "redirect") {
+                        $(location).attr('href', '/')
+                    }            
+                })
+            })
+        }
+    })
+}
 
 
 $(document).ready(function(){
@@ -46,10 +62,16 @@ $(document).ready(function(){
 
     ga('create', 'UA-66616301-1', 'auto');
     ga('send', 'pageview');
+    
+    
 
+    /// Calls the user profile update on load of page
     update_user_profile()
 
-
+    /// On page load checks if the user has any songs, and makes sure they sync ///
+    check_song_count()
+    
+    
     $("#following").on("click", function(event){
         event.preventDefault();
         $("#following-button").addClass("disabled").prop('disabled', true);
@@ -124,14 +146,13 @@ $(document).ready(function(){
     })
 
     $('button.followButton').on('click', function(event){
+        console.log("here")
         event.preventDefault();
         $button = $(this);
         var id = $(this).closest('tr').attr('id')
-        console.log(id)
         if($button.hasClass('following')){
                         
             $.post("/unfollow", {"id": id}, function(data){
-                console.log(data);
                 $button.removeClass('following');
                 $button.removeClass('unfollow');
                 $button.text('Follow');
@@ -145,7 +166,6 @@ $(document).ready(function(){
             })       
         } else {
                 $.post("/follow", {'id': id}, function(data) {
-                console.log("following ", data["following"]);
                 var following = data["following"]
                 $button.addClass('following');
                 $button.text('Following');
@@ -209,7 +229,6 @@ $(document).ready(function(){
         event.preventDefault();
         var track_name = $("[name=search_query]").val()
         $.getJSON("track_uri", {"track_name": track_name}, function(data){
-            console.log(data['track_uri']);
             var track_uri = data['track_uri'];
         $("#song-reference").empty().append("<iframe src='https://embed.spotify.com/?uri=" + track_uri + "'width=300 height=80 frameborder=0 allowtransparency=true></iframe>");
         $("#song-comment").append($("#comment").val());
@@ -220,19 +239,16 @@ $(document).ready(function(){
         var src = $("#song-reference")[0].firstChild.src;
         var track_uri = src.replace("https://embed.spotify.com/?uri=","")
         $.post("create_post", {"comment": comment, "track_uri": track_uri}, function(data) {
-            console.log(data);
         })
         $("#comment").val('');
         $("[name=search_query]").val('');
     })
     $("#usersearch").on("submit", function(event) {
         event.preventDefault();
-        console.log('someting')
         $("#user-search-results").empty();
         var usernameQuery = $("[name=user_query]").val();
         $.getJSON("find_user", {"usernameQuery": usernameQuery}, function(data){
             var userList = data["search_result"];
-            console.log(userList);
             if (userList === "No results found..." || userList === "Please input a username.") {
                 $("#user-search-results").append("<tr><td>" + userList + "</td></tr>")
             }
@@ -255,6 +271,10 @@ $(document).ready(function(){
 
 
     /////// Generates playlists ///////
+        /// Sets the initial size of the playlist div
+    $(".timelineplaylist").css("height","20em")
+
+
     /// Personal ///
     var number_songs = 10
     var follow = 0
@@ -272,12 +292,18 @@ $(document).ready(function(){
             $("#yourplaylist_image_image").css("width","100%");
 
 
+
             /// setting the position of the buttons
             var div_width = $("#yourplaylist").width()
             var imageheight =  $("#yourplaylist_image").width();
             var buttons_width = $("#yourplaylist_buttons").width()
             var buttons_centre = (div_width - imageheight) + 0.5 * imageheight - 0.5 * buttons_width 
             $("#yourplaylist_buttons").css({"top":imageheight,"left":buttons_centre})
+
+            
+            ///Resets the size of the playlist div according to the size of the image ///
+            $(".timelineplaylist").css("height",imageheight*1.2)
+
 
 
 
@@ -301,17 +327,14 @@ $(document).ready(function(){
                 /// Bind the like save and dislike events to the button
                 $("#yourplaylist_like").on("click", function() {
                     $.post("rating", {"uris": your_uris, "decision": "like"}, function(data){
-                        console.log('hello')
                     })
                 })
                 $("#yourplaylist_dislike").on("click", function() {
                     $.post("rating", {"uris": your_uris, "decision": "dislike"}, function(data){
-                        console.log('hello')
                     })
                 })
                 $("#yourplaylist_save").on("click", function() {
                     $.post("saveplaylist", {"uris": your_uris}, function(data){
-                        console.log('saved')
                     })
                 })
             })
@@ -365,17 +388,14 @@ $(document).ready(function(){
                 /// Bind the like save and dislike events to the button
                 $("#friendsplaylist_like").on("click", function() {
                     $.post("rating", {"uris": friends_uris, "decision": "like"}, function(data){
-                        console.log('hello')
                     })
                 })
                 $("#friendsplaylist_dislike").on("click", function() {
                     $.post("rating", {"uris": friends_uris, "decision": "dislike"}, function(data){
-                        console.log('hello')
                     })
                 })
                 $("#friendsplaylist_save").on("click", function() {
                     $.post("saveplaylist", {"uris": friends_uris}, function(data){
-                        console.log('saved')
                     })
                 })
 

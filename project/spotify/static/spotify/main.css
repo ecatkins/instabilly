@@ -133,6 +133,15 @@ td {
 }
 
 /*index.html specific*/
+
+#sync_button {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  font-size: 24px;
+  line-height: 1.33;
+  border-radius: 35px;
+}
     /*playlist specific*/
         
 #eddy {
@@ -159,7 +168,6 @@ td {
 
 .timelineplaylist {
     position: relative;
-    height:25em;
 }
 
 .timelineplaylist .playlist_image {
@@ -190,14 +198,35 @@ td {
     border:white 3px solid;
 }
 
+#profile_stats td {
+   /* border:white 3px solid;*/
+    color:white;
+    font-size: 6em;
+    padding-left:0.5em;
+    padding-right:0.5em;
+    color:#2ebd59;
+}
+
+#profile_stats_names td {
+    color:white;
+    font-size: 2em;
+    padding-left:0.5em;
+    padding-right:0.5em;
+
+}
+
+
+
+
+
+
+
 /*engine.html specific*/
 
 
 #playlist {
     height:450px;
 }
-
-
 
 
 

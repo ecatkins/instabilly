@@ -55,7 +55,6 @@ $(document).ready(function() {
                 setTimeout(function() {
                 	$("#playlist_player").css("z-index",1)
                 	$("#engine_buttons").css({"display":"inline"})
-                	console.log($('#playlist_player').height())
                 	var glyphicon_size = $('#playlist_player').height() / 10
 
                 	$(".engine_choice").css(({"display":"inline","width":"100%","font-size":""+glyphicon_size+"px"}))
@@ -79,7 +78,7 @@ $(document).ready(function() {
               	$("#like").on("click", function() {
 				$.post("rating", {"uris": uris, "decision": "like"}, function(data){
 	
-					console.log('liked')
+			
 				})
 					})
 				
@@ -87,7 +86,7 @@ $(document).ready(function() {
 				$("#dislike").on("click", function() {
 						
 						$.post("rating", {"uris": uris, "decision": "dislike"}, function(data){
-							console.log('disliked')
+						
 						})
 				})
 
@@ -95,7 +94,7 @@ $(document).ready(function() {
 						
 						$.post("saveplaylist", {"uris": uris}, function(data){
 							if (data['status'] === "success") {
-								console.log("Success")
+								
 
 							}
 						})
