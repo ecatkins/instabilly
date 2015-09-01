@@ -54,8 +54,8 @@ $(document).ready(function() {
                 $(this).fadeOut(2000);
                 setTimeout(function() {
                 	$("#playlist_player").css("z-index",1)
-                	$("#engine_buttons").css({"display":"table"})
-                	$(".engine_choice").css({"display":"table-cell","vertical-align":"middle"})
+                	$("#engine_buttons").css({"display":"inline"})
+                	$(".engine_choice").css({"display":"table-cell","vertical-align":"middle","width":"100%"})
                 },2000)
 
 

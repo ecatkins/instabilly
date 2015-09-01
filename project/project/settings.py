@@ -119,9 +119,10 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.CryptPasswordHasher',
 )
 
+
 # from spotify.email_info import EMAIL_USE_TLS, EMAIL_HOST, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_PORT
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'testappinfo1@gmail.com'
-EMAIL_HOST_PASSWORD = 'passwordfunny'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_HOST = email
+EMAIL_HOST_USER = email_host_user 
+EMAIL_HOST_PASSWORD = email_host_password
+EMAIL_PORT = email_port
+EMAIL_USE_TLS = email_use_tls
