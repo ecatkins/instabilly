@@ -120,9 +120,9 @@ PASSWORD_HASHERS = (
 )
 
 
-# from spotify.email_info import EMAIL_USE_TLS, EMAIL_HOST, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_PORT
 EMAIL_HOST = email
 EMAIL_HOST_USER = email_host_user 
 EMAIL_HOST_PASSWORD = email_host_password
 EMAIL_PORT = email_port
 EMAIL_USE_TLS = email_use_tls
+
