@@ -141,6 +141,20 @@ class TimelineView(View):
         return render(request, self.template, {"follow_list": follow_list, "followers": followers, "post_list": post_list})
 
 
+class UpdateProfileView(View):
+
+    def get(self,request):
+        user = User.objects.get(pk=request.session['session_id'])
+        print(FollowList.objects.filter(user=user))
+        user_song_count = UserSong.objects.filter(user=user).count()
+        follow_list = FollowList.objects.get(user=user)
+        following_count = follow_list.following.all().count()
+        followers_count = FollowList.objects.filter(following=user).count()
+        print(following_count,followers_count)
+        return JsonResponse(({"song_count":user_song_count,"following_count":following_count,"followers_count":followers_count}))
+
+
+
 class GetFollowingView(View):
 
     def get(self, request):
