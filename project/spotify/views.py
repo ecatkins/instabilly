@@ -153,15 +153,19 @@ class UpdateProfileView(View):
 
     def get(self,request):
         user = User.objects.get(pk=request.session['session_id'])
-        print(FollowList.objects.filter(user=user))
         user_song_count = UserSong.objects.filter(user=user).count()
         follow_list = FollowList.objects.get(user=user)
         following_count = follow_list.following.all().count()
         followers_count = FollowList.objects.filter(following=user).count()
-        print(following_count,followers_count)
         return JsonResponse(({"song_count":user_song_count,"following_count":following_count,"followers_count":followers_count}))
 
 
+class HasSongsView(View):
+
+    def get(self,request):
+        user = User.objects.get(pk=request.session['session_id'])
+        has_songs = UserSong.objects.filter(user=user).exists()
+        return JsonResponse({"has_songs":has_songs})
 
 class GetFollowingView(View):
 
