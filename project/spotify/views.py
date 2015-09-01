@@ -146,7 +146,10 @@ class TimelineView(View):
         exclude_list = list(follow_list) + list(user)
         post_list = Post.objects.exclude(user__in=exclude_list).order_by('-created_at')
         followers = FollowList.objects.filter(following=user[0])
-        return render(request, self.template, {"follow_list": follow_list, "followers": followers, "post_list": post_list})
+        following_count = len(follow_list)
+        followers_count = len(followers)
+        song_count = UserSong.objects.filter(user=user[0]).count()
+        return render(request, self.template, {"follow_list": follow_list, "followers": followers, "post_list": post_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count})
 
 
 class UpdateProfileView(View):
