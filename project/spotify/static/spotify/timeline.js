@@ -26,7 +26,7 @@ function update_user_profile() {
                 $("#profile_songs").html(song_count)
                 $("#followers").html(followers_count)
                 $("#following").html(following_count)
-
+                console.log('ers', followers_count, 'ing', following_count)
               }
         })
     } 
@@ -191,7 +191,8 @@ $(document).ready(function(){
                 var following = data["following"]
                 $button.addClass('following');
                 $button.text('Following');
-                $("#following-list").append("<tr id=" + following + "><td>" + following + "</td><td><button class='btn followButton following'>Following</button></tr>")      
+                console.log(following)
+                $("#following-list").append("<tr id=" + following + "><td>" + following + "</td><td><button class='btn followButton following'>Following</button></td></tr>")      
                 update_user_profile();
                 });
             }

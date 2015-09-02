@@ -168,7 +168,6 @@
                     <button id="followers-button" class="btn btn-info">Followers</button>
                 </div>
                 <div class="modal-body">
-                    {% if follow_list %}
                         <table id="following-list">
                         {% for user in follow_list %}
                             <tr id="{{ user }}">
@@ -177,8 +176,6 @@
                             </tr>
                         {% endfor %}
                         </table>
-                    {% endif %}
-                    {% if followers %}
                         <table id="followers-list">
                         {% for user in followers %}
                             <tr id="{{ user.user }}">
@@ -187,7 +184,6 @@
                             </tr>
                         {% endfor %}
                         </table>
-                    {% endif %}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
