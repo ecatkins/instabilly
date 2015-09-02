@@ -425,7 +425,6 @@ $(document).ready(function(){
                     })
                     $("#friendsplaylist_save").on("click", function() {
                         $("#friendsplaylist_save").prop("disabled",true)
-                        console.log("here")
                         $.post("saveplaylist", {"uris": friends_uris}, function(data){
                              $("#friendsplaylist_save span").css("color","#ffd700")
                         })
