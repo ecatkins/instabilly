@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib import admin
-from spotify.views import HomeView, OauthView, TimelineView, RegistrationView, ActivationView, LoginView, SeedUserLibraryView, LogoutView, GetFollowingView, FollowView, UnfollowView, SearchView, FindUserView, TrackURIView, CreatePostView, EngineView, PlaylistView, GetMiniFeedView, RatingView, SavePlaylistView, CallbackView, UpdateProfileView, HasSongsView
+from spotify.views import HomeView, OauthView, TimelineView, RegistrationView, ActivationView, LoginView, SeedUserLibraryView, LogoutView, GetFollowingView, FollowView, UnfollowView, SearchView, FindUserView, TrackURIView, CreatePostView, EngineView, PlaylistView, GetMiniFeedView, RatingView, SavePlaylistView, SaveSongView, CallbackView, UpdateProfileView, HasSongsView
 
 
 urlpatterns = [
@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^playlist$', PlaylistView.as_view(), name="playlist"),
     url(r'^rating$', RatingView.as_view(), name="rating"),
     url(r'^saveplaylist$',SavePlaylistView.as_view(),name="save_playlist"),
+    url(r'^save_song$',SaveSongView.as_view(),name="save_song"),
     url(r'^search$', SearchView.as_view(), name="search"),
     url(r'^track_uri$', TrackURIView.as_view(), name="track_uri"),
     url(r'^create_post$', CreatePostView.as_view(), name="create_post"),
