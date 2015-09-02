@@ -356,7 +356,7 @@ $(document).ready(function(){
     
 
     /// Friends ///
-    var num_following = parseInt($("#profile_following").text())
+    var num_following = parseInt($("#following").text())
 
     if (num_following > 0) {
         var number_songs2 = 10
@@ -402,6 +402,7 @@ $(document).ready(function(){
                     /// Bind the like save and dislike events to the button
                     $("#friendsplaylist_like").on("click", function() {
                         $.post("rating", {"uris": friends_uris, "decision": "like"}, function(data){
+                            
                         })
                     })
                     $("#friendsplaylist_dislike").on("click", function() {
