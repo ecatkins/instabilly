@@ -138,12 +138,14 @@ $(document).ready(function(){
     })
 
     $.getJSON("/get_minifeed", function(data){
+        console.log(data)
         var all_posts = data['all_posts'];
         var count = 0;
         for (post in all_posts) {
-            $("#mini-feed").append("<tr id=minifeed" + count + " class=minifeed-post><td><p>posted by: " + all_posts[post].user + "</p><p>" + all_posts[post].content + "</p></td><td><iframe src='https://embed.spotify.com/?uri=" + all_posts[post].track_uri + "'width=250 height=80 frameborder=0 allowtransparency=true></iframe></td></tr>");
+            $("#mini-feed").append("<tr id=" + all_posts[post].user + " data-track=" + all_posts[post].track_uri + " class=minifeed-post><td><p>posted by: " + all_posts[post].user + "</p><p><button class='btn followButton'>Follow</button></p></td><td>" + all_posts[post].content + "</td><td><iframe src='https://embed.spotify.com/?uri=" + all_posts[post].track_uri + "'width=250 height=80 frameborder=0 allowtransparency=true></iframe></td><td><button id=song" + count + " type=button class='btn btn-default savesong'><span class='glyphicon glyphicon-floppy-disk' aria-hidden=true></span></button></tr>");
             count += 1;
         }
+        updateFollowButtons();
     });
 
 
@@ -167,6 +169,14 @@ $(document).ready(function(){
             }
         })
     })
+
+
+    $("#mini-feed").on("click", '.savesong', function() {
+        console.log('clicked');
+        var track = $(this).closest('tr').attr('data-track');
+        console.log(track);
+    });
+
     $("#mini-feed, #user-search-results, #following-list, #followers-list").on('click', 'button.followButton', function(event){
         event.preventDefault();
         $button = $(this);
@@ -275,7 +285,6 @@ $(document).ready(function(){
     });
 
 
-    
 
     /////// Generates playlists ///////
         /// Sets the initial size of the playlist div
@@ -346,11 +355,7 @@ $(document).ready(function(){
                         $.post("saveplaylist", {"uris": your_uris}, function(data){
                         })
                     })
-                })
-
-
-
-                         
+                })       
             })
         }
 
