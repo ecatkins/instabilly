@@ -2,6 +2,16 @@ $(document).ready(function() {
 	
 	$("#number_songs").val(10)
 	
+	/// Setting the size of the box and image and player based on the generator width
+	var generator_height = $("#generator_options").height()
+	$("#engineplaylist_image").css("width",generator_height)
+	$("#engineplaylist_image_image").css("width",generator_height)
+	$("#engineplaylist_image_image").css("height",generator_height)
+	$('#playlist_player').css("width",generator_height)
+	$('#playlist_player').css("height",generator_height)
+	$('#playlist').css("height",generator_height)
+
+
 	$("#generate_button").on('click', function() {
 
 		
@@ -25,13 +35,7 @@ $(document).ready(function() {
 			$('#engineplaylist_image_image').css({'height':iw+'px'});
 			$('#engineplaylist_image_image').css({'z-index':'1'});
 
-			/// Setting the size of the box and image and player based on the generator width
-			var generator_height = $("#generator_options").height()
-			$("#engineplaylist_image").css("width",generator_height)
-			$("#engineplaylist_image_image").css("width",generator_height)
-			$("#engineplaylist_image_image").css("height",generator_height)
-			$('#playlist_player').css("width",generator_height)
-			$('#playlist_player').css("height",generator_height)
+			
 
 			/// Setting the size of the buttons
 			// $(".engine_choice").css(({"height":generator_height/3}))
