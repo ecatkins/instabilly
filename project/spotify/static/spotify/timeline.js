@@ -49,13 +49,10 @@ function check_song_count() {
                 }
                 else {
                     update_user_profile()
-    
+
                 }            
             })
         })
-    }
-    else {
-        console.log("failed")
     }
 }
 
@@ -75,7 +72,17 @@ $(document).ready(function(){
     check_song_count()
 
 
-    
+    /// Sets the size of the profile text
+    var profile_height = $("#profile").height()
+    $("#profile_stats td").css(({"font-size":5*profile_height/10,"height":5*profile_height/10}))
+    $("#profile_stats_names td").css(({"font-size":3*profile_height/10,"height":3*profile_height/10}))
+   
+
+
+    // console.log(profile_height)
+
+
+
     
     $("#following").on("click", function(event){
         event.preventDefault();

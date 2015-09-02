@@ -1,16 +1,30 @@
 h1 {
     text-align: center;
-    color:#2ebd59;
+    color:white;
     font-family: 'Nunito', sans-serif;
-    font-size:5em;
+    font-size:3em;
     font-weight: 400
+}
+
+h1 span {
+    /*color: #2ebd59;*/
+    color:#ffd700;
+    font-size: 2em;
+}
+
+h3 {
+    font-size: 1.8em;
+}
+
+h4 {
+    font-size: 1.5em;
 }
 
 body {
 	background-color: #1c1c1f;
     color: white;
     font-family: 'PT Sans', sans-serif;
-    font-size: 2em;
+    font-size: 1em;
 }
 
 
@@ -26,7 +40,6 @@ input, textarea {
 textarea {
     resize: none;
 }
-
 
 
 #homespace {
@@ -201,7 +214,7 @@ td {
 #profile_stats td {
    /* border:white 3px solid;*/
     color:white;
-    font-size: 6em;
+    font-size: 3.5em;
     padding-left:0.5em;
     padding-right:0.5em;
     color:#2ebd59;
@@ -209,7 +222,7 @@ td {
 
 #profile_stats_names td {
     color:white;
-    font-size: 2em;
+    font-size: 1em;
     padding-left:0.5em;
     padding-right:0.5em;
 
@@ -290,5 +303,29 @@ td {
     position:absolute;
 }
 
+#engine_explainer tr td {
+    padding-bottom:1em;
+}
 
+#explainer_header {
+    margin-top:2em;
+    text-align: left;
+    color:#2ebd59;
+    font-size:1.5em;
+}
 
+.explainer_type {
+    width: 20%;
+    text-align: left;
+    vertical-align: top;
+    color:#2ebd59;
+    font-size:1em;
+}
+
+.explainer_text{
+    width: 80%;
+    text-align: left;
+    vertical-align: top;
+    color:white;
+    font-size:0.6em;
+}

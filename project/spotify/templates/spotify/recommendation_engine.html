@@ -34,7 +34,7 @@
       <div class="col-md-5" id="generator_options">
         <div class="row">
             <div class="col-md-4">
-                Number of songs <i id="number_songs_info" class="fa fa-info"data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Select the number of songs to be in your custom playlist."
+                Number of Songs <i id="number_songs_info" class="fa fa-info"data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Select the number of songs to be in your custom playlist."
                 ></i>
             </div>
 
@@ -46,7 +46,7 @@
         <br>
   
    
-   <div class="row">
+<div class="row">
         <div class="col-md-4">
             Who You Follow <i id="follow_info" class="fa fa-info" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Do you want the music in your custom playlist to be generated based on the people you follow or by our awesome algorithm that finds other users on our site who have similar music preferences to you. Selecting 10 will ensure that your custom playlist is only selected from the playlists of people that you follow."></i>
         </div>
@@ -81,7 +81,7 @@
 
     <div class="row">
         <div class="col-md-4">
-             Diversity <i id="duplicate_artist_info"  class="fa fa-info" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="How much do you care about similar artists appearing in the same playlist? Selecting 10 will ensure that your playlist is comprised of entirely unique artists "></i>
+             Diversity <i id="duplicate_artist_info"  class="fa fa-info" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="How much do you care about similar artists appearing in the same playlist? Selecting 10 will ensure that your playlist is comprised of entirely unique artists"></i>
         </div>
         <div class="col-md-8">
              <input class="engineslider" id="duplicateartist" data-slider-id='duplicateartistSlider' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="10"/>
@@ -145,12 +145,38 @@
         </div>
 
       </div>
-    </div>
+</div>
 
 
-  
-
-
+<!-- Explainer at the bottom -->
+<div class ="row page">
+  <p id="explainer_header"> Explaining Our Algorithm </p>
+  <table id="engine_explainer" style="width:100%">
+    <tr>
+      <td class="explainer_type">Number songs</td>
+      <td class="explainer_text">Select the number of songs to be in your custom playlist.</td>
+    </tr>
+    <tr>
+      <td class="explainer_type">Who You Follow</td>
+      <td class="explainer_text">Do you want the music in your custom playlist to be generated based on the people you follow or by our awesome algorithm that finds other users on our site who have similar music preferences to you. Selecting 10 will ensure that your custom playlist is only selected from the playlists of people that you follow.How much do you care that the music in your custom playlist is the latest and greatest? </td>
+    </tr>
+    <tr>  
+      <td class="explainer_type">Recent</td>
+      <td class="explainer_text">How much do you care that the music in your custom playlist is the latest and greatest? Selecting 10 will give high favor to songs that have recently been uploaded by our users and people you follow.  </td>
+    </tr>
+    <tr>
+      <td class="explainer_type">Your Ratings</td>
+      <td class="explainer_text">How much do you care about previous ratings that you have given to playlists we have served you? Selecting 10 will give high favor to artists in playlists that you have previously liked"</td>
+    </tr>
+    <tr>
+      <td class="explainer_type">Diversity</td>
+      <td class="explainer_text">How much do you care about similar artists appearing in the same playlist? Selecting 10 will ensure that your playlist is comprised of entirely unique artists</td>
+    </tr>
+    <tr>
+      <td class="explainer_type">What You Listen To</td>
+      <td class="explainer_text">Do you want to hear some of your old favourites, or do you want a completely new playlist? Selecting 10 will ensure that no song will appear in your custom playlist, that already exists in your Spotify library.</td>
+    </tr>
+</div>
 
 
 
