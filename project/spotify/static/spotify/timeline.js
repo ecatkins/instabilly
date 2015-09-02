@@ -172,9 +172,11 @@ $(document).ready(function(){
 
 
     $("#mini-feed").on("click", '.savesong', function() {
-        console.log('clicked');
-        var track = $(this).closest('tr').attr('data-track');
-        console.log(track);
+        var track_uri = $(this).closest('tr').attr('data-track');
+        $.post("save_song", {"track_uri": track_uri}, function(data){
+            console.log(data)
+            $(".savesong span").css("color","#ffd700")
+        });
     });
 
     $("#mini-feed, #user-search-results, #following-list, #followers-list").on('click', 'button.followButton', function(event){

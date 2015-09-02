@@ -128,6 +128,7 @@ class CallbackView(View):
 
     def get(self,request):
         code = request.GET.get('code')
+        print(code)
         request.session['spotify_code'] = code
         if request.session['post_oauth'] == 'timeline':
             return redirect('timeline')
@@ -337,6 +338,7 @@ def get_user_token(request):
     code = request.session['spotify_code']
     pay_load = {"grant_type":grant_type, "code":code, "redirect_uri":callback,"client_id":SPOTIPY_CLIENT_ID,"client_secret":SPOTIPY_CLIENT_SECRET}
     r = requests.post(post_route,data=pay_load)
+    print(r)
     token = r.json()['access_token']
     refresh_token = r.json()['refresh_token']
     request.session['access_token'] = token
@@ -359,7 +361,8 @@ def refresh_token(request):
     return token
 
 def get_spotipy_instance(request):
-    if 'spotify_code' in request.session.keys():
+    # DELETE IF SPOTIFY CODE OPTION
+    if 'spotify_code' in request.session.keys(): 
         try:
             token = get_user_token(request)
             sp = spotipy.Spotify(auth=token)
@@ -373,6 +376,15 @@ def get_spotipy_instance(request):
                 token = refresh_token(request)
                 sp = spotipy.Spotify(auth=token)
                 username = sp.current_user()['id']
+    else:
+        try:
+            token = request.session['access_token']
+            sp = spotipy.Spotify(auth=token)
+            username = sp.current_user()['id']
+        except:
+            token = refresh_token(request)
+            sp = spotipy.Spotify(auth=token)
+            username = sp.current_user()['id']
     return sp,username
 
 
@@ -436,9 +448,8 @@ class RatingView(View):
 class SavePlaylistView(View):
    
     def post(self,request):
-        # pdb.set_trace()
         sp,username = get_spotipy_instance(request)
-        name = "NewPlaylist{0}".format(random.randrange(1,1000))
+        name = "MoneyMusic Playlist {0}".format(random.randrange(1,1000))
         new_playlist = sp.user_playlist_create(username,name)
         new_playlist_id = new_playlist['id']
         track_uris = request.POST.getlist('uris[]')
@@ -448,4 +459,13 @@ class SavePlaylistView(View):
         return JsonResponse({"Success":"success"})
 
 
+class SaveSongView(View):
+
+    def post(self, request):
+        sp, username = get_spotipy_instance(request)
+        track_uri = request.POST.get('track_uri')
+        track_uri_list = [track_uri]
+        print(track_uri_list)
+        sp.current_user_saved_tracks_add(track_uri_list)
+        return JsonResponse({"status": "success"})
 
