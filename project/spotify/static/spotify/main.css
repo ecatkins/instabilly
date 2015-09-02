@@ -229,6 +229,37 @@ td {
 }
 
 
+/*My practice navbar*/
+#navlist {
+    /*background-color: #4C4000;*/
+    background-color: black;
+    border-color: rgba(255,215,0,0.6);
+    border-style:solid;
+    border-width: 2px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    height:4em;
+    font-size: 1.2em
+
+    /*box-shadow: 2px 2px 2px #FFD700;*/
+}
+
+
+#navlist li {
+    display: inline;
+    list-style-type: none;
+    padding-right: 20px;
+    margin:auto;
+    
+}
+
+#navlist li a {
+    text-decoration: none;
+    color:white;
+    vertical-align: middle;
+    line-height: 4em;
+}
 
 
 
