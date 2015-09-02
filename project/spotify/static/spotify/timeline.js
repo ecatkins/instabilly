@@ -8,49 +8,10 @@ function updateFollowButtons(){
                     $(this).addClass('following');
                     $(this).text('Following');
                 }
-                // else {
-                //     $(this).removeClass('following');
-                //     $(this).removeClass('unfollow');
-                //     $(this).text('Follow');
-                // }
             }
         });    
     });
 }       
-
-
-//call this whenever a new followBUtton appears on the DOM//
-function followButtonClickListeners(event){
-    event.preventDefault();
-    $button = $(this);
-    var id = $(this).closest('tr').attr('id')
-    console.log(id)
-    if($button.hasClass('following')){
-                    
-        $.post("/unfollow", {"id": id}, function(data){
-            console.log(data);
-            $button.removeClass('following');
-            $button.removeClass('unfollow');
-            $button.text('Follow');
-            if ($button.closest('table').attr('id') === "following-list"){
-                $button.closest('tr').remove();
-                $("#followers-list").find("#" + id).find("button").removeClass("following").text("Follow");
-            }
-            else {
-                $("#following-list").find("#" + id).remove();
-            }
-        })       
-    } else {
-            $.post("/follow", {'id': id}, function(data) {
-            console.log("following ", data["following"]);
-            var following = data["following"]
-            $button.addClass('following');
-            $button.text('Following');
-            $("#following-list tr:last").after("<tr id=" + following + "><td>" + following + "</td><td><button class='btn followButton following'>Following</button></tr>")
-        })
-    }
-}
-
 
 /// Call this on any event that changes the number of ///
 ///songs, following or followers of a user ///
@@ -63,8 +24,8 @@ function update_user_profile() {
                 var following_count = data['following_count']
                 var followers_count = data['followers_count']
                 $("#profile_songs").html(song_count)
-                $("#profile_followers").html(following_count)
-                $("#profile_following").html(followers_count)
+                $("#profile_followers").html(followers_count)
+                $("#profile_following").html(following_count)
               }
         })
     } 
@@ -193,7 +154,7 @@ $(document).ready(function(){
             }
         })
     })
-    $("#user-search-results").on('click', 'button.followButton', function(event){
+    $("#mini-feed, #user-search-results, #following-list, #followers-list").on('click', 'button.followButton', function(event){
         event.preventDefault();
         $button = $(this);
         var id = $(this).closest('tr').attr('id')
@@ -210,18 +171,19 @@ $(document).ready(function(){
                 else {
                     $("#following-list").find("#" + id).remove();
                 }
+                update_user_profile();
             })       
         } else {
                 $.post("/follow", {'id': id}, function(data) {
                 var following = data["following"]
                 $button.addClass('following');
                 $button.text('Following');
-                $("#following-list tr:last").after("<tr id=" + following + "><td>" + following + "</td><td><button class='btn followButton following'>Following</button></tr>")
-                
-            })
-        }
-    });
-    $("#user-search-results").on("mouseenter", "button.followButton", function(){
+                $("#following-list").append("<tr id=" + following + "><td>" + following + "</td><td><button class='btn followButton following'>Following</button></tr>")      
+                update_user_profile();
+                });
+            }
+        });
+    $("#mini-feed, #user-search-results, #following-list, #followers-list").on("mouseenter", "button.followButton", function(){
         console.log("got it")
         $button = $(this)
         if($button.hasClass('following')) {
@@ -230,7 +192,7 @@ $(document).ready(function(){
         }
     });
 
-    $("#user-search-results").on("mouseleave", "button.followButton", function(){
+    $("#mini-feed, #user-search-results, #following-list, #followers-list").on("mouseleave", "button.followButton", function(){
         if($button.hasClass('following')) {
             $button.removeClass('unfollow');
             $button.text('Following');
