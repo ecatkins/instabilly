@@ -2,6 +2,16 @@ $(document).ready(function() {
 	
 	$("#number_songs").val(10)
 	
+	/// Setting the size of the box and image and player based on the generator width
+	var generator_height = $("#generator_options").height()
+	$("#engineplaylist_image").css("width",generator_height)
+	$("#engineplaylist_image_image").css("width",generator_height)
+	$("#engineplaylist_image_image").css("height",generator_height)
+	$('#playlist_player').css("width",generator_height)
+	$('#playlist_player').css("height",generator_height)
+	$('#playlist').css("height",generator_height)
+
+
 	$("#generate_button").on('click', function() {
 
 		
@@ -25,13 +35,7 @@ $(document).ready(function() {
 			$('#engineplaylist_image_image').css({'height':iw+'px'});
 			$('#engineplaylist_image_image').css({'z-index':'1'});
 
-			/// Setting the size of the box and image and player based on the generator width
-			var generator_height = $("#generator_options").height()
-			$("#engineplaylist_image").css("width",generator_height)
-			$("#engineplaylist_image_image").css("width",generator_height)
-			$("#engineplaylist_image_image").css("height",generator_height)
-			$('#playlist_player').css("width",generator_height)
-			$('#playlist_player').css("height",generator_height)
+			
 
 			/// Setting the size of the buttons
 			// $(".engine_choice").css(({"height":generator_height/3}))
@@ -55,7 +59,6 @@ $(document).ready(function() {
                 setTimeout(function() {
                 	$("#playlist_player").css("z-index",1)
                 	$("#engine_buttons").css({"display":"inline"})
-                	console.log($('#playlist_player').height())
                 	var glyphicon_size = $('#playlist_player').height() / 10
 
                 	$(".engine_choice").css(({"display":"inline","width":"100%","font-size":""+glyphicon_size+"px"}))
@@ -79,7 +82,7 @@ $(document).ready(function() {
               	$("#like").on("click", function() {
 				$.post("rating", {"uris": uris, "decision": "like"}, function(data){
 	
-					console.log('liked')
+			
 				})
 					})
 				
@@ -87,7 +90,7 @@ $(document).ready(function() {
 				$("#dislike").on("click", function() {
 						
 						$.post("rating", {"uris": uris, "decision": "dislike"}, function(data){
-							console.log('disliked')
+						
 						})
 				})
 
@@ -95,7 +98,7 @@ $(document).ready(function() {
 						
 						$.post("saveplaylist", {"uris": uris}, function(data){
 							if (data['status'] === "success") {
-								console.log("Success")
+								
 
 							}
 						})

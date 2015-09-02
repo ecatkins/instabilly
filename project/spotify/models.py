@@ -17,7 +17,6 @@ class Song(models.Model):
     image_300 = models.URLField()
     image_64 = models.URLField()
     users = models.ManyToManyField(User, through='UserSong')
-    artist = models.CharField(max_length=200)
     
 
 
