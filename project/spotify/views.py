@@ -98,7 +98,7 @@ class OauthView(View):
 
     ####USE THIS FOR TESTING WITHOUT EMAIL ACTIVATION#####
     def get(self,request):
-        x = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID,SPOTIPY_CLIENT_SECRET,SPOTIPY_REDIRECT_URI,scope="playlist-read-private user-library-modify playlist-modify-public playlist-modify-private")
+        x = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID,SPOTIPY_CLIENT_SECRET,SPOTIPY_REDIRECT_URI,scope="playlist-read-private user-library-read user-library-modify playlist-modify-public playlist-modify-private")
         url = x.get_authorize_url()
         return redirect(url)
 
@@ -127,7 +127,6 @@ class OauthView(View):
 class CallbackView(View):
 
     def get(self,request):
-        print("callback")
         code = request.GET.get('code')
         request.session['spotify_code'] = code
         if request.session['post_oauth'] == 'timeline':
