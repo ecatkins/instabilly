@@ -61,8 +61,8 @@ textarea {
 }
 
 .btn-home:hover {
-    border-color:#2ebd59;
-    color:#2ebd59;
+    border-color:#ffd700;
+    color:#ffd700;
 }
 
 i {
@@ -217,7 +217,7 @@ td {
     font-size: 3.5em;
     padding-left:0.5em;
     padding-right:0.5em;
-    color:#2ebd59;
+    color:#ffd700;
 }
 
 #profile_stats_names td {
@@ -284,7 +284,7 @@ td {
 
 
 .slider-handle {
-    background:#2ebd59;
+    background:#ffd700;
 
 }
 
@@ -310,7 +310,7 @@ td {
 #explainer_header {
     margin-top:2em;
     text-align: left;
-    color:#2ebd59;
+    color:#ffd700;
     font-size:1.5em;
 }
 
@@ -318,7 +318,7 @@ td {
     width: 20%;
     text-align: left;
     vertical-align: top;
-    color:#2ebd59;
+    color:#ffd700;
     font-size:1em;
 }
 
