@@ -164,7 +164,6 @@ def create_playlist(user,neighbors,follow_effect,number_songs,recency_effect,rat
 		#Multiply arrays
 		final_weighting_array = []
 		#change len(distances) to len(neighbors)
-		print(distances,recommendation_array,replication_array,existing_playlist_array)
 		for x in range(len(distances)):
 			final_weighting  = distances[x] * recommendation_array[x] * replication_array[x] * existing_playlist_array[x]
 			final_weighting_array.append(final_weighting)

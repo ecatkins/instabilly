@@ -16,22 +16,22 @@
             <li><a id='engine' href="/engine">Recommendation Engine</a></li>
             <li><a id='createpost' href='' data-toggle="modal" data-target="#mySearchModal">Create Post</a></li>
             <li><a id='sync' href=''>Sync Library</a></li>
-            <li><a id='following' href='' data-toggle="modal" data-target="#UsersModal">Following</a></li>
-            <li><a id='find' href='' data-toggle="modal" data-target="#FindModal">Find</a></li>
+            <!-- <li><a id='following' href='' data-toggle="modal" data-target="#UsersModal">Following</a></li> -->
+            <li><a id='find' href='' data-toggle="modal" data-target="#FindModal">Find Other Users</a></li>
         </ul>
    </div>
 </div>
 
 
 <div class="row page">  
-    <div class="col-md-9">
-        <h3> Your Profile </h3>
+    <div class="col-md-8">
+        <h3> {{username}} Profile </h3>
         <div id="profile">
             <table> 
                 <tr id="profile_stats">
                     <td id ="profile_songs">{{song_count}}</td>
-                    <td id = "profile_followers">{{followers_count}}</td>
-                    <td id = "profile_following">{{following_count}}</td>
+                    <td id = "followers" data-toggle="modal" data-target="#UsersModal">{{followers_count}}</td>
+                    <td id = "following" data-toggle="modal" data-target="#UsersModal">{{following_count}}</td>
                 </tr>
                 <tr id="profile_stats_names">
                     <td>Songs</td>
@@ -40,9 +40,6 @@
             </table>
 
 
-               <!--  <div class="profile_stats" id ="profile_songs">  <span> </span> <p> Songs </p> </div>
-                <div class="profile_stats" id = "profile_followers">  <span> </span> Followers </div>
-                <div class="profile_stats" id = "profile_following"> <span> </span> Following </div> -->
             
 
         </div>
@@ -53,7 +50,7 @@
 
 
 
-    <div id="eddy" class="col-md-3">
+    <div id="eddy" class="col-md-4">
         <h3> Your personalised playlists </h3>
         <div id="loading"> </div>
         <br>

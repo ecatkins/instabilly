@@ -228,6 +228,14 @@ td {
 
 }
 
+#following {
+    cursor: pointer;
+}
+
+#followers {
+    cursor: pointer;
+}
+
 
 /*My practice navbar*/
 #navlist {
