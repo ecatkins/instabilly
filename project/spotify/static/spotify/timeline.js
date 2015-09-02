@@ -24,8 +24,9 @@ function update_user_profile() {
                 var following_count = data['following_count']
                 var followers_count = data['followers_count']
                 $("#profile_songs").html(song_count)
-                $("#profile_followers").html(followers_count)
-                $("#profile_following").html(following_count)
+                $("#followers").html(followers_count)
+                $("#following").html(following_count)
+
               }
         })
     } 
@@ -86,6 +87,18 @@ $(document).ready(function(){
         $("#followers-list").hide();
         updateFollowButtons();
     });
+
+    $("#followers").on("click", function(event){
+        event.preventDefault();
+        $("#following-button").addClass("active").prop('disabled', false);
+        $("#followers-button").addClass("disabled").prop('disabled', true);
+        $("#following-list").hide();
+        updateFollowButtons();
+    });
+
+
+
+
     $("#following-button").on("click", function() {
         if ($(this).hasClass("active")){
             $(this).removeClass("active");

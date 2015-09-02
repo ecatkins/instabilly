@@ -228,6 +228,14 @@ td {
 
 }
 
+#following {
+    cursor: pointer;
+}
+
+#followers {
+    cursor: pointer;
+}
+
 
 /*My practice navbar*/
 #navlist {
@@ -292,9 +300,8 @@ td {
     border-color:#2ebd59;
     border-width: 0.2em;
     border-style: solid;
-    color:#2ebd59;;
+    color:#2ebd59;
     background : transparent;
-
 }
 
 

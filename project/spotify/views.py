@@ -148,7 +148,8 @@ class TimelineView(View):
         following_count = len(follow_list)
         followers_count = len(followers)
         song_count = UserSong.objects.filter(user=user[0]).count()
-        return render(request, self.template, {"follow_list": follow_list, "followers": followers, "post_list": post_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count})
+        username = user[0].username.upper()
+        return render(request, self.template, {"follow_list": follow_list, "followers": followers, "post_list": post_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})
 
 
 class UpdateProfileView(View):
@@ -446,7 +447,6 @@ class SavePlaylistView(View):
         name = "NewPlaylist{0}".format(random.randrange(1,1000))
         new_playlist = sp.user_playlist_create(username,name)
         new_playlist_id = new_playlist['id']
-        print(new_playlist)
         track_uris = request.POST.getlist('uris[]')
         full_track_uris = ["spotify:track:" + track for track in track_uris]
         sp.user_playlist_add_tracks(username,new_playlist_id,full_track_uris)
