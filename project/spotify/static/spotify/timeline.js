@@ -1,6 +1,7 @@
 function updateFollowButtons(){
     $.getJSON("/getfollowing", function(data){
         var followlist = data['JSON_follow_list'];
+        console.log(followlist)
         $(".followButton").each(function(){
             for (item in followlist) {
                 if ($(this).closest('tr').attr('id') === followlist[item]) {
@@ -16,6 +17,39 @@ function updateFollowButtons(){
         });    
     });
 }       
+
+
+//call this whenever a new followBUtton appears on the DOM//
+function followButtonClickListeners(event){
+    event.preventDefault();
+    $button = $(this);
+    var id = $(this).closest('tr').attr('id')
+    console.log(id)
+    if($button.hasClass('following')){
+                    
+        $.post("/unfollow", {"id": id}, function(data){
+            console.log(data);
+            $button.removeClass('following');
+            $button.removeClass('unfollow');
+            $button.text('Follow');
+            if ($button.closest('table').attr('id') === "following-list"){
+                $button.closest('tr').remove();
+                $("#followers-list").find("#" + id).find("button").removeClass("following").text("Follow");
+            }
+            else {
+                $("#following-list").find("#" + id).remove();
+            }
+        })       
+    } else {
+            $.post("/follow", {'id': id}, function(data) {
+            console.log("following ", data["following"]);
+            var following = data["following"]
+            $button.addClass('following');
+            $button.text('Following');
+            $("#following-list tr:last").after("<tr id=" + following + "><td>" + following + "</td><td><button class='btn followButton following'>Following</button></tr>")
+        })
+    }
+}
 
 
 /// Call this on any event that changes the number of ///
@@ -159,9 +193,7 @@ $(document).ready(function(){
             }
         })
     })
-
-    $('button.followButton').on('click', function(event){
-        console.log("here")
+    $("#user-search-results").on('click', 'button.followButton', function(event){
         event.preventDefault();
         $button = $(this);
         var id = $(this).closest('tr').attr('id')
@@ -185,38 +217,25 @@ $(document).ready(function(){
                 $button.addClass('following');
                 $button.text('Following');
                 $("#following-list tr:last").after("<tr id=" + following + "><td>" + following + "</td><td><button class='btn followButton following'>Following</button></tr>")
-                $('button.followButton').hover(function(){
-                    $button = $(this);
-                    if($button.hasClass('following')){
-                        $button.addClass('unfollow');
-                        $button.text('Unfollow');
-                    }
-                }, function(){
-                    if($button.hasClass('following')){
-                        $button.removeClass('unfollow');
-                        $button.text('Following');
-                    }
-                });
+                
             })
         }
     });
-    $('button.followButton').hover(function(){
-        $button = $(this);
-        if($button.hasClass('following')){
+    $("#user-search-results").on("mouseenter", "button.followButton", function(){
+        console.log("got it")
+        $button = $(this)
+        if($button.hasClass('following')) {
             $button.addClass('unfollow');
             $button.text('Unfollow');
         }
-    }, function(){
-        if($button.hasClass('following')){
+    });
+
+    $("#user-search-results").on("mouseleave", "button.followButton", function(){
+        if($button.hasClass('following')) {
             $button.removeClass('unfollow');
             $button.text('Following');
         }
     });
-
-    $("#find").on("click", function() {
-        event.preventDefault();
-        updateFollowButtons();
-    })
 
     $("#createpost").on("click", function() {
         $("#searchresult_list").empty();
@@ -264,15 +283,19 @@ $(document).ready(function(){
         var usernameQuery = $("[name=user_query]").val();
         $.getJSON("find_user", {"usernameQuery": usernameQuery}, function(data){
             var userList = data["search_result"];
+            console.log(userList)
             if (userList === "No results found..." || userList === "Please input a username.") {
                 $("#user-search-results").append("<tr><td>" + userList + "</td></tr>")
             }
             else {
-                for (i in userList) {
-                    $("#user-search-results").append("<tr><td>" + userList[i] + "</td><td><button class='btn followButton'>Follow</button></td></tr>")
+                var $searchdiv = $("#user-search");
+                // <table id="user-search-results"></table>
+                for (var i in userList) {
+                    $("#user-search-results").append("<tr id=" + userList[i] +"><td>" + userList[i] + "</td><td><button class='btn followButton'>Follow</button></td></tr>");
                 }
             }
         });
+        updateFollowButtons();
     });
 
 
