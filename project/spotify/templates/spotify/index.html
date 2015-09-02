@@ -37,58 +37,54 @@
                     <td>Songs</td>
                     <td>Followers</td>
                     <td>Following</td>
+                </tr>
             </table>
-
-
-            
-
         </div>
-        <h3>Your Stream</h3>
-        <table id="mini-feed" class="table table-striped"></table>
+        <div>
+            <h3>Your Stream</h3>
+            <table id="mini-feed" class="table table-striped"></table>
+        </div>
     </div>
-
-
-
 
     <div id="eddy" class="col-md-4">
         <h3> Your personalised playlists </h3>
         <div id="loading"> </div>
         <br>
         <h4>You</h4>
-            <div class = "timelineplaylist" id="yourplaylist"> 
-                <div class = "playlist_image" id ="yourplaylist_image"> </div>
-                <div id="yourplaylist_playlist" class="playlist_playlist"> </div>
-                <div id="yourplaylist_buttons" class="btn-group" role="group" aria-label="...">
-                  <button id="yourplaylist_like" type="button" class="btn btn-default">
+        <div class = "timelineplaylist" id="yourplaylist"> 
+            <div class = "playlist_image" id ="yourplaylist_image"> </div>
+            <div id="yourplaylist_playlist" class="playlist_playlist"> </div>
+            <div id="yourplaylist_buttons" class="btn-group" role="group" aria-label="...">
+                <button id="yourplaylist_like" type="button" class="btn btn-default">
                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                  </button>
-                  <button id="yourplaylist_dislike" type="button" class="btn btn-default">
-                      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                  </button>
-                  <button id="yourplaylist_save"  type="button" class="btn btn-default">
-                      <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
-                  </button>
-    
-                </div> 
+                </button>
+                <button id="yourplaylist_dislike" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+                <button id="yourplaylist_save"  type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                </button>
             </div>
+        </div> 
 
-          <h4>Your Friends</h4>
-            <div class = "timelineplaylist" id="friendsplaylist"> 
-                <div class = "playlist_image" id ="friendsplaylist_image"> </div>
-                <div class="playlist_playlist" id ="friendsplaylist_playlist"> </div>
-                <div id="friendsplaylist_buttons" class="btn-group" role="group" aria-label="...">
-                  <button id="friendsplaylist_like" type="button" class="btn btn-default">
-                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
-                  <button type="button" id="friendsplaylist_dislike" class="btn btn-default">
-                    <span  class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                  </button>
-                  <button type="button" id="friendsplaylist_save" class="btn btn-default">
-                    <span  class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
-                  </button>
-                </div>
+        <h4>Your Friends</h4>
+        <div class = "timelineplaylist" id="friendsplaylist"> 
+            <div class = "playlist_image" id ="friendsplaylist_image"> </div>
+            <div class="playlist_playlist" id ="friendsplaylist_playlist"> </div>
+            <div id="friendsplaylist_buttons" class="btn-group" role="group" aria-label="...">
+              <button id="friendsplaylist_like" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+              <button id="friendsplaylist_dislike" type="button" class="btn btn-default">
+                <span  class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+              </button>
+              <button id="friendsplaylist_save" type="button" class="btn btn-default">
+                <span  class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+              </button>
             </div>
         </div>
     </div>
+</div>
+
 
 
 
@@ -168,7 +164,6 @@
                     <button id="followers-button" class="btn btn-info">Followers</button>
                 </div>
                 <div class="modal-body">
-                    {% if follow_list %}
                         <table id="following-list">
                         {% for user in follow_list %}
                             <tr id="{{ user }}">
@@ -177,8 +172,6 @@
                             </tr>
                         {% endfor %}
                         </table>
-                    {% endif %}
-                    {% if followers %}
                         <table id="followers-list">
                         {% for user in followers %}
                             <tr id="{{ user.user }}">
@@ -187,7 +180,6 @@
                             </tr>
                         {% endfor %}
                         </table>
-                    {% endif %}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
