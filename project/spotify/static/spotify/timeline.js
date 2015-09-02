@@ -19,7 +19,37 @@ function updateFollowButtons(){
     });
 }       
 
-
+//call this whenever a new followBUtton appears on the DOM//
+function followButtonClickListeners(event){
+    event.preventDefault();
+    $button = $(this);
+    var id = $(this).closest('tr').attr('id')
+    console.log(id)
+    if($button.hasClass('following')){
+                    
+        $.post("/unfollow", {"id": id}, function(data){
+            console.log(data);
+            $button.removeClass('following');
+            $button.removeClass('unfollow');
+            $button.text('Follow');
+            if ($button.closest('table').attr('id') === "following-list"){
+                $button.closest('tr').remove();
+                $("#followers-list").find("#" + id).find("button").removeClass("following").text("Follow");
+            }
+            else {
+                $("#following-list").find("#" + id).remove();
+            }
+        })       
+    } else {
+            $.post("/follow", {'id': id}, function(data) {
+            console.log("following ", data["following"]);
+            var following = data["following"]
+            $button.addClass('following');
+            $button.text('Following');
+            $("#following-list tr:last").after("<tr id=" + following + "><td>" + following + "</td><td><button class='btn followButton following'>Following</button></tr>")
+        })
+    }
+}
 //// Eddy's Space ////
 
 /// Call this on any event that changes the number of ///
@@ -237,7 +267,9 @@ $(document).ready(function(){
                 $("#user-search-results").append("<tr><td>" + userList + "</td></tr>")
             }
             else {
-                for (i in userList) {
+                var $searchdiv = $("#user-search");
+                // <table id="user-search-results"></table>
+                for (var i in userList) {
                     $("#user-search-results").append("<tr><td>" + userList[i] + "</td><td><button class='btn followButton'>Follow</button></td></tr>")
                 }
             }
