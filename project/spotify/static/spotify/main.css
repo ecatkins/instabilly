@@ -242,7 +242,7 @@ td {
 
 
 /*My practice navbar*/
-#navlist {
+.navlist {
     /*background-color: #4C4000;*/
     background-color: black;
     border-color: rgba(255,215,0,0.6);
@@ -252,13 +252,13 @@ td {
     padding: 0;
     text-align: center;
     height:4em;
-    font-size: 1.2em
+    font-size: 1.2em;
+    margin-bottom:2em;
 
-    /*box-shadow: 2px 2px 2px #FFD700;*/
 }
 
 
-#navlist li {
+.navlist li {
     display: inline;
     list-style-type: none;
     padding-right: 20px;
@@ -266,7 +266,7 @@ td {
     
 }
 
-#navlist li a {
+.navlist li a {
     text-decoration: none;
     color:white;
     vertical-align: middle;
