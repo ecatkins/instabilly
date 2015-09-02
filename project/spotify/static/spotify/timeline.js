@@ -448,9 +448,7 @@ $(document).ready(function(){
 
     else {
 
-        console.log("cmon")
-
-
+        $("#friendsplaylist").html("You have NO friends. Click the Find Other Users button in the menu bar to follow other people and see a playlist based on their songs (then refresh the page)")
 
     }
 
