@@ -346,36 +346,40 @@ def get_user_token(request):
 
 def refresh_token(request):
     grant_type = "refresh_token"
+    post_route = "https://accounts.spotify.com/api/token"
     refresh_token = request.session['refresh_token']
+    callback = SPOTIPY_REDIRECT_URI
     pay_load = {"grant_type":grant_type, "refresh_token":refresh_token, "redirect_uri":callback,"client_id":SPOTIPY_CLIENT_ID,"client_secret":SPOTIPY_CLIENT_SECRET}
     r = requests.post(post_route,data=pay_load)
+    print(r)
     token = r.json()['access_token']
-    refresh_token = r.json()['refresh_token']
+    # refresh_token = r.json()['refresh_token']
     request.session['access_token'] = token
-    request.session['refresh_token'] = refresh_token
+    # request.session['refresh_token'] = refresh_token
     return token
+
+def get_spotipy_instance(request):
+    if 'spotify_code' in request.session.keys():
+        try:
+            token = get_user_token(request)
+            sp = spotipy.Spotify(auth=token)
+            username = sp.current_user()['id'] 
+        except:
+            try:
+                token = request.session['access_token']
+                sp = spotipy.Spotify(auth=token)
+                username = sp.current_user()['id']
+            except:
+                token = refresh_token(request)
+                sp = spotipy.Spotify(auth=token)
+                username = sp.current_user()['id']
+    return sp,username
 
 
 
 class SeedUserLibraryView(View):
     def get(self, request):
-        try:
-            if 'spotify_code' in request.session.keys():
-                token = get_user_token(request)
-            elif 'access_token' in request.session.keys():
-                token = request.session['access_token']
-                try:
-                    sp = spotipy.Spotify(auth=token)
-                    username = sp.current_user()['id']
-                ### If the token is expired
-                except:
-                    token = refresh_token(request)
-                    sp = spotipy.Spotify(auth=token)
-                    username = sp.current_user()['id']
-        except:
-            print("before redirect")
-            return JsonResponse({"status":"redirect"})
-        sp = spotipy.Spotify(auth=token)
+        sp,username = get_spotipy_instance(request)
         user = User.objects.get(pk=request.session['session_id'])
         saved_tracks = get_user_saved_tracks(sp, user)
         playlist_tracks = get_user_playlist_tracks(sp, user)
@@ -426,30 +430,21 @@ class RatingView(View):
         status = update_ratings(user,track_uris,decision)
         return JsonResponse({"status": "Success"})
 
+
+
+
 class SavePlaylistView(View):
    
     def post(self,request):
-        pdb.set_trace()
-        if 'spotify_code' in request.session.keys():
-            token = get_user_token(request)
-            sp = spotipy.Spotify(auth=token)
-            username = sp.current_user()['id']
-        elif 'access_token' in request.session.keys():
-            token = request.session['access_token']
-            try:
-                sp = spotipy.Spotify(auth=token)
-                username = sp.current_user()['id']
-            ### If the token is expired
-            except:
-                token = refresh_token(request)
-                sp = spotipy.Spotify(auth=token)
-                username = sp.current_user()['id']
+        # pdb.set_trace()
+        sp,username = get_spotipy_instance(request)
         name = "NewPlaylist{0}".format(random.randrange(1,1000))
         new_playlist = sp.user_playlist_create(username,name)
         new_playlist_id = new_playlist['id']
         track_uris = request.POST.getlist('uris[]')
         full_track_uris = ["spotify:track:" + track for track in track_uris]
         sp.user_playlist_add_tracks(username,new_playlist_id,full_track_uris)
+        print(new_playlist)
         return JsonResponse({"Success":"success"})
 
 

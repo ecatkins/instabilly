@@ -343,16 +343,27 @@ $(document).ready(function(){
                     $(this).fadeOut(2000)
                     $("#yourplaylist_buttons").css("display","inline")
                     /// Bind the like save and dislike events to the button
+                    /// On successful, disables relevant button and changes colors of to relevant colors
                     $("#yourplaylist_like").on("click", function() {
+                         $("#yourplaylist_like").prop("disabled",true);
+                         $("#yourplaylist_dislike").prop("disabled",true);
                         $.post("rating", {"uris": your_uris, "decision": "like"}, function(data){
+                            $("#yourplaylist_like span").css("color","#ffd700")
+
                         })
                     })
                     $("#yourplaylist_dislike").on("click", function() {
+                        $("#yourplaylist_like").prop("disabled",true);
+                        $("#yourplaylist_dislike").prop("disabled",true);
                         $.post("rating", {"uris": your_uris, "decision": "dislike"}, function(data){
+                            $("#yourplaylist_dislike span").css("color","#ffd700")
+
                         })
                     })
                     $("#yourplaylist_save").on("click", function() {
+                        $("#yourplaylist_save").prop("disabled",true);
                         $.post("saveplaylist", {"uris": your_uris}, function(data){
+                            $("#yourplaylist_save span").css("color","#ffd700")
                         })
                     })
                 })       
@@ -406,23 +417,38 @@ $(document).ready(function(){
                     $(this).fadeOut(2000)
                     $("#friendsplaylist_buttons").css("display","inline")
                     /// Bind the like save and dislike events to the button
+                    /// On successful, disables relevant button and changes colors of to relevant colors
                     $("#friendsplaylist_like").on("click", function() {
+                        $("#friendsplaylist_like").prop("disabled",true)
+                        $("#friendsplaylist_dislike").prop("disabled",true)
                         $.post("rating", {"uris": friends_uris, "decision": "like"}, function(data){
-                            
+                            $("#friendsplaylist_like span").css("color","#ffd700")
+
                         })
                     })
                     $("#friendsplaylist_dislike").on("click", function() {
+                        $("#friendsplaylist_like").prop("disabled",true)
+                        $("#friendsplaylist_dislike").prop("disabled",true)
                         $.post("rating", {"uris": friends_uris, "decision": "dislike"}, function(data){
+                            $("#friendsplaylist_dislike span").css("color","#ffd700")
                         })
                     })
                     $("#friendsplaylist_save").on("click", function() {
+                        $("#friendsplaylist_save").prop("disabled",true)
                         $.post("saveplaylist", {"uris": friends_uris}, function(data){
+                             $("#friendsplaylist_save span").css("color","#ffd700")
                         })
                     })
 
                 })
              
             })
+
+    }
+
+    else {
+
+        console.log("cmon")
 
 
 

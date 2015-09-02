@@ -10,11 +10,11 @@ def wipe_ratings(user=None):
 		user_ratings.delete()
 
 def update_ratings(user,track_uris,decision):
-	print(decision)
 	rating_array = []
 	for track in track_uris:
 		full_uri = "spotify:track:" + track
-		song = Song.objects.get(track_uri=full_uri)
+		song_list = Song.objects.filter(track_uri=full_uri)
+		song = song_list[0]
 		artist = song.artists
 		current_rating = ArtistRating.objects.filter(user=user,artist=artist)
 		if len(current_rating) == 1:
