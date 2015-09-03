@@ -12,12 +12,14 @@
 <div class="row page"> 
     <div class ="navcontainer" class="col-md-12">
         <ul class= "navlist">
+            <li><img src = "{% static 'spotify/TinyMMLogo.png' %}"></li>
             <li><a id='logout' href="/logout">Logout</a></li>
             <li><a id='engine' href="/engine">Recommendation Engine</a></li>
             <li><a id='createpost' href='' data-toggle="modal" data-target="#mySearchModal">Create Post</a></li>
             <li><a id='sync' href=''>Sync Library</a></li>
             <!-- <li><a id='following' href='' data-toggle="modal" data-target="#UsersModal">Following</a></li> -->
             <li><a id='find' href='' data-toggle="modal" data-target="#FindModal">Find Other Users</a></li>
+            <li><img src = "{% static 'spotify/TinyMMLogo.png' %}"></li>
         </ul>
    </div>
 </div>
@@ -205,18 +207,16 @@
             </div>
             <div class="modal-body">
                 <h4>Latest user posts</h4>
-                {% if post_list %}
-                    <table id="users-list">
-                    {% for post in post_list %}
-                        <tr id="{{ post.user }}">
-                            <td>{{ post.user }}</td>
-                            <td>{{ post.content }}</td>
-                            <td><iframe src="https://embed.spotify.com/?uri={{ post.song.song.track_uri }}" width="250" height="80" frameborder="0" allowtransparency="true"></iframe></td>
-                            <td><button class="btn followButton">follow</button></td>
-                        </tr>
-                    {% endfor %}
-                    </table>
-                {% endif %}
+                <table id="users-list">
+                {% for post in post_list %}
+                    <tr id="{{ post.user }}">
+                        <td>{{ post.user }}</td>
+                        <td>{{ post.content }}</td>
+                        <td><iframe src="https://embed.spotify.com/?uri={{ post.song.song.track_uri }}" width="250" height="80" frameborder="0" allowtransparency="true"></iframe></td>
+                        <td><button class="btn followButton">follow</button></td>
+                    </tr>
+                {% endfor %}
+                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
