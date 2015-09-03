@@ -273,7 +273,14 @@ td {
 
 .fa-frown-o {
     color:white;
+    font-size: 10em;
+    width:10em;
+    height: 10em;
+    font-family: FontAwesome;
 }
+
+
+
 
     /*profile specific*/
 
