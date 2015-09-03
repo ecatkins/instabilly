@@ -292,6 +292,7 @@ $(document).ready(function(){
 
     /////// Generates playlists ///////
         /// Sets the initial size of the playlist div
+
     $(".timelineplaylist").css("height","20em")
 
     var num_songs = parseInt($("#profile_songs").text())
@@ -309,7 +310,7 @@ $(document).ready(function(){
         $.post('playlist', post_data, function(data) {
                 var your_uris = data['track_uris']
                 var cover_art = data['cover_art']
-                $("#yourplaylist_image").append('<img id="yourplaylist_image_image" src="'+ cover_art +'">')
+                $("#yourplaylist_image").html('<img id="yourplaylist_image_image" src="'+ cover_art +'">')
                 $("#yourplaylist_image").css("width","80%")
                 $("#yourplaylist_image_image").css("width","100%");
 
@@ -441,38 +442,10 @@ $(document).ready(function(){
                         $("#friendsplaylist_save").prop("disabled",true)
                         $.post("saveplaylist", {"uris": friends_uris}, function(data){
                              $("#friendsplaylist_save span").css("color","#ffd700")
-                        })
                     })
-
                 })
-             
-            })
-
+            }) 
+        })
     }
-
-    else {
-        $("#friendsplaylist").html("<i class='fa fa-frown-o fa-5'></i>")
-        $("#friendsplaylist i").css("height","50px")
-        $("#friendsplaylist i").css("width","50px")
-        $("#friendsplaylist i").css("z-index","1")
-        $("#friendsplaylist i").css("font-size","50px")
-        $("#friendsplaylist i").css("color","white")
-        // $("#friendsplaylist").html("You have NO friends. Click the Find Other Users button in the menu bar to follow other people and see a playlist based on their songs (then refresh the page)")
-
-    }
-
-
-  
-
-
-$('#testpopover').popover({
-    html:true,
-    title:"header",
-    content: function() {
-        return '<span id="like" class="glyphicon glyphicon-ok" aria-hidden="true"></span>'  
-    }
-
-})
-
 })
 
