@@ -217,7 +217,7 @@ if (num_following > 0) {
         })
     }
     else {
-        $("#friendsplaylist_image").html("<img src='/static/spotify/images/sadguy_gold.png'/><p>You have NO friends. Click the Find Other Users button in the menu bar to follow other people and see a playlist based on their songs (then refresh the page)</p>")
+        $("#friendsplaylist_image").html("<img src='/static/spotify/images/sadguy_gold.png'/><p>You have NO friends. Click the Find Other Users button in the menu bar to follow other people and see a playlist based on their songs </p>")
     }
 }
 
@@ -320,26 +320,41 @@ $(document).ready(function(){
             $("#mini-feed").append("<tr id=" + all_posts[post].user + " data-track=" + all_posts[post].track_uri + " class=minifeed-post><td><p>posted by: " + all_posts[post].user + "</p><p><button class='btn followButton'>Follow</button></p></td><td><p>" + all_posts[post].content + "</p></td><td><iframe src='https://embed.spotify.com/?uri=" + all_posts[post].track_uri + "'width=250 height=80 frameborder=0 allowtransparency=true></iframe></td><td><button id=song" + count + " type=button class='savesong'><span class='glyphicon glyphicon-floppy-disk' aria-hidden=true></span></button></tr>");
             count += 1;
         }
+        $(".savesong").css(({"background-color":"transparent","border-color":"transparent"}))
+        $(".savesong").on("mouseenter",function() {
+            $(this).css("color","#CCCCFF")
+        })
+        $(".savesong").on("mouseleave",function() {
+            $(this).css("color","white")
+        })
         updateFollowButtons();
     });
 
+ 
 
     //// Syncs the users playlist, 
     $("#sync").on("click", function(event){
         event.preventDefault();
+        $('#syncModal').modal('show');
+        $("#synctext").html("Please wait while your songs are syncing")
+        $("#syncgif").html('<img src="/static/spotify/images/progress.gif"/>')
+        var modal_width = $("#syncModal").width()
+        $("#syncgif img").css(({"max-width":modal_width/4,"max-height":modal_width/4}))
+        $("#sync_button").hide() 
         $.getJSON("/seed", function(data){
             update_user_profile(your_playlist);
+            $('#syncModal').modal('hide') 
             });
         });
 
 
+
     $("#mini-feed").on("click", '.savesong', function() {
         var track_uri = $(this).closest('tr').attr('data-track');
-        console.log($(this));
+        var target = $(this)
+        target.prop("disabled",true);
         $.post("save_song", {"track_uri": track_uri}, function(data){
-            console.log(data);
-            console.log($(this).find('span'));
-            $(this).find('span').css("color","#ffd700");
+            target.find('span').css("color","#ffd700");
 
         });
     });
