@@ -45,7 +45,7 @@ def similar_users(user,neighbors):
 	y_array = [random.random() for x in range(len(x_array))]
 	neigh = KNeighborsClassifier(n_neighbors=neighbors)
 	neigh.fit(x_array, y_array)
-	result = neigh.kneighbors((user_array),neighbors)
+	result = neigh.kneighbors(user_array,neighbors)
 	similar_users = [[id_array[result[1][0][x]],result[0][0][x]] for x in range(neighbors)]
 	return similar_users
 

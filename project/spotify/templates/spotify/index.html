@@ -71,7 +71,7 @@
 
         <h4>Your Friends</h4>
         <div class = "timelineplaylist" id="friendsplaylist"> 
-            <div class = "playlist_image" id ="friendsplaylist_image">You have NO friends. Click the Find Other Users button in the menu bar to follow other people and see a playlist based on their songs (then refresh the page)</div>
+            <div class = "playlist_image" id ="friendsplaylist_image"></div>
             <div class="playlist_playlist" id ="friendsplaylist_playlist"> </div>
             <div id="friendsplaylist_buttons" class="btn-group" role="group" aria-label="...">
               <button class ="playlist_button playlist_like" id="friendsplaylist_like" type="button" class="btn btn-default">
@@ -215,7 +215,7 @@
                     <tr id="{{ post.user }}">
                         <td>
                             <p>{{ post.user }}</p>
-                            <p><button class="btn followButton">follow</button></p>
+                            <p><button class="btn followButton">Follow</button></p>
                         </td>
                         <td>{{ post.content }}</td>
                         <td>
