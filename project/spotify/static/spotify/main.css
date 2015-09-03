@@ -378,6 +378,13 @@ textarea {
     background : transparent;
 }
 
+#yourplaylist_image_image:hover {
+    cursor: pointer;
+}
+
+#friendsplaylist_image_image:hover {
+    cursor: pointer;
+}
 
 #playlist_player {
     height:450px;
