@@ -16,7 +16,7 @@
             <li><a id='engine' href="/engine">Recommendation Engine</a></li>
             <li><a id='createpost' href='' data-toggle="modal" data-target="#mySearchModal">Create Post</a></li>
             <li><a id='sync' href=''>Sync Library</a></li>
-            <!-- <li><a id='following' href='' data-toggle="modal" data-target="#UsersModal">Following</a></li> -->
+            
             <li><a id='find' href='' data-toggle="modal" data-target="#FindModal">Find Other Users</a></li>
         </ul>
    </div>
@@ -55,13 +55,13 @@
             <div class = "playlist_image" id ="yourplaylist_image"> </div>
             <div id="yourplaylist_playlist" class="playlist_playlist"> </div>
             <div id="yourplaylist_buttons" class="btn-group" role="group" aria-label="...">
-                <button id="yourplaylist_like" type="button" class="btn btn-default">
+                <button class ="playlist_button playlist_like" id="yourplaylist_like" type="button">
                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                 </button>
-                <button id="yourplaylist_dislike" type="button" class="btn btn-default">
+                <button class ="playlist_button playlist_dislike" id="yourplaylist_dislike" type="button">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                 </button>
-                <button id="yourplaylist_save"  type="button" class="btn btn-default">
+                <button class ="playlist_button playlist_save" id="yourplaylist_save"  type="button">
                     <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
                 </button>
             </div>
@@ -72,12 +72,12 @@
             <div class = "playlist_image" id ="friendsplaylist_image"> </div>
             <div class="playlist_playlist" id ="friendsplaylist_playlist"> </div>
             <div id="friendsplaylist_buttons" class="btn-group" role="group" aria-label="...">
-              <button id="friendsplaylist_like" type="button" class="btn btn-default">
+              <button class ="playlist_button playlist_like" id="friendsplaylist_like" type="button" class="btn btn-default">
                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
-              <button id="friendsplaylist_dislike" type="button" class="btn btn-default">
+              <button class ="playlist_button playlist_dislike" id="friendsplaylist_dislike" type="button" class="btn btn-default">
                 <span  class="glyphicon glyphicon-remove" aria-hidden="true"></span>
               </button>
-              <button id="friendsplaylist_save" type="button" class="btn btn-default">
+              <button class ="playlist_button playlist_save" id="friendsplaylist_save" type="button" class="btn btn-default">
                 <span  class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
               </button>
             </div>
