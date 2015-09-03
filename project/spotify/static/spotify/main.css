@@ -118,6 +118,10 @@ i {
     overflow-y: scroll;
 }
 
+#mini-feed:last-child {
+    border-bottom: 1px solid white;
+}
+
 td {
     text-align: center;
     color: black;

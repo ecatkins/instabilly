@@ -142,7 +142,7 @@ $(document).ready(function(){
         var all_posts = data['all_posts'];
         var count = 0;
         for (post in all_posts) {
-            $("#mini-feed").append("<tr id=" + all_posts[post].user + " data-track=" + all_posts[post].track_uri + " class=minifeed-post><td><p>posted by: " + all_posts[post].user + "</p><p><button class='btn followButton'>Follow</button></p></td><td>" + all_posts[post].content + "</td><td><iframe src='https://embed.spotify.com/?uri=" + all_posts[post].track_uri + "'width=250 height=80 frameborder=0 allowtransparency=true></iframe></td><td><button id=song" + count + " type=button class='btn btn-default savesong'><span class='glyphicon glyphicon-floppy-disk' aria-hidden=true></span></button></tr>");
+            $("#mini-feed").append("<tr id=" + all_posts[post].user + " data-track=" + all_posts[post].track_uri + " class=minifeed-post><td><p>posted by: " + all_posts[post].user + "</p><p><button class='btn followButton'>Follow</button></p></td><td><p>" + all_posts[post].content + "</p></td><td><iframe src='https://embed.spotify.com/?uri=" + all_posts[post].track_uri + "'width=250 height=80 frameborder=0 allowtransparency=true></iframe></td><td><button id=song" + count + " type=button class='btn btn-default savesong'><span class='glyphicon glyphicon-floppy-disk' aria-hidden=true></span></button></tr>");
             count += 1;
         }
         updateFollowButtons();
@@ -172,14 +172,16 @@ $(document).ready(function(){
 
 
     $("#mini-feed").on("click", '.savesong', function() {
+        console.log($(this).firstChild);
         var track_uri = $(this).closest('tr').attr('data-track');
         $.post("save_song", {"track_uri": track_uri}, function(data){
-            console.log(data)
-            $(".savesong span").css("color","#ffd700")
+            console.log(data);
+            $(this).closest(".savesong span").css("color","#ffd700");
+
         });
     });
 
-    $("#mini-feed, #user-search-results, #following-list, #followers-list").on('click', 'button.followButton', function(event){
+    $("#mini-feed, #user-search-results, #users-list, #following-list, #followers-list").on('click', 'button.followButton', function(event){
         event.preventDefault();
         $button = $(this);
         var id = $(this).closest('tr').attr('id')
@@ -209,7 +211,7 @@ $(document).ready(function(){
                 });
             }
         });
-    $("#mini-feed, #user-search-results, #following-list, #followers-list").on("mouseenter", "button.followButton", function(){
+    $("#mini-feed, #user-search-results, #users-list, #following-list, #followers-list").on("mouseenter", "button.followButton", function(){
         console.log("got it")
         $button = $(this)
         if($button.hasClass('following')) {
@@ -218,7 +220,7 @@ $(document).ready(function(){
         }
     });
 
-    $("#mini-feed, #user-search-results, #following-list, #followers-list").on("mouseleave", "button.followButton", function(){
+    $("#mini-feed, #user-search-results, #users-list, #following-list, #followers-list").on("mouseleave", "button.followButton", function(){
         if($button.hasClass('following')) {
             $button.removeClass('unfollow');
             $button.text('Following');
