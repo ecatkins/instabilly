@@ -28,7 +28,7 @@ $(document).ready(function() {
 		$.post('playlist', post_data, function(data) {
 			var uris = data['track_uris']
 			var cover_art = data['cover_art']
-			$("#engineplaylist_image").append('<img id="engineplaylist_image_image" src="'+ cover_art +'">')
+			$("#engineplaylist_image").html('<img id="engineplaylist_image_image" src="'+ cover_art +'">')
 			
 			var iw = $('#playlist_player').width();
 			$('#engineplaylist_image_image').css({'width':iw+'px'});
@@ -76,37 +76,31 @@ $(document).ready(function() {
 
 
 
-            
-              	   
-       
               	$("#like").on("click", function() {
-				$.post("rating", {"uris": uris, "decision": "like"}, function(data){
-	
-			
-				})
+              		$("#like").prop("disabled",true);
+              		$("#dislike").prop("disabled",true);
+					$.post("rating", {"uris": uris, "decision": "like"}, function(data){
+						$("#like span").css("color","#ffd700")
 					})
+				})
 				
 
 				$("#dislike").on("click", function() {
-						
-						$.post("rating", {"uris": uris, "decision": "dislike"}, function(data){
-						
+					$("#like").prop("disabled",true);
+              		$("#dislike").prop("disabled",true);	
+					$.post("rating", {"uris": uris, "decision": "dislike"}, function(data){
+						$("#dislike span").css("color","#ffd700")
 						})
 				})
 
 				$("#save").on("click", function() {
-						
+						$("#save").prop("disabled",true);
 						$.post("saveplaylist", {"uris": uris}, function(data){
-							if (data['status'] === "success") {
-								
-
-							}
-						})
+							 $("#save span").css("color","#ffd700")
+							 console.log("saved")
+					})
 				})	
-
-
 		   	})		
-
 		})
 	})
 
@@ -124,9 +118,6 @@ $(document).ready(function() {
 	$('#playlist_player').css({'height':pw+'px'});
 
 
-	// With JQuery
-	
-	$('.engineslider').slider()
 
 	$('.engineslider').slider({
 		formatter: function(value) {
