@@ -101,6 +101,8 @@ function your_playlist () {
 
 
                 $('#yourplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="'+pw+'" height="'+pw+'" frameborder="0" allowtransparency="true"></iframe>')
+                $("#eddy").css("height", "100%");
+
                 
 
                 /// When the user clicks on the image of the playlist ///
@@ -180,6 +182,8 @@ if (num_following > 0) {
             var pw = $('#friendsplaylist_playlist').width();
             $('#friendsplaylist_playlist').css({'height':pw+'px'});
             $('#friendsplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="'+pw+'" height="'+pw+'" frameborder="0" allowtransparency="true"></iframe>')
+            $("#eddy").css("height", "100%");
+
 
 
             /// When the user clicks on the image of the playlist ///
@@ -237,7 +241,6 @@ $(document).ready(function(){
     $(".timelineplaylist").css("height","20em");
     your_playlist();
     friends_playlist();
-
 
 
 
@@ -314,7 +317,7 @@ $(document).ready(function(){
         var all_posts = data['all_posts'];
         var count = 0;
         for (post in all_posts) {
-            $("#mini-feed").append("<tr id=" + all_posts[post].user + " data-track=" + all_posts[post].track_uri + " class=minifeed-post><td><p>posted by: " + all_posts[post].user + "</p><p><button class='btn followButton'>Follow</button></p></td><td><p>" + all_posts[post].content + "</p></td><td><iframe src='https://embed.spotify.com/?uri=" + all_posts[post].track_uri + "'width=250 height=80 frameborder=0 allowtransparency=true></iframe></td><td><button id=song" + count + " type=button class='btn btn-default savesong'><span class='glyphicon glyphicon-floppy-disk' aria-hidden=true></span></button></tr>");
+            $("#mini-feed").append("<tr id=" + all_posts[post].user + " data-track=" + all_posts[post].track_uri + " class=minifeed-post><td><p>posted by: " + all_posts[post].user + "</p><p><button class='btn followButton'>Follow</button></p></td><td><p>" + all_posts[post].content + "</p></td><td><iframe src='https://embed.spotify.com/?uri=" + all_posts[post].track_uri + "'width=250 height=80 frameborder=0 allowtransparency=true></iframe></td><td><button id=song" + count + " type=button class='savesong'><span class='glyphicon glyphicon-floppy-disk' aria-hidden=true></span></button></tr>");
             count += 1;
         }
         updateFollowButtons();
@@ -332,9 +335,11 @@ $(document).ready(function(){
 
     $("#mini-feed").on("click", '.savesong', function() {
         var track_uri = $(this).closest('tr').attr('data-track');
+        console.log($(this));
         $.post("save_song", {"track_uri": track_uri}, function(data){
             console.log(data);
-            $(this).closest(".savesong span").css("color","#ffd700");
+            console.log($(this).find('span'));
+            $(this).find('span').css("color","#ffd700");
 
         });
     });
