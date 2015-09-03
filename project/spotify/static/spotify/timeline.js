@@ -66,6 +66,9 @@ $(document).ready(function(){
 
     /// On page load checks if the user has any songs, and makes sure they sync ///
     check_song_count()
+    your_playlist()
+    friends_playlist()
+
 
 
     /// Sets the size of the profile text
@@ -295,6 +298,9 @@ $(document).ready(function(){
 
     $(".timelineplaylist").css("height","20em")
 
+    function your_playlist () {
+
+
     var num_songs = parseInt($("#profile_songs").text())
 
     if (num_songs > 0) {
@@ -375,7 +381,12 @@ $(document).ready(function(){
             })
         }
 
+    }
+
+    your_playlist()
     
+    function friends_playlist() {
+
 
     /// Friends ///
     var num_following = parseInt($("#following").text())
@@ -442,10 +453,12 @@ $(document).ready(function(){
                         $("#friendsplaylist_save").prop("disabled",true)
                         $.post("saveplaylist", {"uris": friends_uris}, function(data){
                              $("#friendsplaylist_save span").css("color","#ffd700")
+                        })
                     })
-                })
-            }) 
-        })
+                }) 
+            })
+        }
     }
+    
 })
 
