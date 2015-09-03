@@ -105,7 +105,14 @@ def duplicate_artist(playlist,user_song):
 			return True
 	return False
 
+def duplicate_song(playlist,user_song):
+	for song in playlist:
+		if song.song.track_uri == user_song.song.track_uri:
+			return True
+		return False
 
+
+# def battle_of_the_songs
 
 def create_playlist(user,neighbors,follow_effect,number_songs,recency_effect,rating_effect,duplicate_artist_effect,existing_playlist_effect):
 	'''Pass: the active user, number of neighbors to inform recommendation and
@@ -140,6 +147,7 @@ def create_playlist(user,neighbors,follow_effect,number_songs,recency_effect,rat
 		recommendation_array = []
 		replication_array = []
 		existing_playlist_array = []
+		duplicate_song_array = []
 		for user_song in song_number:
 			### Weighting factor 2, user previous recommendations of artist
 			recommendation = ArtistRating.objects.filter(user=user,artist=user_song.song.artists)
@@ -161,11 +169,16 @@ def create_playlist(user,neighbors,follow_effect,number_songs,recency_effect,rat
 				existing_playlist_array.append(1-existing_playlist_effect)
 			else:
 				existing_playlist_array.append(1)
+			### Final check to ensure no duplicate songs
+			if duplicate_song(playlist,user_song) == True:
+				duplicate_song_array.append(0)
+			else:
+				duplicate_song_array.append(1)
 		#Multiply arrays
 		final_weighting_array = []
 		#change len(distances) to len(neighbors)
 		for x in range(len(distances)):
-			final_weighting  = distances[x] * recommendation_array[x] * replication_array[x] * existing_playlist_array[x]
+			final_weighting  = distances[x] * recommendation_array[x] * replication_array[x] * existing_playlist_array[x] * duplicate_song_array[x]
 			final_weighting_array.append(final_weighting)
 		# Needs fixing to ensure that playlist is of conistent length
 		if sum(final_weighting_array) == 0:

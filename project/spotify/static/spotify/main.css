@@ -69,9 +69,7 @@ textarea {
     color:#ffd700;
 }
 
-i {
-	color:green;
-}
+
 
 .modal-content {
     color: black;
@@ -269,7 +267,9 @@ td {
     color:#CCCCFF;
 }
 
-
+.fa-frown-o {
+    color:white;
+}
 
     /*profile specific*/
 
