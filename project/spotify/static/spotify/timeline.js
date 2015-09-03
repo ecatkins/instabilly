@@ -212,6 +212,9 @@ if (num_following > 0) {
             }) 
         })
     }
+    else {
+        $("#friendsplaylist_image").html("<img src='/static/spotify/images/sadguy_gold.png'/><p>You have NO friends. Click the Find Other Users button in the menu bar to follow other people and see a playlist based on their songs (then refresh the page)</p>")
+    }
 }
 
 

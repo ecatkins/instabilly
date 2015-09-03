@@ -99,37 +99,7 @@ textarea {
     background-color: red;
 }
 
-
-
-#searchresult_list {
-    overflow-y: scroll;
-    height: 10em;
-}
-
-#following-list, #followers-list {
-    width: 20em;
-}
-
-#users-list tr{
-    width: 40em;
-    height: 5em;
-    overflow-y: scroll;
-}
-
-#mini-feed:last-child {
-    border-bottom: 1px solid white;
-}
-
-#user-search-results tr{
-    color: black;
-}
-
-td {
-    text-align: center;
-    vertical-align: center;
-}
-
-.minifeed-post td p {
+.minifeed-post td p:first-of-type {
     color: white;
 
 }
@@ -144,6 +114,51 @@ td {
 /*    background-color: #383838;
 */    background-color: #1c1c1f;
 }   
+
+#searchresult_list {
+    overflow-y: scroll;
+    height: 10em;
+}
+
+#following-list, #followers-list {
+    width: 20em;
+}
+
+#following-list tr td:first-of-type, #followers-list tr td:first-of-type{
+    color: black;
+}
+
+#users-list tr{
+    width: 40em;
+    height: 5em;
+}
+
+#users-list tr button {
+    color: black;
+}
+
+#users-list tr button:hover {
+    color: white;
+}
+
+#mini-feed:last-child {
+    border-bottom: 1px solid white;
+}
+
+#user-search{
+    width: 40em;
+    overflow-y: scroll;
+    height: 10em;
+}
+
+#user-search-results {
+    width: 15em;
+}
+
+#user-search-results tr td {
+    color: black;
+    text-align: right;
+}
 
 .glyphicon {
     font-size: 2em;
@@ -232,7 +247,21 @@ td {
 .timelineplaylist .playlist_image {
     position: absolute;
     z-index: 1;
-    right:0
+    right:0;
+}
+
+.timelineplaylist .playlist_image img{
+    width: 50%;
+    position: relative;
+    float:left;
+    vertical-align: center;
+}
+
+.timelineplaylist .playlist_image p{
+    width: 50%;
+    position: relative;
+    float: left;
+    margin-top: 20%;
 }
 
 .timelineplaylist .playlist_playlist {
