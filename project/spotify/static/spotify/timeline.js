@@ -449,8 +449,13 @@ $(document).ready(function(){
     }
 
     else {
-
-        $("#friendsplaylist").html("You have NO friends. Click the Find Other Users button in the menu bar to follow other people and see a playlist based on their songs (then refresh the page)")
+        $("#friendsplaylist").html("<i class='fa fa-frown-o fa-5'></i>")
+        $("#friendsplaylist i").css("height","50px")
+        $("#friendsplaylist i").css("width","50px")
+        $("#friendsplaylist i").css("z-index","1")
+        $("#friendsplaylist i").css("font-size","50px")
+        $("#friendsplaylist i").css("color","white")
+        // $("#friendsplaylist").html("You have NO friends. Click the Find Other Users button in the menu bar to follow other people and see a playlist based on their songs (then refresh the page)")
 
     }
 
