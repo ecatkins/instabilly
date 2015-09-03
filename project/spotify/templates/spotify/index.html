@@ -209,13 +209,17 @@
             </div>
             <div class="modal-body">
                 <h4>Latest user posts</h4>
-                <table id="users-list">
+                <table id="users-list" class="table table-striped">
                 {% for post in post_list %}
                     <tr id="{{ post.user }}">
-                        <td>{{ post.user }}</td>
+                        <td>
+                            <p>{{ post.user }}</p>
+                            <p><button class="btn followButton">follow</button></p>
+                        </td>
                         <td>{{ post.content }}</td>
-                        <td><iframe src="https://embed.spotify.com/?uri={{ post.song.song.track_uri }}" width="250" height="80" frameborder="0" allowtransparency="true"></iframe></td>
-                        <td><button class="btn followButton">follow</button></td>
+                        <td>
+                            <iframe src="https://embed.spotify.com/?uri={{ post.song.song.track_uri }}" width="250" height="80" frameborder="0" allowtransparency="true"></iframe>
+                        </td>
                     </tr>
                 {% endfor %}
                 </table>

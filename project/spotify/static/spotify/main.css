@@ -110,9 +110,9 @@ textarea {
     width: 20em;
 }
 
-#users-list {
+#users-list tr{
     width: 40em;
-    height: 30em;
+    height: 5em;
     overflow-y: scroll;
 }
 
@@ -120,9 +120,13 @@ textarea {
     border-bottom: 1px solid white;
 }
 
+#user-search-results tr{
+    color: black;
+}
+
 td {
     text-align: center;
-    color: black;
+    vertical-align: center;
 }
 
 .minifeed-post td p {
