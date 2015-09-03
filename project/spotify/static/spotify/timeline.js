@@ -52,6 +52,170 @@ function check_song_count() {
     }
 }
 
+function your_playlist () {
+
+
+    var num_songs = parseInt($("#profile_songs").text())
+
+    if (num_songs > 0) {
+        /// Personal ///
+        var number_songs = 10
+        var follow = 0
+        var recency_effect = 10
+        var rating_effect = 10
+        var duplicate_artist = 10
+        var existing_playlist = 10
+        var post_data = {"type":"your_home","number_songs":number_songs, "follow":follow, "recency_effect":recency_effect,"rating_effect":rating_effect,"duplicate_artist":duplicate_artist, "existing_playlist": existing_playlist}
+
+        $.post('playlist', post_data, function(data) {
+                var your_uris = data['track_uris']
+                var cover_art = data['cover_art']
+                $("#yourplaylist_image").html('<img id="yourplaylist_image_image" src="'+ cover_art +'">')
+                $("#yourplaylist_image").css("width","80%")
+                $("#yourplaylist_image_image").css("width","100%");
+
+
+
+                /// setting the position of the buttons
+                var div_width = $("#yourplaylist").width()
+                var imageheight =  $("#yourplaylist_image").width();
+                var buttons_width = $("#yourplaylist_buttons").width()
+                var buttons_centre = (div_width - imageheight) + 0.5 * imageheight - 0.5 * buttons_width 
+                $("#yourplaylist_buttons").css({"top":imageheight,"left":buttons_centre})
+
+                
+                ///Resets the size of the playlist div according to the size of the image ///
+                $(".timelineplaylist").css("height",imageheight*1.2)
+
+
+
+
+                var string = ""
+                for (var song in your_uris) {
+                    string += your_uris[song] + ','
+                }
+                string = string.substring(0, string.length - 1);
+                $('#yourplaylist_playlist').css("width","80%");
+                var pw = $('#yourplaylist_playlist').width();
+                $('#yourplaylist_playlist').css({'height':pw+'px'});
+
+
+                $('#yourplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="'+pw+'" height="'+pw+'" frameborder="0" allowtransparency="true"></iframe>')
+                
+
+                /// When the user clicks on the image of the playlist ///
+                $('#yourplaylist img').on('click', function() {
+                    $(this).fadeOut(2000)
+                    $("#yourplaylist_buttons").css("display","inline")
+                    /// Bind the like save and dislike events to the button
+                    /// On successful, disables relevant button and changes colors of to relevant colors
+                    $("#yourplaylist_like").on("click", function() {
+                         $("#yourplaylist_like").prop("disabled",true);
+                         $("#yourplaylist_dislike").prop("disabled",true);
+                        $.post("rating", {"uris": your_uris, "decision": "like"}, function(data){
+                            $("#yourplaylist_like span").css("color","#ffd700")
+
+                        })
+                    })
+                    $("#yourplaylist_dislike").on("click", function() {
+                        $("#yourplaylist_like").prop("disabled",true);
+                        $("#yourplaylist_dislike").prop("disabled",true);
+                        $.post("rating", {"uris": your_uris, "decision": "dislike"}, function(data){
+                            $("#yourplaylist_dislike span").css("color","#ffd700")
+
+                        })
+                    })
+                    $("#yourplaylist_save").on("click", function() {
+                        $("#yourplaylist_save").prop("disabled",true);
+                        $.post("saveplaylist", {"uris": your_uris}, function(data){
+                            $("#yourplaylist_save span").css("color","#ffd700")
+                        })
+                    })
+                })       
+            })
+        }
+
+    }
+
+
+
+    function friends_playlist() {
+
+
+    /// Friends ///
+    var num_following = parseInt($("#following").text())
+
+    if (num_following > 0) {
+        var number_songs2 = 10
+        var follow2 = 10
+        var recency_effect2 = 10
+        var rating_effect2 = 10
+        var duplicate_artist2 = 5
+        var existing_playlist2 = 9
+        var post_data2 = {"type":"your_friends","number_songs":number_songs2, "follow":follow2, "recency_effect":recency_effect2,"rating_effect":rating_effect2,"duplicate_artist":duplicate_artist2, "existing_playlist": existing_playlist2}
+
+
+        $.post('playlist', post_data2, function(data) {
+                var friends_uris = data['track_uris']
+                var cover_art = data['cover_art']
+                $("#friendsplaylist_image").html('<img id=friendsplaylist_image_image src="'+ cover_art +'">');
+                $("#friendsplaylist_image").css("width","80%");
+                $("#friendsplaylist_image_image").css("width","100%");
+                
+                /// setting the position of the buttons
+                var div_width = $("#friendsplaylist").width()
+                var imageheight =  $("#friendsplaylist_image").width();
+                var buttons_width = $("#friendsplaylist_buttons").width()
+                var buttons_centre = (div_width - imageheight) + 0.5 * imageheight - 0.5 * buttons_width 
+                $("#friendsplaylist_buttons").css({"top":imageheight,"left":buttons_centre})
+
+
+
+                var string = ""
+                for (var song in friends_uris) {
+                    string += friends_uris[song] + ','
+                }
+                string = string.substring(0, string.length - 1);
+                $('#friendsplaylist_playlist').css("width","80%");
+                var pw = $('#friendsplaylist_playlist').width();
+                $('#friendsplaylist_playlist').css({'height':pw+'px'});
+                $('#friendsplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="'+pw+'" height="'+pw+'" frameborder="0" allowtransparency="true"></iframe>')
+
+
+                /// When the user clicks on the image of the playlist ///
+                $('#friendsplaylist img').on('click', function() {
+                    $(this).fadeOut(2000)
+                    $("#friendsplaylist_buttons").css("display","inline")
+                    /// Bind the like save and dislike events to the button
+                    /// On successful, disables relevant button and changes colors of to relevant colors
+                    $("#friendsplaylist_like").on("click", function() {
+                        $("#friendsplaylist_like").prop("disabled",true)
+                        $("#friendsplaylist_dislike").prop("disabled",true)
+                        $.post("rating", {"uris": friends_uris, "decision": "like"}, function(data){
+                            $("#friendsplaylist_like span").css("color","#ffd700")
+
+                        })
+                    })
+                    $("#friendsplaylist_dislike").on("click", function() {
+                        $("#friendsplaylist_like").prop("disabled",true)
+                        $("#friendsplaylist_dislike").prop("disabled",true)
+                        $.post("rating", {"uris": friends_uris, "decision": "dislike"}, function(data){
+                            $("#friendsplaylist_dislike span").css("color","#ffd700")
+                        })
+                    })
+                    $("#friendsplaylist_save").on("click", function() {
+                        $("#friendsplaylist_save").prop("disabled",true)
+                        $.post("saveplaylist", {"uris": friends_uris}, function(data){
+                             $("#friendsplaylist_save span").css("color","#ffd700")
+                        })
+                    })
+                }) 
+            })
+        }
+    }
+
+
+
 
 $(document).ready(function(){
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -298,167 +462,11 @@ $(document).ready(function(){
 
     $(".timelineplaylist").css("height","20em")
 
-    function your_playlist () {
-
-
-    var num_songs = parseInt($("#profile_songs").text())
-
-    if (num_songs > 0) {
-        /// Personal ///
-        var number_songs = 10
-        var follow = 0
-        var recency_effect = 10
-        var rating_effect = 10
-        var duplicate_artist = 10
-        var existing_playlist = 10
-        var post_data = {"type":"your_home","number_songs":number_songs, "follow":follow, "recency_effect":recency_effect,"rating_effect":rating_effect,"duplicate_artist":duplicate_artist, "existing_playlist": existing_playlist}
-
-        $.post('playlist', post_data, function(data) {
-                var your_uris = data['track_uris']
-                var cover_art = data['cover_art']
-                $("#yourplaylist_image").html('<img id="yourplaylist_image_image" src="'+ cover_art +'">')
-                $("#yourplaylist_image").css("width","80%")
-                $("#yourplaylist_image_image").css("width","100%");
-
-
-
-                /// setting the position of the buttons
-                var div_width = $("#yourplaylist").width()
-                var imageheight =  $("#yourplaylist_image").width();
-                var buttons_width = $("#yourplaylist_buttons").width()
-                var buttons_centre = (div_width - imageheight) + 0.5 * imageheight - 0.5 * buttons_width 
-                $("#yourplaylist_buttons").css({"top":imageheight,"left":buttons_centre})
-
-                
-                ///Resets the size of the playlist div according to the size of the image ///
-                $(".timelineplaylist").css("height",imageheight*1.2)
-
-
-
-
-                var string = ""
-                for (var song in your_uris) {
-                    string += your_uris[song] + ','
-                }
-                string = string.substring(0, string.length - 1);
-                $('#yourplaylist_playlist').css("width","80%");
-                var pw = $('#yourplaylist_playlist').width();
-                $('#yourplaylist_playlist').css({'height':pw+'px'});
-
-
-                $('#yourplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="'+pw+'" height="'+pw+'" frameborder="0" allowtransparency="true"></iframe>')
-                
-
-                /// When the user clicks on the image of the playlist ///
-                $('#yourplaylist img').on('click', function() {
-                    $(this).fadeOut(2000)
-                    $("#yourplaylist_buttons").css("display","inline")
-                    /// Bind the like save and dislike events to the button
-                    /// On successful, disables relevant button and changes colors of to relevant colors
-                    $("#yourplaylist_like").on("click", function() {
-                         $("#yourplaylist_like").prop("disabled",true);
-                         $("#yourplaylist_dislike").prop("disabled",true);
-                        $.post("rating", {"uris": your_uris, "decision": "like"}, function(data){
-                            $("#yourplaylist_like span").css("color","#ffd700")
-
-                        })
-                    })
-                    $("#yourplaylist_dislike").on("click", function() {
-                        $("#yourplaylist_like").prop("disabled",true);
-                        $("#yourplaylist_dislike").prop("disabled",true);
-                        $.post("rating", {"uris": your_uris, "decision": "dislike"}, function(data){
-                            $("#yourplaylist_dislike span").css("color","#ffd700")
-
-                        })
-                    })
-                    $("#yourplaylist_save").on("click", function() {
-                        $("#yourplaylist_save").prop("disabled",true);
-                        $.post("saveplaylist", {"uris": your_uris}, function(data){
-                            $("#yourplaylist_save span").css("color","#ffd700")
-                        })
-                    })
-                })       
-            })
-        }
-
-    }
-
-    your_playlist()
     
-    function friends_playlist() {
-
-
-    /// Friends ///
-    var num_following = parseInt($("#following").text())
-
-    if (num_following > 0) {
-        var number_songs2 = 10
-        var follow2 = 10
-        var recency_effect2 = 10
-        var rating_effect2 = 10
-        var duplicate_artist2 = 5
-        var existing_playlist2 = 9
-        var post_data2 = {"type":"your_friends","number_songs":number_songs2, "follow":follow2, "recency_effect":recency_effect2,"rating_effect":rating_effect2,"duplicate_artist":duplicate_artist2, "existing_playlist": existing_playlist2}
-
-
-        $.post('playlist', post_data2, function(data) {
-                var friends_uris = data['track_uris']
-                var cover_art = data['cover_art']
-                $("#friendsplaylist_image").html('<img id=friendsplaylist_image_image src="'+ cover_art +'">');
-                $("#friendsplaylist_image").css("width","80%");
-                $("#friendsplaylist_image_image").css("width","100%");
-                
-                /// setting the position of the buttons
-                var div_width = $("#friendsplaylist").width()
-                var imageheight =  $("#friendsplaylist_image").width();
-                var buttons_width = $("#friendsplaylist_buttons").width()
-                var buttons_centre = (div_width - imageheight) + 0.5 * imageheight - 0.5 * buttons_width 
-                $("#friendsplaylist_buttons").css({"top":imageheight,"left":buttons_centre})
+    
 
 
 
-                var string = ""
-                for (var song in friends_uris) {
-                    string += friends_uris[song] + ','
-                }
-                string = string.substring(0, string.length - 1);
-                $('#friendsplaylist_playlist').css("width","80%");
-                var pw = $('#friendsplaylist_playlist').width();
-                $('#friendsplaylist_playlist').css({'height':pw+'px'});
-                $('#friendsplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="'+pw+'" height="'+pw+'" frameborder="0" allowtransparency="true"></iframe>')
-
-
-                /// When the user clicks on the image of the playlist ///
-                $('#friendsplaylist img').on('click', function() {
-                    $(this).fadeOut(2000)
-                    $("#friendsplaylist_buttons").css("display","inline")
-                    /// Bind the like save and dislike events to the button
-                    /// On successful, disables relevant button and changes colors of to relevant colors
-                    $("#friendsplaylist_like").on("click", function() {
-                        $("#friendsplaylist_like").prop("disabled",true)
-                        $("#friendsplaylist_dislike").prop("disabled",true)
-                        $.post("rating", {"uris": friends_uris, "decision": "like"}, function(data){
-                            $("#friendsplaylist_like span").css("color","#ffd700")
-
-                        })
-                    })
-                    $("#friendsplaylist_dislike").on("click", function() {
-                        $("#friendsplaylist_like").prop("disabled",true)
-                        $("#friendsplaylist_dislike").prop("disabled",true)
-                        $.post("rating", {"uris": friends_uris, "decision": "dislike"}, function(data){
-                            $("#friendsplaylist_dislike span").css("color","#ffd700")
-                        })
-                    })
-                    $("#friendsplaylist_save").on("click", function() {
-                        $("#friendsplaylist_save").prop("disabled",true)
-                        $.post("saveplaylist", {"uris": friends_uris}, function(data){
-                             $("#friendsplaylist_save span").css("color","#ffd700")
-                        })
-                    })
-                }) 
-            })
-        }
-    }
     
 })
 
