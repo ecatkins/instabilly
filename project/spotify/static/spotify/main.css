@@ -153,6 +153,42 @@ td {
     color:black;
 }
 
+/*Navbar*/
+.navlist {
+    /*background-color: #4C4000;*/
+    background-color: black;
+    border-color: rgba(255,215,0,0.6);
+    border-style:solid;
+    border-width: 2px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    height:4em;
+    font-size: 1.2em;
+    margin-bottom:2em;
+}
+
+
+.navlist li {
+    display: inline;
+    list-style-type: none;
+    padding-right: 20px;
+    margin:auto;
+}
+
+.navlist li a {
+    text-decoration: none;
+    color:white;
+    vertical-align: middle;
+    line-height: 4em;
+}
+
+
+
+
+
+
+
 /*index.html specific*/
 
 #sync_button {
@@ -208,8 +244,32 @@ td {
 }
 
 #yourplaylist_buttons {
-    display: none
+    display: none;
+    background-color:transparent;
 }
+
+.playlist_button {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.playlist_button .glyphicon {
+    font-size: 3em
+}
+
+.playlist_like:hover {
+    color:#ADFFAD;
+}
+
+.playlist_dislike:hover {
+    color:#FFCCCC
+}
+
+.playlist_save:hover {
+    color:#CCCCFF;
+}
+
+
 
     /*profile specific*/
 
@@ -245,40 +305,6 @@ td {
 }
 
 
-/*My practice navbar*/
-.navlist {
-    /*background-color: #4C4000;*/
-    background-color: black;
-    border-color: rgba(255,215,0,0.6);
-    border-style:solid;
-    border-width: 2px;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    height:4em;
-    font-size: 1.2em;
-    margin-bottom:2em;
-
-}
-
-
-.navlist li {
-    display: inline;
-    list-style-type: none;
-    padding-right: 20px;
-    margin:auto;
-    
-}
-
-.navlist li a {
-    text-decoration: none;
-    color:white;
-    vertical-align: middle;
-    line-height: 4em;
-}
-
-
-
 
 
 /*engine.html specific*/
@@ -305,10 +331,10 @@ td {
 }
 
 .btn-generate:hover {
-    border-color:#2ebd59;
+    border-color:#ffd700;
     border-width: 0.2em;
     border-style: solid;
-    color:#2ebd59;
+    color:#ffd700;
     background : transparent;
 }
 
@@ -374,4 +400,21 @@ td {
     vertical-align: top;
     color:white;
     font-size:0.6em;
+}
+
+.engine_choice button {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+#engine_like button:hover {
+    color:#ADFFAD;
+}
+
+#engine_dislike button:hover {
+    color:#FFCCCC
+}
+
+#engine_save button:hover {
+    color:#CCCCFF;
 }

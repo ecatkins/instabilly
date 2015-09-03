@@ -22,6 +22,7 @@
     <div class ="navcontainer" class="col-md-12">
         <ul class= "navlist">
             <li><img src = "{% static 'spotify/TinyMMLogo.png' %}"></li>
+            <li><a id='logout' href="/logout">Logout</a></li>
             <li><a id='home' href="/callback">Your Timeline</a></li>
             <li><img src = "{% static 'spotify/TinyMMLogo.png' %}"></li>
         </ul>
@@ -29,15 +30,11 @@
 </div>
 
 
-
-
-
 <div class="row page">
       <div class="col-md-5" id="generator_options">
         <div class="row">
             <div class="col-md-4">
-                Number of Songs <i id="number_songs_info" class="fa fa-info"data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Select the number of songs to be in your custom playlist."
-                ></i>
+                Number of Songs
             </div>
 
             <div class="col-md-8">
@@ -50,7 +47,7 @@
    
 <div class="row">
         <div class="col-md-4">
-            Who You Follow <i id="follow_info" class="fa fa-info" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="Do you want the music in your custom playlist to be generated based on the people you follow or by our awesome algorithm that finds other users on our site who have similar music preferences to you. Selecting 10 will ensure that your custom playlist is only selected from the playlists of people that you follow."></i>
+            Who You Follow
         </div>
         <div class="col-md-8">
              <input class="engineslider" id="follow" data-slider-id='followSlider' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="0"/>
@@ -61,7 +58,7 @@
 
     <div class="row">
         <div class="col-md-4">
-            Recent <i id="recency_info" class="fa fa-info" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="How much do you care that the music in your custom playlist is the latest and greatest? Selecting 10 will give high favor to songs that have recently been uploaded by our users and people you follow."></i>
+            Recent
         </div>
         <div class="col-md-8">
              <input class="engineslider" id="recency" data-slider-id='recencySlider' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="10"/>
@@ -72,7 +69,7 @@
 
     <div class="row">
         <div class="col-md-4">
-             Your Ratings <i id="rating_info" class="fa fa-info" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="How much do you care about previous ratings that you have given to playlists we have served you? Selecting 10 will give high favor to artists in playlists that you have previously liked"></i>
+             Your Ratings
         </div>
         <div class="col-md-8">
              <input class="engineslider" id="rating" data-slider-id='ratingSlider' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="10"/>
@@ -83,7 +80,7 @@
 
     <div class="row">
         <div class="col-md-4">
-             Diversity <i id="duplicate_artist_info"  class="fa fa-info" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="How much do you care about similar artists appearing in the same playlist? Selecting 10 will ensure that your playlist is comprised of entirely unique artists"></i>
+             Diversity
         </div>
         <div class="col-md-8">
              <input class="engineslider" id="duplicateartist" data-slider-id='duplicateartistSlider' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="10"/>
@@ -94,7 +91,7 @@
 
     <div class="row">
         <div class="col-md-4">
-             What You Listen To <i id="existing_playlist_info" class="fa fa-info" data-container="body" data-toggle="popover"  data-placement="right" data-trigger="hover" data-content="Do you want to hear some of your old favourites, or do you want a completely new playlist? Selecting 10 will ensure that no song will appear in your custom playlist, that already exists in your Spotify library."></i>
+             What You Listen To
         </div>
         <div class="col-md-8">
              <input class="engineslider" id="existingplaylist" data-slider-id='existingplaylistSlider' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="10"/>
@@ -130,15 +127,15 @@
          <div id="engine_buttons" class ="col-md-4">
          <!-- Like button -->
           <div class="engine_choice" id="engine_like"> 
-            <span id="like" class="glyphicon glyphicon-ok" aria-hidden="true" display="None"></span> 
+            <button id="like"> <span class="glyphicon glyphicon-ok" aria-hidden="true" display="None"></span>  </button>
           </div>
           <!-- Dislike button -->
           <div class="engine_choice" id="engine_dislike"> 
-            <span id="dislike" class="glyphicon glyphicon-remove" aria-hidden="true">
+            <button id="dislike"> <span class="glyphicon glyphicon-remove" aria-hidden="true"> </span> </button>
           </div> 
          <!--  Save button -->
           <div class="engine_choice" id="engine_save"> 
-            <span id="save" class="glyphicon glyphicon-floppy-disk" aria-hidden="true"> 
+            <button id="save"><span  class="glyphicon glyphicon-floppy-disk" aria-hidden="true"> </span> </button> 
           </div>
 
 
