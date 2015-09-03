@@ -247,7 +247,21 @@ textarea {
 .timelineplaylist .playlist_image {
     position: absolute;
     z-index: 1;
-    right:0
+    right:0;
+}
+
+.timelineplaylist .playlist_image img{
+    width: 50%;
+    position: relative;
+    float:left;
+    vertical-align: center;
+}
+
+.timelineplaylist .playlist_image p{
+    width: 50%;
+    position: relative;
+    float: left;
+    margin-top: 20%;
 }
 
 .timelineplaylist .playlist_playlist {
