@@ -15,9 +15,7 @@
             <li><img src = "{% static 'spotify/TinyMMLogo.png' %}"></li>
             <li><a id='logout' href="/logout">Logout</a></li>
             <li><a id='engine' href="/engine">Recommendation Engine</a></li>
-            <li><a id='createpost' href='' data-toggle="modal" data-target="#mySearchModal">Create Post</a></li>
             <li><a id='sync' href=''>Sync Library</a></li>
-            
             <li><a id='find' href='' data-toggle="modal" data-target="#FindModal">Find Other Users</a></li>
             <li><img src = "{% static 'spotify/TinyMMLogo.png' %}"></li>
         </ul>
@@ -27,7 +25,7 @@
 
 <div class="row page">  
     <div class="col-md-8">
-        <h3> {{username}} Profile </h3>
+        <h3><span class='welcomeHeader'>Welcome,</span> {{username}}<span class='welcomeHeader'>!</span></h3>
         <div id="profile">
             <table> 
                 <tr id="profile_stats">
@@ -41,10 +39,29 @@
                     <td>Following</td>
                 </tr>
             </table>
+            <table id="recentPost">
+                <tr>
+                    <td id="latest">
+                        <p id="latest-post">YOUR LATEST POST:</p>
+                        <p>{%if latest_post_date %}{{ latest_post_date }}{% endif %}{%if no_post %}{{ no_post }}{% endif %}</p>
+                    </td>
+                    <td>
+                        <p id="latest-post-track">
+                            <iframe src="https://embed.spotify.com/?uri={{ latest_post_track }}" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
+                        </p>
+                    </td>
+                    <td id="latest-post-buttons">
+                        <p><button id='createpost' data-toggle="modal" data-target="#PostModal" class="btn">Create</button></p>
+                        <p><button class="btn">All</button></p>
+                    </td>
+                </tr>
+            </table>
         </div>
         <div>
             <h3>Your Stream</h3>
-            <table id="mini-feed" class="table table-striped"></table>
+            <div id="mini-feed-container">
+                <table id="mini-feed" class="table table-striped"></table>
+            </div>
         </div>
     </div>
 
@@ -123,7 +140,7 @@
 
 
 <!-- Post Modal-->
-    <div id="mySearchModal" class="modal fade" role="dialog">
+    <div id="PostModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
