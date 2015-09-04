@@ -268,7 +268,7 @@ textarea {
 }
 
 
-.playlist_image {
+.tint{
     position: relative;
     float: left;
     margin-right: 20px;
@@ -278,7 +278,7 @@ textarea {
 }
 
 
-.playlist_image:before {
+.tint:before {
     content: "";
     display: block;
     position: absolute;
@@ -292,7 +292,7 @@ textarea {
 
 }
 
-.playlist_image:hover:before {
+.tint:hover:before {
      background: none; 
 }
 

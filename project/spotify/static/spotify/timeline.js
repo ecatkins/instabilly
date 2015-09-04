@@ -156,6 +156,7 @@ if (num_following > 0) {
     var existing_playlist2 = 9
     var post_data2 = {"type":"your_friends","number_songs":number_songs2, "follow":follow2, "recency_effect":recency_effect2,"rating_effect":rating_effect2,"duplicate_artist":duplicate_artist2, "existing_playlist": existing_playlist2}
 
+    $("#friendsplaylist_image").addClass('tint')
 
     $.post('playlist', post_data2, function(data) {
             var friends_uris = data['track_uris']
@@ -218,6 +219,7 @@ if (num_following > 0) {
     }
     else {
         $("#friendsplaylist_image").html("<img src='/static/spotify/images/sadguy_gold.png'/><p>You have NO friends. Click the Find Other Users button in the menu bar to follow other people and see a playlist based on their songs </p>")
+        $("#friendsplaylist_image").removeClass('tint')
     }
 }
 

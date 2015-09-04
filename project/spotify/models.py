@@ -43,13 +43,12 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     updated_genres = models.DateTimeField()
     verified = models.BooleanField(default=False)
-    neighbors = models.ManyToManyField(User,through="NearestNeighbor", related_name="neighbors")
+    neighs = models.ManyToManyField(User,through="NearestNeigh", related_name="neighs")
 
-class NearestNeighbor(models.Model):
-    user = models.OneToOneField(UserProfile, primary_key=True)
+class NearestNeigh(models.Model):
+    user = models.ForeignKey(UserProfile)
     neighbor = models.ForeignKey(User)
     distance = models.FloatField()
-
 
 class FollowList(models.Model):
     user = models.OneToOneField(User, primary_key=True)

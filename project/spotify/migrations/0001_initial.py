@@ -17,42 +17,42 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Artist',
             fields=[
-                ('id', models.AutoField(serialize=False, auto_created=True, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
             ],
         ),
         migrations.CreateModel(
             name='ArtistRating',
             fields=[
-                ('id', models.AutoField(serialize=False, auto_created=True, primary_key=True, verbose_name='ID')),
-                ('score', models.DecimalField(decimal_places=4, default=0.5, max_digits=6)),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
+                ('score', models.DecimalField(default=0.5, decimal_places=4, max_digits=6)),
                 ('artist', models.ForeignKey(to='spotify.Artist')),
             ],
         ),
         migrations.CreateModel(
             name='FollowList',
             fields=[
-                ('user', models.OneToOneField(primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(serialize=False, primary_key=True, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
             name='Genre',
             fields=[
-                ('id', models.AutoField(serialize=False, auto_created=True, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
             ],
         ),
         migrations.CreateModel(
-            name='NearestNeighbor',
+            name='NearestNeigh',
             fields=[
-                ('id', models.AutoField(serialize=False, auto_created=True, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('distance', models.FloatField()),
             ],
         ),
         migrations.CreateModel(
             name='Post',
             fields=[
-                ('id', models.AutoField(serialize=False, auto_created=True, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('content', models.TextField()),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
             ],
@@ -60,9 +60,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Song',
             fields=[
-                ('id', models.AutoField(serialize=False, auto_created=True, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('track_name', models.CharField(max_length=200)),
-                ('track_id', models.CharField(db_index=True, max_length=200)),
+                ('track_id', models.CharField(max_length=200, db_index=True)),
                 ('track_uri', models.CharField(max_length=200)),
                 ('artist_id', models.CharField(max_length=200)),
                 ('album', models.CharField(max_length=200)),
@@ -76,16 +76,23 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='TestModel',
+            fields=[
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
+                ('number', models.IntegerField()),
+            ],
+        ),
+        migrations.CreateModel(
             name='UserActivationCode',
             fields=[
-                ('user', models.OneToOneField(primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
-                ('code', models.UUIDField(editable=False, default=uuid.uuid4)),
+                ('user', models.OneToOneField(serialize=False, primary_key=True, to=settings.AUTH_USER_MODEL)),
+                ('code', models.UUIDField(default=uuid.uuid4, editable=False)),
             ],
         ),
         migrations.CreateModel(
             name='UserGenre',
             fields=[
-                ('id', models.AutoField(serialize=False, auto_created=True, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('proportion', models.FloatField()),
                 ('genre', models.ForeignKey(to='spotify.Genre')),
             ],
@@ -93,16 +100,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='UserProfile',
             fields=[
-                ('user', models.OneToOneField(primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(serialize=False, primary_key=True, to=settings.AUTH_USER_MODEL)),
                 ('updated_genres', models.DateTimeField()),
                 ('verified', models.BooleanField(default=False)),
-                ('neighbors', models.ManyToManyField(related_name='neighbors', through='spotify.NearestNeighbor', to=settings.AUTH_USER_MODEL)),
+                ('neighs', models.ManyToManyField(through='spotify.NearestNeigh', related_name='neighs', to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
             name='UserSong',
             fields=[
-                ('id', models.AutoField(serialize=False, auto_created=True, primary_key=True, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('uploaded_at', models.DateField()),
                 ('synced_at', models.DateField(auto_now_add=True)),
                 ('song', models.ForeignKey(to='spotify.Song')),
@@ -130,14 +137,14 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
-            model_name='nearestneighbor',
+            model_name='nearestneigh',
             name='neighbor',
             field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
-            model_name='nearestneighbor',
+            model_name='nearestneigh',
             name='user',
-            field=models.OneToOneField(to='spotify.UserProfile'),
+            field=models.ForeignKey(to='spotify.UserProfile'),
         ),
         migrations.AddField(
             model_name='genre',
