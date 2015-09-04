@@ -251,10 +251,8 @@ textarea {
 }
 
 .timelineplaylist .playlist_image img{
-    width: 50%;
     position: relative;
-    float:left;
-    vertical-align: center;
+    
 }
 
 .timelineplaylist .playlist_image p{
@@ -268,6 +266,36 @@ textarea {
     position: absolute;
     right:0;
 }
+
+
+.playlist_image {
+    position: relative;
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    box-shadow: rgba(0,0,0,.2) 3px 5px 5px;
+}
+
+
+.playlist_image:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255,215,0, 0.3);
+    transition: all .3s linear;
+    z-index: 2
+
+}
+
+.playlist_image:hover:before {
+     background: none; 
+}
+
 
 
 #friendsplaylist_buttons {
@@ -300,13 +328,7 @@ textarea {
     color:#CCCCFF;
 }
 
-.fa-frown-o {
-    color:white;
-    font-size: 10em;
-    width:10em;
-    height: 10em;
-    font-family: FontAwesome;
-}
+
 
 
 

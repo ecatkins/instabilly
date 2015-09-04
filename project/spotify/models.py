@@ -43,6 +43,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     updated_genres = models.DateTimeField()
     verified = models.BooleanField(default=False)
+   
 
 class FollowList(models.Model):
     user = models.OneToOneField(User, primary_key=True)

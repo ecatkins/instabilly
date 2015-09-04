@@ -106,8 +106,8 @@ function your_playlist () {
                 
 
                 /// When the user clicks on the image of the playlist ///
-                $('#yourplaylist img').on('click', function() {
-                    $(this).fadeOut(2000)
+                $('#yourplaylist').on('click', function() {
+                    $(this).find('img').fadeOut(2000)
                     $("#yourplaylist_buttons").css("display","inline")
                     /// Bind the like save and dislike events to the button
                     /// On successful, disables relevant button and changes colors of to relevant colors
@@ -187,8 +187,8 @@ if (num_following > 0) {
 
 
             /// When the user clicks on the image of the playlist ///
-            $('#friendsplaylist img').on('click', function() {
-                $(this).fadeOut(2000)
+            $('#friendsplaylist').on('click', function() {
+                $(this).find('img').fadeOut(2000)
                 $("#friendsplaylist_buttons").css("display","inline")
                 /// Bind the like save and dislike events to the button
                 /// On successful, disables relevant button and changes colors of to relevant colors
