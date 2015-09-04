@@ -12,6 +12,10 @@ h1 span {
     font-size: 2em;
 }
 
+.welcomeHeader {
+    color: #ffd700;
+}
+
 h3 {
     font-size: 1.8em;
 }
@@ -158,6 +162,11 @@ textarea {
 #user-search-results tr td {
     color: black;
     text-align: right;
+}
+
+#mini-feed-container {
+    height: 70%;
+    overflow-y: scroll;
 }
 
 .glyphicon {
@@ -315,8 +324,28 @@ textarea {
 
 #profile {
     width:100%;
-    height:10em;
+    height:10.1em;
     border:white 3px solid;
+}
+
+#profile table {
+    float: left;
+}
+#latest p {
+    margin-right: 1em;
+}
+#latest-post {
+    color: #ffd700;
+}
+
+#latest-post-track {
+    margin-top: 2%;
+    vertical-align: middle;
+}
+
+#latest-post-buttons p {
+    margin: 0em;
+    color:black;
 }
 
 #profile_stats td {
@@ -344,7 +373,15 @@ textarea {
     cursor: pointer;
 }
 
+#recentPost{
+    width: 41em;
+    margin-bottom: 0em;
+}
 
+#recentPost tr {
+    float: right;
+    height: 100%;
+}
 
 
 /*engine.html specific*/
