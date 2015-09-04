@@ -45,6 +45,12 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     updated_genres = models.DateTimeField()
     verified = models.BooleanField(default=False)
+    neighs = models.ManyToManyField(User,through="NearestNeigh", related_name="neighs")
+
+class NearestNeigh(models.Model):
+    user = models.ForeignKey(UserProfile)
+    neighbor = models.ForeignKey(User)
+    distance = models.FloatField()
 
 
 class FollowList(models.Model):
@@ -71,4 +77,6 @@ class Post(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+class TestModel(models.Model):
+    number = models.IntegerField()
 

@@ -1,0 +1,1 @@
+* * * * *  cd /Users/ecatkins/Dropbox/Coding/byte_academy/instabilly/project && source venv/bin/activate && python automate.py >/dev/null 2>&1

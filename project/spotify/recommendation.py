@@ -112,7 +112,7 @@ def duplicate_song(playlist,user_song):
 		return False
 
 
-# def battle_of_the_songs
+
 
 def create_playlist(user,neighbors,follow_effect,number_songs,recency_effect,rating_effect,duplicate_artist_effect,existing_playlist_effect):
 	'''Pass: the active user, number of neighbors to inform recommendation and
@@ -124,6 +124,13 @@ def create_playlist(user,neighbors,follow_effect,number_songs,recency_effect,rat
 	follow_list = [follower for follower in FollowList(user=user).following.all() if follower.song_set.exists()]
 	follow_number = int(neighbors * follow_effect)
 	reduced_neighbors = neighbors - follow_number
+	
+	#### Write a function that returns #reduced_neighbors from NearestNeigh model
+
+
+
+
+
 	if reduced_neighbors == 0:
 		# pdb.set_trace()
 		similar = [[None,1]]

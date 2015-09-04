@@ -128,7 +128,6 @@ class CallbackView(View):
 
     def get(self,request):
         code = request.GET.get('code')
-        print(code)
         request.session['spotify_code'] = code
         if request.session['post_oauth'] == 'timeline':
             return redirect('timeline')
@@ -195,7 +194,6 @@ class FollowView(View):
         user_follow_list = FollowList.objects.filter(user=user[0])
         following = User.objects.filter(username=request.POST['id'])
         user_follow_list[0].following.add(following[0])
-        print("follow list after follow: ", user_follow_list[0].following.all())
         return JsonResponse({"user": user[0].username, "following": following[0].username})
 
 
@@ -206,9 +204,7 @@ class UnfollowView(View):
         user_follow_list = FollowList.objects.filter(user=user[0])
         unfollow = User.objects.filter(username=request.POST['id'])
         user_follow_list[0].following.remove(unfollow[0])
-        print("follow list after unfollow: ", user_follow_list[0].following.all())
         return JsonResponse({"user": user[0].username, "unfollow": unfollow[0].username})
-
 
 
 class SearchView(View): 
@@ -367,22 +363,11 @@ def refresh_token(request):
     return token
 
 def get_spotipy_instance(request):
-    # DELETE IF SPOTIFY CODE OPTION
-    if 'spotify_code' in request.session.keys(): 
-        try:
-            token = get_user_token(request)
-            sp = spotipy.Spotify(auth=token)
-            username = sp.current_user()['id'] 
-        except:
-            try:
-                token = request.session['access_token']
-                sp = spotipy.Spotify(auth=token)
-                username = sp.current_user()['id']
-            except:
-                token = refresh_token(request)
-                sp = spotipy.Spotify(auth=token)
-                username = sp.current_user()['id']
-    else:
+    try:
+        token = get_user_token(request)
+        sp = spotipy.Spotify(auth=token)
+        username = sp.current_user()['id'] 
+    except:
         try:
             token = request.session['access_token']
             sp = spotipy.Spotify(auth=token)
@@ -421,7 +406,6 @@ class PlaylistView(View):
         user = User.objects.get(pk=request.session['session_id'])
         playlist_type = request.POST.get("type")
         number_songs = int(request.POST.get('number_songs'))
-        # neighbors = int(request.POST.get('neighbors'))
         neighbors = 10
         follow_effect = int(request.POST.get('follow'))/10.0
         recency_effect = int(request.POST.get('recency_effect'))/10.0
@@ -449,8 +433,6 @@ class RatingView(View):
         return JsonResponse({"status": "Success"})
 
 
-
-
 class SavePlaylistView(View):
    
     def post(self,request):
@@ -461,7 +443,6 @@ class SavePlaylistView(View):
         track_uris = request.POST.getlist('uris[]')
         full_track_uris = ["spotify:track:" + track for track in track_uris]
         sp.user_playlist_add_tracks(username,new_playlist_id,full_track_uris)
-        print(new_playlist)
         return JsonResponse({"Success":"success"})
 
 
@@ -471,7 +452,6 @@ class SaveSongView(View):
         sp, username = get_spotipy_instance(request)
         track_uri = request.POST.get('track_uri')
         track_uri_list = [track_uri]
-        print(track_uri_list)
         sp.current_user_saved_tracks_add(track_uri_list)
         return JsonResponse({"status": "success"})
 
