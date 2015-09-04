@@ -150,7 +150,13 @@ class TimelineView(View):
         followers_count = len(followers)
         song_count = UserSong.objects.filter(user=user[0]).count()
         username = user[0].username.upper()
-        return render(request, self.template, {"follow_list": follow_list, "followers": followers, "post_list": post_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})
+        latest_post = Post.objects.filter(user=user[0]).order_by('-created_at')[:1]
+        if len(latest_post) == 1:
+            latest_post_track = latest_post[0].song.song.track_uri
+            latest_post_date = latest_post[0].created_at
+            return render(request, self.template, {"latest_post_track": latest_post_track, "latest_post_date": latest_post_date, "follow_list": follow_list, "followers": followers, "post_list": post_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})
+        else:
+            return render(request, self.template, {"no_post": "You have not posted yet","follow_list": follow_list, "followers": followers, "post_list": post_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})
 
 
 class UpdateProfileView(View):
@@ -271,7 +277,7 @@ class GetMiniFeedView(View):
             if post.user in follow_list:
                 post_dict = {"user": post.user.username, "track_uri": post.song.song.track_uri, "created_at": post.created_at, "content": post.content}
                 JSON_all_posts.append(post_dict)
-        return JsonResponse({"all_posts": JSON_all_posts[:5]})
+        return JsonResponse({"all_posts": JSON_all_posts})
 
 
 def save_songs(song_list, user):

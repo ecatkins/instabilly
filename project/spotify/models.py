@@ -34,25 +34,30 @@ class UserGenre(models.Model):
 class Artist(models.Model):
     name = models.CharField(max_length=100)
     genres = models.ManyToManyField(Genre)
- 
+
+
 class UserActivationCode(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     code = models.UUIDField(default=uuid.uuid4, editable=False)
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     updated_genres = models.DateTimeField()
     verified = models.BooleanField(default=False)
 
+
 class FollowList(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     following = models.ManyToManyField(User, related_name='following')
+
 
 class UserSong(models.Model):
     song = models.ForeignKey(Song)
     user = models.ForeignKey(User)
     uploaded_at = models.DateField()
     synced_at = models.DateField(auto_now_add=True)
+
 
 class ArtistRating(models.Model):
     user = models.ForeignKey(User)
