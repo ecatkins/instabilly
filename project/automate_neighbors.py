@@ -42,8 +42,6 @@ x = "Time of update: {0} \nTime to complete: {1}\n".format(current_time,time_del
 
 current_directory = os.getcwd()
 
-print(current_directory)
-
 directory_string = current_directory + "/automatelogfile.txt"
 
 with open(directory_string,'a') as myfile:
