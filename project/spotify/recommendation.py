@@ -1,61 +1,9 @@
-from spotify.models import User, UserSong, Song, Genre, Artist, ArtistRating, UserGenre, FollowList
+from spotify.models import User, UserProfile, UserSong, Song, Genre, Artist, ArtistRating, UserGenre, FollowList, NearestNeigh
 from sklearn.neighbors import KNeighborsClassifier
 import random
 import datetime
 import pdb
 
-def test_get_usergenre_for_these_users(search=None):
-	if not search:
-		UserGenre.objects.values('id','proportion', 'user_id', 'genre_id')
-
-def get_genre_arrays(user):
-
-	all_user_genres = UserGenre.objects.filter(proportion__gt = 0).values('id','proportion', 'user_id', 'genre_id').order_by('user_id')
-	genre_count = Genre.objects.count()
-	genres = Genre.objects.all()
-	genre_count_array = [i for i in range(genre_count)]
-	all_user_genres_pks = [j.pk for j in genres]
-	zipped_genre_dictionary = dict(zip(all_user_genres_pks,genre_count_array))
-	counter = -1
-	current_user_id = 0
-	id_array = []
-	x_array = []
-	user_array = []
-	for row in all_user_genres:
-		if row['user_id'] != current_user_id and row['user_id'] != user.pk:
-			id_array.append(row['user_id'])
-			x_array.append([0] * genre_count)
-			counter += 1
-			current_user_id = row['user_id']
-			array = x_array[counter]
-		elif row['user_id'] == user.pk and not user_array:
-			user_array = [0] * genre_count
-			array = user_array
-		array[zipped_genre_dictionary[row['genre_id']]] = row['proportion']
-	return id_array, x_array, user_array
-
-
-
-def similar_users(user,neighbors):
-	''' Pass: the active user object and the number of neighbors to calculate
-		Returns: An array of similar users, containing the username and the distance to that user on the genre-dimensional plot
-	 '''
-	# pdb.set_trace()
-	id_array, x_array,user_array = get_genre_arrays(user)
-	y_array = [random.random() for x in range(len(x_array))]
-	neigh = KNeighborsClassifier(n_neighbors=neighbors)
-	neigh.fit(x_array, y_array)
-	result = neigh.kneighbors(user_array,neighbors)
-	similar_users = [[id_array[result[1][0][x]],result[0][0][x]] for x in range(neighbors)]
-	return similar_users
-
-def follow_users(similar,follow_number,follow_list):
-	similar_distances_average = sum([x[1] for x in similar]) / len(similar)
-	follow_users = []
-	for x in range(follow_number):
-		random_follow_id = random.choice(follow_list).pk
-		follow_users.append([random_follow_id,similar_distances_average])
-	return follow_users
 
 def weighted_choice(weights):
     totals = []
@@ -71,11 +19,11 @@ def weighted_choice(weights):
             return i
 
 
-def get_user_song_array(similar):
+def get_user_song_array(users):
 	user_songs_array = []
-	for user in similar:
+	for user in users:
 		# user_object = User.objects.get(pk=user[0])
-		user_songs = UserSong.objects.filter(user__pk=user[0])
+		user_songs = UserSong.objects.filter(user=user[0])
 		user_songs_array.append(user_songs)
 	return user_songs_array
 
@@ -113,43 +61,59 @@ def duplicate_song(playlist,user_song):
 
 
 
+def get_neighbors(user,num_reduced_neighbors):
+	user_profile = UserProfile.objects.get(user=user)
+	users_neighbors = NearestNeigh.objects.filter(user=user_profile).order_by('distance')[:num_reduced_neighbors]
+	neighbor_list = []
+	for neighbor in users_neighbors:
+		neighbor_user_object = neighbor.neighbor
+		distance = neighbor.distance
+		neighbor_list.append([neighbor_user_object,distance])
+	return neighbor_list
 
-def create_playlist(user,neighbors,follow_effect,number_songs,recency_effect,rating_effect,duplicate_artist_effect,existing_playlist_effect):
+def get_following(neighbors,follow_number,follow_list):
+	if neighbors == None:
+		neighbor_distance_average = 1
+	else:
+		neighbor_distance_average = sum([x[1] for x in neighbors]) / len(neighbors)
+	follow_users = []
+	for x in range(follow_number):
+		random_follow_id = random.choice(follow_list).pk
+		follow_users.append([random_follow_id,neighbor_distance_average])
+	return follow_users
+
+def create_playlist(user,num_neighbors,follow_effect,number_songs,recency_effect,rating_effect,duplicate_artist_effect,existing_playlist_effect):
 	'''Pass: the active user, number of neighbors to inform recommendation and
 	 number of songs desired in playlist
 	 Returns: Array of song objects '''
 	#Ensures that the neighbors are limited while the userbase is small
-	neighbors = int(min(neighbors,User.objects.all().count()/2))
-
+	num_neighbors = int(min(num_neighbors,User.objects.all().count()/2))
 	follow_list = [follower for follower in FollowList(user=user).following.all() if follower.song_set.exists()]
-	follow_number = int(neighbors * follow_effect)
-	reduced_neighbors = neighbors - follow_number
+	num_follow = int(num_neighbors * follow_effect)
+	num_reduced_neighbors = num_neighbors - num_follow
 	
-	#### Write a function that returns #reduced_neighbors from NearestNeigh model
-
-
-
-
-
-	if reduced_neighbors == 0:
-		# pdb.set_trace()
-		similar = [[None,1]]
+	if num_reduced_neighbors == 0:
+		neighbors = None
 	else:
-		similar = similar_users(user,reduced_neighbors)
-	if follow_number > 0:
-		followees = follow_users(similar,follow_number,follow_list)
-		follow_similar = similar + followees
-		#HACKY
-		follow_similar[0][0] = follow_similar [0][1]
+		neighbors = get_neighbors(user,num_reduced_neighbors)
+	
+	if num_follow > 0: 
+		following = get_following(neighbors,num_follow,follow_list)
+		if neighbors == None:
+			following_and_neighbors = following
+		else:
+			following_and_neighbors = following + neighbors
 	else:
-		follow_similar = similar		
-	playlist = []
-	user_songs = get_user_song_array(follow_similar)
+		following_and_neighbors = neighbors
+
+	playlist = [] 
+
+	user_songs = get_user_song_array(following_and_neighbors)
 	song_choice = return_tracks_recency_bias(user_songs,number_songs,recency_effect)
 
 
 	### Weighting factor 1, similarity to current user
-	distances = [1/(x[1]+0.01) for x in similar]
+	distances = [1/(x[1]+0.01) for x in following_and_neighbors]
 	for song_number in song_choice:
 		recommendation_array = []
 		replication_array = []

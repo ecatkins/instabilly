@@ -1,1 +1,1 @@
-*/5 * * * *  cd /Users/ecatkins/Dropbox/Coding/byte_academy/instabilly/project && source venv/bin/activate && python automate_neighbors.py >/dev/null 2>&1
+0 * * * * cd /Users/ecatkins/Dropbox/Coding/byte_academy/instabilly/project && source venv/bin/activate && python automate_neighbors.py >/dev/null 2>&1

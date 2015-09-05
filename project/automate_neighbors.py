@@ -13,9 +13,13 @@ from spotify.neighbors import *
 
 # from spotify.models import User
 
+start_time = datetime.datetime.now()
+
 all_users = User.objects.all()
 
 users_with_songs = []
+
+
 
 for user in all_users:
 	songs = UserSong.objects.filter(user=user)
@@ -24,11 +28,18 @@ for user in all_users:
 
 update_users(users_with_songs)
 
-f = open('/Users/ecatkins/Dropbox/Coding/byte_academy/instabilly/project/workfile.txt', 'w')
+end_time = datetime.datetime.now()
 
-current_time = str(datetime.datetime.now())
+time_delta = end_time - start_time
 
-f.write(current_time)
+current_time = str(end_time)
+benchmark = str(time_delta)
+
+
+x = "Time of update: {0} \nTime to complete: {1}\n".format(current_time,time_delta)
+
+with open('/Users/ecatkins/Dropbox/Coding/byte_academy/instabilly/project/automatelogfile.txt','a') as myfile:
+	myfile.write(x)
 
 
 
