@@ -56,7 +56,6 @@ def get_genre_arrays():
 def update_users(user_list,neighbors=10):
 	genre_arrays = get_genre_arrays()
 	for user in user_list:
-		print(user.pk)
 		user_profile = UserProfile.objects.get(user=user)
 		existing_neighbors = NearestNeigh.objects.filter(user=user_profile)
 		existing_neighbors.delete()
