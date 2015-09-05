@@ -360,6 +360,11 @@ textarea {
     color: #ffd700;
 }
 
+#post-icons span {
+    float: right;
+    margin-right: .5em;
+}
+
 #latest-post-track {
     margin-top: 2%;
     vertical-align: middle;

@@ -44,15 +44,15 @@
                     <td id="latest">
                         <p id="latest-post">YOUR LATEST POST:</p>
                         <p id="latest-post-date">{%if latest_post_date %}{{ latest_post_date }}{% endif %}{%if no_post %}{{ no_post }}{% endif %}</p>
+                        <div id="post-icons">
+                            <span id='createpost' data-toggle="modal" data-target="#PostModal" class="glyphicon glyphicon-pencil"></span>
+                            <span id='list-posts' class="glyphicon glyphicon-th-list"></span>
+                        </div>
                     </td>
                     <td>
                         <p id="latest-post-track">
                             <iframe src="https://embed.spotify.com/?uri={{ latest_post_track }}" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
                         </p>
-                    </td>
-                    <td id="latest-post-buttons">
-                        <p><button id='createpost' data-toggle="modal" data-target="#PostModal" class="btn">Create</button></p>
-                        <p><button class="btn">All</button></p>
                     </td>
                 </tr>
             </table>

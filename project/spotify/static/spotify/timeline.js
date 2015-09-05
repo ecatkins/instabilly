@@ -252,6 +252,8 @@ $(document).ready(function(){
     var profile_height = $("#profile").height();
     $("#profile_stats td").css(({"font-size":5*profile_height/10,"height":5*profile_height/10}));
     $("#profile_stats_names td").css(({"font-size":1.5*profile_height/10,"height":1.5*profile_height/10}));
+    $("#latest-post").css(({"font-size":1.5*profile_height/12}));
+    $("#latest-post-date").css(({"font-size":1.5*profile_height/12}));
 
     var profile_stats_width = $("#profile_stats_names").width()
     var profile_width = $("#profile").width()
@@ -324,7 +326,7 @@ $(document).ready(function(){
         var all_posts = data['all_posts'];
         var count = 0;
         for (post in all_posts) {
-            $("#mini-feed").append("<tr id=" + all_posts[post].user + " data-track=" + all_posts[post].track_uri + " class=minifeed-post><td><p>posted by: " + all_posts[post].user + "</p><p><button class='btn followButton'>Follow</button></p></td><td><p>" + all_posts[post].content + "</p></td><td><iframe src='https://embed.spotify.com/?uri=" + all_posts[post].track_uri + "'width=250 height=80 frameborder=0 allowtransparency=true></iframe></td><td><button id=song" + count + " type=button class='savesong'><span class='glyphicon glyphicon-floppy-disk' aria-hidden=true></span></button></tr>");
+            $("#mini-feed").append("<tr id=" + all_posts[post].user + " data-track=" + all_posts[post].track_uri + " class=minifeed-post><td><p>posted by: " + all_posts[post].user + "</p><p>" + all_posts[post].created_at + "</p><p><button class='btn followButton'>Follow</button></p></td><td><p>" + all_posts[post].content + "</p></td><td><iframe src='https://embed.spotify.com/?uri=" + all_posts[post].track_uri + "'width=250 height=80 frameborder=0 allowtransparency=true></iframe></td><td><button id=song" + count + " type=button class='savesong'><span class='glyphicon glyphicon-floppy-disk' aria-hidden=true></span></button></tr>");
             count += 1;
         }
         $(".savesong").css(({"background-color":"transparent","border-color":"transparent"}))
