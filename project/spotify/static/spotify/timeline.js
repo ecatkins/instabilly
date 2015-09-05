@@ -254,11 +254,17 @@ $(document).ready(function(){
     $("#profile_stats_names td").css(({"font-size":1.5*profile_height/10,"height":1.5*profile_height/10}));
     $("#latest-post").css(({"font-size":1.5*profile_height/12}));
     $("#latest-post-date").css(({"font-size":1.5*profile_height/12}));
+   
+    var latestPostHeight = $("#latest-post").height() + $("#latest-post-date").height();
+    var profileIconSize = (profile_height - latestPostHeight) * 0.9;
+    console.log(profile_height, latestPostHeight, profileIconSize)
+    $("#post-icons").css("height", profileIconSize);
+    $("#createpost, #list-posts").css("height", "100%");
 
-    var profile_stats_width = $("#profile_stats_names").width()
-    var profile_width = $("#profile").width()
-    var recent_post_width = (profile_width - profile_stats_width)
-    $("#recentPost").css("width", recent_post_width)
+    var profile_stats_width = $("#profile_stats_names").width();
+    var profile_width = $("#profile").width();
+    var recent_post_width = (profile_width - profile_stats_width);
+    $("#recentPost").css("width", recent_post_width);
 
 
 
@@ -457,7 +463,7 @@ $(document).ready(function(){
         $.post("create_post", {"comment": comment, "track_uri": track_uri}, function(data) {
             console.log(data)
             $("#latest-post-date").html(data["created_at"]);
-            $("#latest-post-track").html("<iframe src='https://embed.spotify.com/?uri=" + data["track_uri"] + "' width=300 height=80 frameborder=0 allowtransparency=true></iframe>");
+            $("#latest-post-track").html("<iframe src='https://embed.spotify.com/?uri=" + data["track_uri"] + "' width=250 height=80 frameborder=0 allowtransparency=true></iframe>");
         });
         $("#comment").val('');
         $("[name=search_query]").val('');
