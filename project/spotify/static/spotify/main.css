@@ -366,6 +366,11 @@ textarea {
     margin-right: .5em;
 }
 
+#post-icons span:hover {
+    color: #ffd700;
+    cursor: pointer;
+}
+
 #latest-post-track {
     margin-top: 2%;
     vertical-align: middle;
