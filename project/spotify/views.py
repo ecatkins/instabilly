@@ -274,7 +274,13 @@ class GetMiniFeedView(View):
         all_posts = Post.objects.all().exclude(user=user[0]).order_by('-created_at')
         for post in all_posts:
             if post.user in follow_list:
-                post_dict = {"user": post.user.username, "track_uri": post.song.song.track_uri, "created_at": post.created_at, "content": post.content}
+                today = datetime.datetime.now().date()
+                post_date = post.created_at.date()
+                if today.strftime('%d/%m/%Y') == post_date.strftime('%d/%m/%Y'):
+                    readable_datetime = post.created_at.strftime('%I:%M%p')
+                else:
+                    readable_datetime = post.created_at.strftime('%b %d, %Y %I:%M%p')
+                post_dict = {"user": post.user.username, "track_uri": post.song.song.track_uri, "created_at": readable_datetime, "content": post.content}
                 JSON_all_posts.append(post_dict)
         return JsonResponse({"all_posts": JSON_all_posts})
 
