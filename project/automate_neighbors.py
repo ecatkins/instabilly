@@ -3,9 +3,10 @@ import os
 import json
 import django
 import datetime
+from spotify.secret import *
 
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_file)
 
 django.setup()
 
@@ -38,7 +39,14 @@ benchmark = str(time_delta)
 
 x = "Time of update: {0} \nTime to complete: {1}\n".format(current_time,time_delta)
 
-with open('/Users/ecatkins/Dropbox/Coding/byte_academy/instabilly/project/automatelogfile.txt','a') as myfile:
+
+current_directory = os.getcwd()
+
+print(current_directory)
+
+directory_string = current_directory + "/automatelogfile.txt"
+
+with open(directory_string,'a') as myfile:
 	myfile.write(x)
 
 
