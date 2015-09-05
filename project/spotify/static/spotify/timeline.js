@@ -251,11 +251,14 @@ $(document).ready(function(){
     /// Sets the size of the profile text
     var profile_height = $("#profile").height();
     $("#profile_stats td").css(({"font-size":5*profile_height/10,"height":5*profile_height/10}));
-    $("#profile_stats_names td").css(({"font-size":3*profile_height/10,"height":3*profile_height/10}));
-   
+    $("#profile_stats_names td").css(({"font-size":1.5*profile_height/10,"height":1.5*profile_height/10}));
+
+    var profile_stats_width = $("#profile_stats_names").width()
+    var profile_width = $("#profile").width()
+    var recent_post_width = (profile_width - profile_stats_width)
+    $("#recentPost").css("width", recent_post_width)
 
 
-    // console.log(profile_height)
 
 
 
