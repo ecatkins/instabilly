@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('auth', '0007_auto_20150821_1521'),
+        ('auth', '0007_auto_20150820_1522'),
     ]
 
     operations = [
@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FollowList',
             fields=[
-                ('user', models.OneToOneField(serialize=False, primary_key=True, to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL, serialize=False, primary_key=True)),
             ],
         ),
         migrations.CreateModel(
@@ -62,7 +62,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
                 ('track_name', models.CharField(max_length=200)),
-                ('track_id', models.CharField(max_length=200, db_index=True)),
+                ('track_id', models.CharField(db_index=True, max_length=200)),
                 ('track_uri', models.CharField(max_length=200)),
                 ('artist_id', models.CharField(max_length=200)),
                 ('album', models.CharField(max_length=200)),
@@ -85,7 +85,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='UserActivationCode',
             fields=[
-                ('user', models.OneToOneField(serialize=False, primary_key=True, to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL, serialize=False, primary_key=True)),
                 ('code', models.UUIDField(default=uuid.uuid4, editable=False)),
             ],
         ),
@@ -100,10 +100,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='UserProfile',
             fields=[
-                ('user', models.OneToOneField(serialize=False, primary_key=True, to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL, serialize=False, primary_key=True)),
                 ('updated_genres', models.DateTimeField()),
                 ('verified', models.BooleanField(default=False)),
-                ('neighs', models.ManyToManyField(through='spotify.NearestNeigh', related_name='neighs', to=settings.AUTH_USER_MODEL)),
+                ('neighs', models.ManyToManyField(through='spotify.NearestNeigh', to=settings.AUTH_USER_MODEL, related_name='neighs')),
             ],
         ),
         migrations.CreateModel(
@@ -154,7 +154,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='followlist',
             name='following',
-            field=models.ManyToManyField(related_name='following', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, related_name='following'),
         ),
         migrations.AddField(
             model_name='artistrating',
