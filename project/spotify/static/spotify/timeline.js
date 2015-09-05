@@ -3,13 +3,15 @@ function updateFollowButtons(){
         var followlist = data['JSON_follow_list'];
         console.log(followlist)
         $(".followButton").each(function(){
-            for (item in followlist) {
-                if ($(this).closest('tr').attr('id') === followlist[item]) {
-                    $(this).addClass('following');
-                    $(this).text('Following');
-                }
+            if (followlist.indexOf($(this).closest('tr').attr('id')) != -1) {
+                $(this).addClass('following');
+                $(this).text('Following');
             }
-        });    
+            else {
+                $(this).removeClass('following');
+                $(this).text('Follow');
+            }
+        });
     });
 };       
 
@@ -379,6 +381,7 @@ $(document).ready(function(){
                     $("#following-list").find("#" + id).remove();
                 }
                 update_user_profile();
+                updateFollowButtons();
             });       
         } else {
                 $.post("/follow", {'id': id}, function(data) {
@@ -387,6 +390,7 @@ $(document).ready(function(){
                 $button.text('Following');
                 $("#following-list").append("<tr id=" + following + "><td>" + following + "</td><td><button class='btn followButton following'>Following</button></td></tr>")      
                 update_user_profile(friends_playlist);
+                updateFollowButtons();
                 });
             }
         });
