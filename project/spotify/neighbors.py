@@ -53,8 +53,6 @@ def update_users(user_list,neighbors=10):
 		existing_neighbors = NearestNeigh.objects.filter(user=user_profile)
 		existing_neighbors.delete()
 		neighbor_array = similar_users(user,neighbors)
-		if user.username == "ecatkinstest":
-			print(neighbor_array)
 		for neighbor in neighbor_array:
 			neighbor_id = neighbor[0]
 			neighbor_distance = neighbor[1]

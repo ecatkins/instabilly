@@ -377,6 +377,7 @@ textarea {
     padding-left:0.5em;
     padding-right:0.5em;
     color:#ffd700;
+    text-align: center;
 }
 
 #profile_stats_names td {
@@ -384,6 +385,7 @@ textarea {
     font-size: 1em;
     padding-left:0.5em;
     padding-right:0.5em;
+    text-align: center
 
 }
 
