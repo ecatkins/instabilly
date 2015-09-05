@@ -2,6 +2,7 @@ import sys
 import os
 import json
 import django
+import datetime
 
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
@@ -22,6 +23,12 @@ for user in all_users:
 		users_with_songs.append(user)
 
 update_users(users_with_songs)
+
+f = open('/Users/ecatkins/Dropbox/Coding/byte_academy/instabilly/project/workfile.txt', 'w')
+
+current_time = str(datetime.datetime.now())
+
+f.write(current_time)
 
 
 
