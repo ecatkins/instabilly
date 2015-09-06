@@ -77,6 +77,7 @@ function your_playlist () {
 
 
 
+
                 /// setting the position of the buttons
                 var div_width = $("#yourplaylist").width()
                 var imageheight =  $("#yourplaylist_image").width();
