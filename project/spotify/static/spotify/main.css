@@ -119,10 +119,6 @@ textarea {
 */    background-color: #1c1c1f;
 }   
 
-#searchresult_list {
-    overflow-y: scroll;
-    height: 10em;
-}
 
 #following-list, #followers-list {
     width: 20em;
@@ -131,6 +127,10 @@ textarea {
 #following-list tr td:first-of-type, #followers-list tr td:first-of-type{
     color: black;
 }
+
+/*#post_body {
+    height:22em;
+}*/
 
 #users-list tr{
     width: 40em;
@@ -259,10 +259,6 @@ textarea {
     right:0;
 }
 
-.timelineplaylist .playlist_image img{
-    position: relative;
-    
-}
 
 .timelineplaylist .playlist_image p{
     width: 50%;
@@ -280,9 +276,6 @@ textarea {
 
 .tint{
     position: relative;
-    float: left;
-    margin-right: 20px;
-    margin-bottom: 20px;
     cursor: pointer;
     box-shadow: rgba(0,0,0,.2) 3px 5px 5px;
 }
