@@ -257,7 +257,6 @@ $(document).ready(function(){
    
     var latestPostHeight = $("#latest-post").height() + $("#latest-post-date").height();
     var profileIconSize = (profile_height - latestPostHeight) * 0.9;
-    console.log(profile_height, latestPostHeight, profileIconSize)
     $("#post-icons").css("height", profileIconSize);
     $("#createpost, #list-posts").css("height", "100%");
 

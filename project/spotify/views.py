@@ -150,12 +150,13 @@ class TimelineView(View):
         followers_count = len(followers)
         song_count = UserSong.objects.filter(user=user[0]).count()
         username = user[0].username.upper()
+        user_post_list = Post.objects.filter(user=user[0])
         latest_post = Post.objects.filter(user=user[0]).order_by('-created_at')[:1]
         if len(latest_post) == 1:
             latest_post_track = latest_post[0].song.song.track_uri
             latest_post_date = latest_post[0].created_at
             readable_date = latest_post_date.strftime('%b %d, %Y %I:%M%p')
-            return render(request, self.template, {"latest_post_track": latest_post_track, "latest_post_date": readable_date, "follow_list": follow_list, "followers": followers, "post_list": post_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})
+            return render(request, self.template, {"latest_post_track": latest_post_track, "latest_post_date": readable_date, "follow_list": follow_list, "followers": followers,"user_post_list": user_post_list, "post_list": post_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})
         else:
             return render(request, self.template, {"no_post": "You have not posted yet","follow_list": follow_list, "followers": followers, "post_list": post_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})
 
