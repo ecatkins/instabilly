@@ -344,6 +344,14 @@ $(document).ready(function(){
         updateFollowButtons();
     });
 
+    $(".delete-user-post").on("click", function() {
+        var $row = $(this).closest("tr")
+        var id = $row.attr("id");
+        $.post("delete_post", {"id": id}, function(data) {
+            $row.html("<td>" + data["post"] + "</td>").css("color", "red");
+            $row.fadeOut("slow");
+        })
+    })
  
 
     //// Syncs the users playlist, 

@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib import admin
-from spotify.views import HomeView, OauthView, TimelineView, RegistrationView, ActivationView, LoginView, SeedUserLibraryView, LogoutView, GetFollowingView, FollowView, UnfollowView, SearchView, FindUserView, TrackURIView, CreatePostView, EngineView, PlaylistView, GetMiniFeedView, RatingView, SavePlaylistView, SaveSongView, CallbackView, UpdateProfileView, HasSongsView
+from spotify.views import HomeView, OauthView, TimelineView, RegistrationView, ActivationView, LoginView, SeedUserLibraryView, LogoutView, GetFollowingView, FollowView, UnfollowView, SearchView, FindUserView, TrackURIView, CreatePostView, DeletePostView, EngineView, PlaylistView, GetMiniFeedView, RatingView, SavePlaylistView, SaveSongView, CallbackView, UpdateProfileView, HasSongsView
 
 
 urlpatterns = [
@@ -24,7 +24,8 @@ urlpatterns = [
     url(r'^search$', SearchView.as_view(), name="search"),
     url(r'^track_uri$', TrackURIView.as_view(), name="track_uri"),
     url(r'^create_post$', CreatePostView.as_view(), name="create_post"),
-    url(r'^find_user$', FindUserView.as_view(), name="create_post"),
+    url(r'^delete_post$', DeletePostView.as_view(), name="delete_post"),
+    url(r'^find_user$', FindUserView.as_view(), name="find_user"),
     url(r'^get_minifeed$', GetMiniFeedView.as_view(), name="get_minifeed"),
     url(r'^updateprofile$', UpdateProfileView.as_view(), name="update_profile"),
     url(r'^hassongs$', HasSongsView.as_view(), name="has_songs"),
