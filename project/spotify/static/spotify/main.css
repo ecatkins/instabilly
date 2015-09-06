@@ -496,35 +496,44 @@ textarea {
 
 #engine_explainer tr td {
     padding-bottom:1em;
+    padding-left: 1em;
+    padding-right: 1em;
 }
 
 #explainer_header {
     margin-top:2em;
-    text-align: left;
+    text-align: center;
     color:#ffd700;
-    font-size:1.5em;
+    font-size:2em;
 }
 
 .explainer_type {
-    width: 20%;
     text-align: left;
     vertical-align: top;
     color:#ffd700;
     font-size:1em;
+    text-align: center
 }
+   
 
-.explainer_text{
-    width: 80%;
+
+.explainer_text {
     text-align: left;
     vertical-align: top;
     color:white;
-    font-size:0.6em;
+    font-size:0.8em;
+}
+
+#number_number {
+    width:15%;
 }
 
 .engine_choice button {
     background-color: transparent;
     border-color: transparent;
 }
+
+
 
 #engine_like button:hover {
     color:#ADFFAD;
