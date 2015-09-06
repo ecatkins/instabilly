@@ -265,6 +265,15 @@ class CreatePostView(View):
         readable_date = new_post.created_at.strftime('%b %d, %Y %I:%M%p')
         return JsonResponse({"status": "success", "created_at": readable_date, "track_uri": new_post.song.song.track_uri})
 
+class DeletePostView(View):
+
+    def post(self, request):
+        post_id = request.POST.get('id')
+        post = Post.objects.filter(pk=post_id)
+        post[0].delete()
+        return JsonResponse({"post": "DELETED"})
+
+
 class GetMiniFeedView(View):
 
     def get(self, request):
