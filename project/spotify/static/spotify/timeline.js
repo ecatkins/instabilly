@@ -257,7 +257,6 @@ $(document).ready(function(){
    
     var latestPostHeight = $("#latest-post").height() + $("#latest-post-date").height();
     var profileIconSize = (profile_height - latestPostHeight) * 0.9;
-    console.log(profile_height, latestPostHeight, profileIconSize)
     $("#post-icons").css("height", profileIconSize);
     $("#createpost, #list-posts").css("height", "100%");
 
@@ -345,6 +344,14 @@ $(document).ready(function(){
         updateFollowButtons();
     });
 
+    $(".delete-user-post").on("click", function() {
+        var $row = $(this).closest("tr")
+        var id = $row.attr("id");
+        $.post("delete_post", {"id": id}, function(data) {
+            $row.html("<td>" + data["post"] + "</td>").css("color", "red");
+            $row.fadeOut("slow");
+        })
+    })
  
 
     //// Syncs the users playlist, 
