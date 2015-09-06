@@ -270,19 +270,23 @@ $(document).ready(function(){
 
 
     
-    $("#following").on("click", function(event){
-        event.preventDefault();
+    $("#following").on("click", function(){
+        $("#following-button").removeClass("active");
         $("#following-button").addClass("disabled").prop('disabled', true);
+        $("#followers-button").removeClass("disabled");
         $("#followers-button").addClass("active").prop('disabled', false);
         $("#followers-list").hide();
+        $("#following-list").show();
         updateFollowButtons();
     });
 
-    $("#followers").on("click", function(event){
-        event.preventDefault();
+    $("#followers").on("click", function(){
+        $("#following-button").removeClass("disabled");
         $("#following-button").addClass("active").prop('disabled', false);
+        $("#followers-button").removeClass("active")
         $("#followers-button").addClass("disabled").prop('disabled', true);
         $("#following-list").hide();
+        $("#followers-list").show();
         updateFollowButtons();
     });
 
