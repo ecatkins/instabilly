@@ -337,12 +337,9 @@ textarea {
     border:white 3px solid;
 }
 
-#profile table {
-    float: left;
-}
+#profile table{
+    width:100%;
 
-#latest-post-date {
-    color: #ffd700;
 }
 
 .post-icon {
