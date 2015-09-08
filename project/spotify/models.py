@@ -77,6 +77,4 @@ class Post(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-class TestModel(models.Model):
-    number = models.IntegerField()
 
