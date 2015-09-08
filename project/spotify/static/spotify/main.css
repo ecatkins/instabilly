@@ -119,10 +119,6 @@ textarea {
 */    background-color: #1c1c1f;
 }   
 
-#searchresult_list {
-    overflow-y: scroll;
-    height: 10em;
-}
 
 #following-list, #followers-list {
     width: 20em;
@@ -239,11 +235,6 @@ textarea {
     text-align: right;
 }
 
-.createpost_div {
-    float: left;
-    display: inline-block;
-    width: 50%;
-}
 
 .modal-footer {
     bottom: 0em;
