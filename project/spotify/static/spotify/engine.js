@@ -13,8 +13,47 @@ $(document).ready(function() {
 
 
 	$("#generate_button").on('click', function() {
-
 		
+		/// Does a reset of all the buttons
+		$("#like").prop("disabled",false);
+		$("#dislike").prop("disabled",false);
+		$("#save").prop("disabled",false);
+		$("#like span").css("color","white");
+		$("#dislike span").css("color","white");
+		$("#save span").css("color","white");
+		$("#like span").hover(
+			function(){
+				$(this).css('color','#ADFFAD')
+			},
+			function() {
+				$(this).css('color','white')
+			}
+		)
+
+		$("#dislike span").hover(
+			function(){
+				$(this).css('color','#FFCCCC')
+			},
+			function() {
+				$(this).css('color','white')
+			}
+		)
+
+		$("#save span").hover(
+			function(){
+				$(this).css('color','#CCCCFF')
+			},
+			function() {
+				$(this).css('color','white')
+			}
+		)
+
+		// $("#engine_like span").on('mouseover',function() {
+		// 	$(this).css('color','#ADFFAD')
+		// })
+		
+
+
 		
 		
 		var number_songs = $("#number_songs").val()
@@ -105,18 +144,14 @@ $(document).ready(function() {
 	})
 
 
-	$('.fa-info').popover()
+	
 
+	//// Sliders -> including overwriting bootstrap to fix errors
 
-
-	// $(document).ajaxStart(function(){
- //        $('#playlist_player').append('<img src="/static/spotify/spiffygif.gif"/>')  
- //    });
-
+	
 
     var pw = $('#playlist_player').width();
 	$('#playlist_player').css({'height':pw+'px'});
-
 
 
 	$('.engineslider').slider({
@@ -124,5 +159,18 @@ $(document).ready(function() {
 		return 'Current value: ' + value;
 		}
 	});
+
+	$('.slider').mouseenter(function() {
+		$(this).find(".tooltip").show()
+	})
+
+	$('.slider').mouseleave(function() {
+		$(this).find(".tooltip").hide()
+	})
+
+
+	
+
+
 })
 

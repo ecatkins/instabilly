@@ -28,10 +28,6 @@ def get_user_song_array(users):
 	return user_songs_array
 
 def return_tracks_recency_bias(user_songs_array,number_songs,recency_effect):
-	''' Pass: an array with user songs of n users
-		Return: An array equal to the length of the playlist each containing a sub array with a song selected from each with neighbor with a bias
-			towards recent songs
-	'''
 	return_array = []
 	for x in range(number_songs):
 		return_array.append([])
@@ -39,7 +35,6 @@ def return_tracks_recency_bias(user_songs_array,number_songs,recency_effect):
 		age = [(datetime.datetime.now().date() - song.uploaded_at).days for song in user_songs]
 		weighted_age = [1/(0.0005*(x+20)) for x in age]
 		average = sum(weighted_age) / len(weighted_age)
-		#Adjusts for effect
 		weighted_age = [x - (x-average)*(1-recency_effect) for x in weighted_age]
 		for song in range(number_songs):
 			choice = weighted_choice(weighted_age)
@@ -136,7 +131,8 @@ def create_playlist(user,num_neighbors,follow_effect,number_songs,recency_effect
 				replication_array.append(1)
 			### Weighting factor 4, already in user playlist
 			existing = UserSong.objects.filter(user=user,song = user_song.song)
-			if len(existing) == 1:
+			if len(existing) > 0:
+				song = UserSong.objects.filter(user=user,song = user_song.song)
 				existing_playlist_array.append(1-existing_playlist_effect)
 			else:
 				existing_playlist_array.append(1)
@@ -155,8 +151,31 @@ def create_playlist(user,num_neighbors,follow_effect,number_songs,recency_effect
 		if sum(final_weighting_array) == 0:
 			continue
 		### select song
+		
+
+		
+		for i, item in enumerate(song_number):
+			print("SONG")
+			print(item.song.artists.name,item.song.track_name)
+			print("DISTANCE")
+			print(distances[i])
+			print("RECOMMENDATION")
+			print(recommendation_array[i])
+			print("REPLICATE ARTIST")
+			print(replication_array[i])
+			print("EXISTING PLAYLIST")
+			print(existing_playlist_array[i])
+			print("DUPLICATE SONG")
+			print(duplicate_song_array[i])
+			print("FINAL WEIGHTING")
+			print(final_weighting_array[i])		
+			print("")
 		choice = weighted_choice(final_weighting_array)
+		print("WINNER")
+		print(song_number[choice].song.artists.name,song_number[choice].song.track_name)
 		playlist.append(song_number[choice])
+		print("")
+
 	return playlist
 
 

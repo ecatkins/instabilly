@@ -509,7 +509,6 @@ textarea {
 }
    
 
-
 .explainer_text {
     text-align: left;
     vertical-align: top;
@@ -526,16 +525,3 @@ textarea {
     border-color: transparent;
 }
 
-
-
-#engine_like button:hover {
-    color:#ADFFAD;
-}
-
-#engine_dislike button:hover {
-    color:#FFCCCC
-}
-
-#engine_save button:hover {
-    color:#CCCCFF;
-}
