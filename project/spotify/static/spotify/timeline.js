@@ -1,7 +1,6 @@
 function updateFollowButtons(){
     $.getJSON("/getfollowing", function(data){
         var followlist = data["JSON_follow_list"];
-        console.log(followlist)
         $(".followButton").each(function(){
             if (followlist.indexOf($(this).closest("tr").attr("id")) != -1) {
                 $(this).addClass("following");
@@ -75,6 +74,7 @@ function your_playlist () {
                 $("#yourplaylist_image").html('<img id="yourplaylist_image_image" src="'+ cover_art +'">')
                 $("#yourplaylist_image").css("width","80%")
                 $("#yourplaylist_image_image").css("width","100%");
+
 
 
 

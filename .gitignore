@@ -59,3 +59,4 @@ target/
 
 project/spotify/secret.py
 project/spotify/database/
+project/automatelogfile.txt
