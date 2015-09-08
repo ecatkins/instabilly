@@ -152,7 +152,7 @@ class TimelineView(View):
         followers_count = len(followers)
         song_count = UserSong.objects.filter(user=user[0]).count()
         username = user[0].username.upper()
-        user_post_list = Post.objects.filter(user=user[0])
+        user_post_list = Post.objects.filter(user=user[0]).order_by('-created_at')
         latest_post = Post.objects.filter(user=user[0]).order_by('-created_at')[:1]
         if len(latest_post) == 1:
             latest_post_track = latest_post[0].song.song.track_uri
@@ -308,7 +308,7 @@ def save_songs(song_list, user):
     save_count = 0
     for item in song_list:
         try:
-            duplicate_songs = Song.objects.filter(track_name=item['track']['name'])
+            duplicate_songs = Song.objects.filter(track_id=item['track']['id'])
             if len(duplicate_songs) == 0:
                 artist_search = Artist.objects.filter(name=item['track']['artists'][0]['name'])
                 if len(artist_search) == 1:
@@ -447,8 +447,8 @@ class PlaylistView(View):
         for song in playlist:
             track_uris.append(song.song.track_uri[-22:])
         first_track = track_uris[0]
-        first_track_object = Song.objects.get(track_uri=cover_track_uri)
-        cover_art = first_track_object.image_300
+        first_track_object = Song.objects.filter(track_uri=cover_track_uri)
+        cover_art = first_track_object[0].image_300
         return JsonResponse({"track_uris":track_uris,"cover_art":cover_art})
     
 class RatingView(View):
