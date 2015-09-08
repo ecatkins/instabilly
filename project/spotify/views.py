@@ -155,7 +155,7 @@ class TimelineView(View):
         if len(latest_post) == 1:
             latest_post_track = latest_post[0].song.song.track_uri
             latest_post_date = latest_post[0].created_at
-            readable_date = latest_post_date.strftime('%b %d, %Y %I:%M%p')
+            readable_date = latest_post_date.strftime('%b %d, %I:%M%p')
             return render(request, self.template, {"latest_post_track": latest_post_track, "latest_post_date": readable_date, "follow_list": follow_list, "followers": followers,"user_post_list": user_post_list, "post_list": post_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})
         else:
             return render(request, self.template, {"no_post": "You have not posted yet","follow_list": follow_list, "followers": followers, "post_list": post_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})

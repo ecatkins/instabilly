@@ -256,8 +256,8 @@ $(document).ready(function(){
     $("#latest-post-date").css(({"font-size":1.5*profile_height/12}));
    
     var latestPostHeight = $("#latest-post").height() + $("#latest-post-date").height();
-    var profileIconSize = (profile_height - latestPostHeight) * 0.9;
-    $("#post-icons").css("height", profileIconSize);
+    var profileIconSize = ((profile_height - latestPostHeight) * 0.9) / 2;
+    $(".post-icon").css("height", profileIconSize);
     $("#createpost, #list-posts").css("height", "100%");
 
     var profile_stats_width = $("#profile_stats_names").width();
