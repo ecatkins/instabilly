@@ -42,11 +42,11 @@
                         <p class="profile_stats_names">Following</p>
                     </td>
                     <td>
-                        <p id="latest-post-date" class="profile_stats">{%if latest_post_date %}{{ latest_post_date }}{% endif %}{%if no_post %}{{ no_post }}{% endif %}</p>
                         <p class="profile_stats_names">Latest Post</p>
+                        <p id="latest-post-date" class="profile_stats">{%if latest_post_date %}{{ latest_post_date }}{% endif %}{%if no_post %}{{ no_post }}{% endif %}</p>
                     </td>
                     <td>
-                        <p><iframe src="https://embed.spotify.com/?uri={{ latest_post_track }}" width="250" height="80" frameborder="0" allowtransparency="true"></iframe></p>
+                        <p><iframe src="https://embed.spotify.com/?uri={{ latest_post_track }}" width="80" height="80" frameborder="0" allowtransparency="true"></iframe></p>
                     </td>
                     <td id="icons">
                         <span id='createpost' class="glyphicon glyphicon-pencil post-icon" data-toggle="modal" data-target="#PostModal"></span>

@@ -247,13 +247,14 @@ $(document).ready(function(){
     friends_playlist();
 
 
-
     /// Sets the size of the profile text
     var profile_height = $("#profile").height();
     $("#profile_stats td").css(({"font-size":5*profile_height/10,"height":5*profile_height/10}));
     $("#profile_stats_names td").css(({"font-size":1.5*profile_height/10,"height":1.5*profile_height/10}));
     $("#latest-post").css(({"font-size":1.5*profile_height/12}));
-    $("#latest-post-date").css(({"font-size":1.5*profile_height/12}));
+    $("#latest-post-date").css(({"font-size":1.5*profile_height/6.5}));
+    // $("#latest-post-date").text("ASDF");
+
    
     var latestPostHeight = $("#latest-post").height() + $("#latest-post-date").height();
     var profileIconSize = ((profile_height - latestPostHeight) * 0.9) / 2;
@@ -264,6 +265,8 @@ $(document).ready(function(){
     var profile_width = $("#profile").width();
     var recent_post_width = (profile_width - profile_stats_width);
     $("#recentPost").css("width", recent_post_width);
+
+
 
 
 
