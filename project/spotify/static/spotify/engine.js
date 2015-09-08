@@ -7,9 +7,9 @@ $(document).ready(function() {
 	$("#engineplaylist_image").css("width",generator_height)
 	$("#engineplaylist_image_image").css("width",generator_height)
 	$("#engineplaylist_image_image").css("height",generator_height)
-	$('#playlist_player').css("width",generator_height)
-	$('#playlist_player').css("height",generator_height)
-	$('#playlist').css("height",generator_height)
+	$("#playlist_player").css("width",generator_height)
+	$("#playlist_player").css("height",generator_height)
+	$("#playlist").css("height",generator_height)
 
 
 	$("#generate_button").on('click', function() {
@@ -32,19 +32,19 @@ $(document).ready(function() {
 
 		$("#dislike span").hover(
 			function(){
-				$(this).css("color","#FFCC80")
+				$(this).css("color","#FFCC80");
 			},
 			function() {
-				$(this).css("color","white")
+				$(this).css("color","white");
 			}
 		)
 
 		$("#save span").hover(
 			function(){
-				$(this).css("color","#CCCCFF")
+				$(this).css("color","#CCCCFF");
 			},
 			function() {
-				$(this).css("color","white")
+				$(this).css("color","white");
 			}
 		)
 		
