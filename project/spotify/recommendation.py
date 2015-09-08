@@ -29,7 +29,8 @@ def get_user_song_array(users):
 
 def return_tracks_recency_bias(user_songs_array,number_songs,recency_effect):
 	return_array = []
-	for x in range(number_songs):
+	extended_number_songs = int(number_songs*1.5)
+	for x in range(extended_number_songs):
 		return_array.append([])
 	for user_songs in user_songs_array:
 		age = [(datetime.datetime.now().date() - song.uploaded_at).days for song in user_songs]
@@ -110,50 +111,54 @@ def create_playlist(user,num_neighbors,follow_effect,number_songs,recency_effect
 	### Weighting factor 1, similarity to current user
 	distances = [1/(x[1]+0.01) for x in following_and_neighbors]
 	for song_number in song_choice:
-		recommendation_array = []
-		replication_array = []
-		existing_playlist_array = []
-		duplicate_song_array = []
-		for user_song in song_number:
-			### Weighting factor 2, user previous recommendations of artist
-			recommendation = ArtistRating.objects.filter(user=user,artist=user_song.song.artists)
-			if len(recommendation) == 1:
-				score = float(recommendation[0].score)
-			else:
-				score = 0.5
-			#Adjusts for effect
-			score = score - (score-0.5)*(1-rating_effect)
-			recommendation_array.append(score)
-			### Weighting factor 3, no replicated artists in playlist
-			if duplicate_artist(playlist,user_song) == True:
-				replication_array.append(1-(duplicate_artist_effect))
-			else:
-				replication_array.append(1)
-			### Weighting factor 4, already in user playlist
-			existing = UserSong.objects.filter(user=user,song = user_song.song)
-			if len(existing) > 0:
-				song = UserSong.objects.filter(user=user,song = user_song.song)
-				existing_playlist_array.append(1-existing_playlist_effect)
-			else:
-				existing_playlist_array.append(1)
-			### Final check to ensure no duplicate songs
-			if duplicate_song(playlist,user_song) == True:
-				duplicate_song_array.append(0)
-			else:
-				duplicate_song_array.append(1)
-		#Multiply arrays
-		final_weighting_array = []
-		#change len(distances) to len(neighbors)
-		for x in range(len(distances)):
-			final_weighting  = distances[x] * recommendation_array[x] * replication_array[x] * existing_playlist_array[x] * duplicate_song_array[x]
-			final_weighting_array.append(final_weighting)
-		# Needs fixing to ensure that playlist is of conistent length
-		if sum(final_weighting_array) == 0:
-			continue
-		### select song
-		
-		choice = weighted_choice(final_weighting_array)
-		playlist.append(song_number[choice])
+		if len(playlist) < number_songs:
+			recommendation_array = []
+			replication_array = []
+			existing_playlist_array = []
+			duplicate_song_array = []
+			for user_song in song_number:
+				### Weighting factor 2, user previous recommendations of artist
+				recommendation = ArtistRating.objects.filter(user=user,artist=user_song.song.artists)
+				if len(recommendation) == 1:
+					score = float(recommendation[0].score)
+				else:
+					score = 0.5
+				#Adjusts for effect
+				score = score - (score-0.5)*(1-rating_effect)
+				recommendation_array.append(score)
+				### Weighting factor 3, no replicated artists in playlist
+				if duplicate_artist(playlist,user_song) == True:
+					replication_array.append(1-(duplicate_artist_effect))
+				else:
+					replication_array.append(1)
+				### Weighting factor 4, already in user playlist
+				existing = UserSong.objects.filter(user=user,song = user_song.song)
+				if len(existing) > 0:
+					song = UserSong.objects.filter(user=user,song = user_song.song)
+					existing_playlist_array.append(1-existing_playlist_effect)
+				else:
+					existing_playlist_array.append(1)
+				### Final check to ensure no duplicate songs
+				if duplicate_song(playlist,user_song) == True:
+					duplicate_song_array.append(0)
+				else:
+					duplicate_song_array.append(1)
+			#Multiply arrays
+			final_weighting_array = []
+			#change len(distances) to len(neighbors)
+			for x in range(len(distances)):
+				# print(x)
+				final_weighting  = distances[x] * recommendation_array[x] * replication_array[x] * existing_playlist_array[x] * duplicate_song_array[x]
+				final_weighting_array.append(final_weighting)
+			# Needs fixing to ensure that playlist is of conistent length
+			if sum(final_weighting_array) == 0:
+				continue
+			### select song
+			
+			choice = weighted_choice(final_weighting_array)
+			playlist.append(song_number[choice])
+		else:
+			break
 		
 		# for i, item in enumerate(song_number):
 		# 	print("SONG")
@@ -175,9 +180,6 @@ def create_playlist(user,num_neighbors,follow_effect,number_songs,recency_effect
 		# print("WINNER")
 		# print(song_number[choice].song.artists.name,song_number[choice].song.track_name)
 		# print("")
-
-
-		
 
 	return playlist
 
