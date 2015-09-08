@@ -23,38 +23,30 @@ $(document).ready(function() {
 		$("#save span").css("color","white");
 		$("#like span").hover(
 			function(){
-				$(this).css('color','#ADFFAD')
+				$(this).css("color","#ADFFAD")
 			},
 			function() {
-				$(this).css('color','white')
+				$(this).css("color","white")
 			}
 		)
 
 		$("#dislike span").hover(
 			function(){
-				$(this).css('color','#FFCCCC')
+				$(this).css("color","#FFCCCC")
 			},
 			function() {
-				$(this).css('color','white')
+				$(this).css("color","white")
 			}
 		)
 
 		$("#save span").hover(
 			function(){
-				$(this).css('color','#CCCCFF')
+				$(this).css("color","#CCCCFF")
 			},
 			function() {
-				$(this).css('color','white')
+				$(this).css("color","white")
 			}
 		)
-
-		// $("#engine_like span").on('mouseover',function() {
-		// 	$(this).css('color','#ADFFAD')
-		// })
-		
-
-
-		
 		
 		var number_songs = $("#number_songs").val()
 		var follow = $('#follow').val()
