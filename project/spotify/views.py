@@ -157,10 +157,16 @@ class TimelineView(View):
         if len(latest_post) == 1:
             latest_post_track = latest_post[0].song.song.track_uri
             latest_post_date = latest_post[0].created_at
-            readable_date = latest_post_date.strftime('%b %d, %I:%M%p')
-            return render(request, self.template, {"latest_post_track": latest_post_track, "latest_post_date": readable_date, "follow_list": follow_list, "followers": followers,"user_post_list": user_post_list, "post_list": post_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})
+            today = datetime.datetime.now().date()
+            readable_date = latest_post_date.strftime('%b %d')
+            readable_time = latest_post_date.strftime('%I:%M%p')
+            if today.strftime('%d/%m/%Y') == latest_post_date.strftime('%d/%m/%Y'):
+                time = readable_time
+            else:
+                time = readable_date
+            return render(request, self.template, {"latest_post_track": latest_post_track, "latest_post_date": time, "follow_list": follow_list, "followers": followers,"user_post_list": user_post_list, "post_list": post_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})
         else:
-            return render(request, self.template, {"no_post": "You have not posted yet","follow_list": follow_list, "followers": followers, "post_list": post_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})
+            return render(request, self.template, {"no_post": "NONE","follow_list": follow_list, "followers": followers, "post_list": post_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})
 
 
 class UpdateProfileView(View):
@@ -264,8 +270,9 @@ class CreatePostView(View):
         usersong = UserSong.objects.filter(user=user, song=song)
         new_post = Post(user=user[0], song=usersong[0], content=content)
         new_post.save()
-        readable_date = new_post.created_at.strftime('%b %d, %Y %I:%M%p')
-        return JsonResponse({"status": "success", "created_at": readable_date, "track_uri": new_post.song.song.track_uri})
+        readable_time = new_post.created_at.strftime('%I:%M%p')
+        readable_datetime = new_post.created_at.strftime('%b %d, %I:%M%p')
+        return JsonResponse({"status": "success", "time": readable_time, "datetime": readable_datetime, "track_uri": new_post.song.song.track_uri, "id": new_post.pk})
 
 class DeletePostView(View):
 
