@@ -103,7 +103,7 @@ function your_playlist () {
 
 
                 $('#yourplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="'+pw+'" height="'+pw+'" frameborder="0" allowtransparency="true"></iframe>')
-                $("#eddy").css("height", "100%");
+                $("#playlist_column").css("height", "100%");
 
                 
 
@@ -185,7 +185,7 @@ if (num_following > 0) {
             var pw = $('#friendsplaylist_playlist').width();
             $('#friendsplaylist_playlist').css({'height':pw+'px'});
             $('#friendsplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="'+pw+'" height="'+pw+'" frameborder="0" allowtransparency="true"></iframe>')
-            $("#eddy").css("height", "100%");
+            $("#playlist_column").css("height", "100%");
 
 
 
