@@ -483,7 +483,8 @@ $(document).ready(function(){
             console.log(data)
             $("#latest-post-date").html(data["time"]);
             $("#latest-track").html("<p><iframe src='https://embed.spotify.com/?uri=" + data["track_uri"] + "' width=80 height=80 frameborder=0 allowtransparency=true></iframe></p>");
-            // $("#users-list").append("<tr id='" + data["id"] + "'><td><p>" + data["datetime"] + "</p><p>" + comment + "</p></td><td><iframe src='https://embed.spotify.com/?uri=" + data["track_uri"] + "' width=250 height=80 frameborder=0 allowtransparency=true></iframe></td><td><button class='delete-user-post'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></td></tr>");
+            $("<tr id=" + data["id"] + "><td><p>" + data["datetime"] + "</p><p>" + comment + "</p></td><td><iframe src='https://embed.spotify.com/?uri=" + data["track_uri"] + "' width=250 height=80 frameborder=0 allowtransparency=true></iframe></td><td><button class='delete-user-post'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></td></tr>").prependTo($("#user-posts > tbody"));
+            console.log('success');
         });
         $("#comment").val('');
         $("[name=search_query]").val('');
