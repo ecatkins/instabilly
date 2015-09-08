@@ -108,14 +108,17 @@ textarea {
 
 }
 
+.table-striped td {
+    background-color: #1c1c1f;
+}
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
    background-color: #383838;
 }  
 
 
-.table-striped:nth-child(even) td {
+/*.table-striped:nth-child(even) td {
    background-color: #1c1c1f;
-}   
+}   */
 
 
 #following-list, #followers-list {
@@ -223,8 +226,24 @@ textarea {
   line-height: 1.33;
   border-radius: 35px;
 }
+
+.delete-user-post {
+    background: transparent;
+    border: transparent;
+}
+
+
+.delete-user-post span {
+   color: white;
+}
+
+.delete-user-post span:hover {
+    color:#FFCCCC;
+}
+
     /*playlist specific*/
-        
+ 
+
 #eddy {
    border-left:rgba(255, 255, 255, 1) 0.2em solid;
    border-radius:10%;
@@ -317,7 +336,7 @@ textarea {
 }
 
 .playlist_dislike:hover {
-    color:#FFCCCC
+    color:#FFCC80
 }
 
 .playlist_save:hover {

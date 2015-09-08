@@ -152,29 +152,32 @@ def create_playlist(user,num_neighbors,follow_effect,number_songs,recency_effect
 			continue
 		### select song
 		
+		choice = weighted_choice(final_weighting_array)
+		playlist.append(song_number[choice])
+		
+		# for i, item in enumerate(song_number):
+		# 	print("SONG")
+		# 	print(item.song.artists.name,item.song.track_name)
+		# 	print("DISTANCE")
+		# 	print(distances[i])
+		# 	print("RECOMMENDATION")
+		# 	print(recommendation_array[i])
+		# 	print("REPLICATE ARTIST")
+		# 	print(replication_array[i])
+		# 	print("EXISTING PLAYLIST")
+		# 	print(existing_playlist_array[i])
+		# 	print("DUPLICATE SONG")
+		# 	print(duplicate_song_array[i])
+		# 	print("FINAL WEIGHTING")
+		# 	print(final_weighting_array[i])		
+		# 	print("")
+		
+		# print("WINNER")
+		# print(song_number[choice].song.artists.name,song_number[choice].song.track_name)
+		# print("")
+
 
 		
-		for i, item in enumerate(song_number):
-			print("SONG")
-			print(item.song.artists.name,item.song.track_name)
-			print("DISTANCE")
-			print(distances[i])
-			print("RECOMMENDATION")
-			print(recommendation_array[i])
-			print("REPLICATE ARTIST")
-			print(replication_array[i])
-			print("EXISTING PLAYLIST")
-			print(existing_playlist_array[i])
-			print("DUPLICATE SONG")
-			print(duplicate_song_array[i])
-			print("FINAL WEIGHTING")
-			print(final_weighting_array[i])		
-			print("")
-		choice = weighted_choice(final_weighting_array)
-		print("WINNER")
-		print(song_number[choice].song.artists.name,song_number[choice].song.track_name)
-		playlist.append(song_number[choice])
-		print("")
 
 	return playlist
 

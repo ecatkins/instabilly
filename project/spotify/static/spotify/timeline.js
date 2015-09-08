@@ -57,7 +57,7 @@ function check_song_count() {
 
 function your_playlist () {
 
-    var num_songs = parseInt($("#profile_songs").text())
+    var num_songs = parseInt($("#profile-songs").text())
 
     if (num_songs > 0) {
         var number_songs = 10
@@ -266,6 +266,16 @@ $(document).ready(function(){
     var recent_post_width = (profile_width - profile_stats_width);
     $("#recentPost").css("width", recent_post_width);
 
+
+
+
+
+
+
+
+
+
+
     
     $("#following").on("click", function(){
         $("#following-button").removeClass("active");
@@ -344,7 +354,10 @@ $(document).ready(function(){
         })
         updateFollowButtons();
     });
+    
 
+    
+    
     $(".delete-user-post").on("click", function() {
         var $row = $(this).closest("tr")
         var id = $row.attr("id");
