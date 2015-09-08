@@ -28,31 +28,29 @@
         <h3><span class='welcomeHeader'>Welcome,</span> {{username}}<span class='welcomeHeader'>!</span></h3>
         <div id="profile">
             <table> 
-                <tr id="profile_stats">
-                    <td id ="profile_songs">{{song_count}}</td>
-                    <td id = "followers" data-toggle="modal" data-target="#UsersModal">{{followers_count}}</td>
-                    <td id = "following" data-toggle="modal" data-target="#UsersModal">{{following_count}}</td>
-                </tr>
-                <tr id="profile_stats_names">
-                    <td>Songs</td>
-                    <td>Followers</td>
-                    <td>Following</td>
-                </tr>
-            </table>
-            <table id="recentPost">
                 <tr>
-                    <td id="latest">
-                        <p id="latest-post">YOUR LATEST POST:</p>
-                        <p id="latest-post-date">{%if latest_post_date %}{{ latest_post_date }}{% endif %}{%if no_post %}{{ no_post }}{% endif %}</p>
-                        <div id="post-icons">
-                            <span id='createpost' class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#PostModal"></span>
-                            <span id='list-posts' class="glyphicon glyphicon-th-list" data-toggle="modal" data-target="#all-user-posts"></span>
-                        </div>
+                    <td>
+                        <p id="profile-songs" class="profile_stats">{{song_count}}</p>
+                        <p class="profile_stats_names">Songs</p>
+                    </td>
+                    <td data-toggle="modal" data-target="#UsersModal">
+                        <p id="followers" class="profile_stats">{{followers_count}}</p>
+                        <p class="profile_stats_names">Followers</p>
+                    </td>
+                    <td data-toggle="modal" data-target="#UsersModal">
+                        <p id="following" class="profile_stats">{{following_count}}</p>
+                        <p class="profile_stats_names">Following</p>
                     </td>
                     <td>
-                        <p id="latest-post-track">
-                            <iframe src="https://embed.spotify.com/?uri={{ latest_post_track }}" width="250" height="80" frameborder="0" allowtransparency="true"></iframe>
-                        </p>
+                        <p id="latest-post-date" class="profile_stats">{%if latest_post_date %}{{ latest_post_date }}{% endif %}{%if no_post %}{{ no_post }}{% endif %}</p>
+                        <p class="profile_stats_names">Latest Post</p>
+                    </td>
+                    <td>
+                        <p><iframe src="https://embed.spotify.com/?uri={{ latest_post_track }}" width="250" height="80" frameborder="0" allowtransparency="true"></iframe></p>
+                    </td>
+                    <td id="icons">
+                        <span id='createpost' class="glyphicon glyphicon-pencil post-icon" data-toggle="modal" data-target="#PostModal"></span>
+                        <p><span id='list-posts' class="glyphicon glyphicon-th-list post-icon" data-toggle="modal" data-target="#all-user-posts"></span></p>
                     </td>
                 </tr>
             </table>
