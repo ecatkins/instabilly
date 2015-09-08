@@ -36,9 +36,10 @@
               </div>
               <div class="modal-body">
                 <form id="login" name="login" action="login" method="POST">
-                    {%if login_error%}
+                   {% if login_error %}
+                        <script> $('#loginModal').modal("show"); </script>
                         {{login_error}}
-                    {%endif%}
+                    {% endif %}
                     {% csrf_token %}
                     {{ login_form.as_p }}
                     <input class="btn btn-info" type="submit" value="Login">
@@ -71,12 +72,18 @@
               <div class="modal-body">
                 <form id="registration" name="registration" action="registration" method="POST">
                     {% csrf_token %}
-                    {% for field in registration_form%}
-                    <p>
-                        {{field.errors}}
-                        {{field.label_tag}}{{field}}
-                    </p>
-                    {%endfor%}
+                     
+                      {% for field in registration_form%}
+                      <p>
+                          {{field.errors}}
+                          {{field.label_tag}}{{field}}
+                      </p>
+                       {%endfor%}
+                      {%if registration_error %}
+                        <script> $('#registerModal').modal("show"); </script>
+                      {%endif%}
+
+                   
                     <input class="btn btn-info" type="submit" value="Create User">
                 </form>
                 <div id='errors'></div>

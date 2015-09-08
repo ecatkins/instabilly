@@ -32,7 +32,7 @@ $(document).ready(function() {
 
 		$("#dislike span").hover(
 			function(){
-				$(this).css("color","#FFCCCC")
+				$(this).css("color","#FFCC80")
 			},
 			function() {
 				$(this).css("color","white")

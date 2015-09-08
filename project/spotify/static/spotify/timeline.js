@@ -269,6 +269,10 @@ $(document).ready(function(){
 
 
 
+
+
+
+
     
     $("#following").on("click", function(){
         $("#following-button").removeClass("active");
@@ -347,7 +351,10 @@ $(document).ready(function(){
         })
         updateFollowButtons();
     });
+    
 
+    
+    
     $(".delete-user-post").on("click", function() {
         var $row = $(this).closest("tr")
         var id = $row.attr("id");

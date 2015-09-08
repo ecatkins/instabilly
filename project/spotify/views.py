@@ -63,8 +63,10 @@ class RegistrationView(View):
             return redirect("oauth")
         else:
             errors = registration_form.errors.as_json()
-            # return render(request, 'spotify/home.html', {"login_form": UserForm(), "registration_form": registration_form})
-            return JsonResponse({"errors": errors})
+            return render(request, 'spotify/home.html', {"login_form": UserForm(), "registration_form": registration_form,"registration_error": "Invalid Registration Details"})
+
+
+            
 
 class ActivationView(View):
     template = "spotify/activation.html"
@@ -85,7 +87,7 @@ class LoginView(View):
             request.session['post_oauth'] = 'timeline'
             return redirect("oauth")
         else:
-            return render(request, 'spotify/home.html', {"login_form": UserForm(), "login_error": "Invalid credentials.", "registration_form": RegistrationForm()})
+            return render(request, 'spotify/home.html', {"login_form": UserForm(), "login_error": "Invalid Credentials", "registration_form": RegistrationForm()})
 
 
 class LogoutView(View):
