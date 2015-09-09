@@ -238,6 +238,9 @@ $(document).ready(function(){
     ga('create', 'UA-66616301-1', 'auto');
     ga('send', 'pageview');
     
+    var d = new Date();
+    var timeZoneOffset = d.getTimezoneOffset();
+    console.log(timeZoneOffset);
 
     /// On page load checks if the user has any songs, and makes sure they sync ///
     /// Appends initial playlist objects ///
@@ -336,7 +339,7 @@ $(document).ready(function(){
         }
     })
 
-    $.getJSON("/get_minifeed", function(data){
+    $.getJSON("/get_minifeed", {"timeZoneOffset": timeZoneOffset}, function(data){
         var all_posts = data['all_posts'];
         var count = 0;
         for (post in all_posts) {
