@@ -105,7 +105,7 @@ class OauthView(View):
         url = x.get_authorize_url()
         return redirect(url)
 
-    ####USE FOR TESTING WITH EMAIL ACTIVATION######
+    ###USE FOR TESTING WITH EMAIL ACTIVATION######
     # def get(self,request):
     #     userprofile = UserProfile.objects.filter(user__pk=request.session['session_id'])
     #     userprofile_obj = userprofile[0]
@@ -146,7 +146,7 @@ class TimelineView(View):
         followlist_obj = FollowList.objects.filter(user=user[0])
         follow_list = followlist_obj[0].following.all()
         exclude_list = list(follow_list) + list(user)
-        post_list = Post.objects.exclude(user__in=exclude_list).order_by('-created_at')
+        post_list = Post.objects.exclude(user__in=exclude_list).order_by('-created_at')[:20]
         followers = FollowList.objects.filter(following=user[0])
         following_count = len(follow_list)
         followers_count = len(followers)
@@ -286,21 +286,27 @@ class DeletePostView(View):
 class GetMiniFeedView(View):
 
     def get(self, request):
+        time_zone_offset = int(request.GET.get('timeZoneOffset'))
         user = User.objects.filter(pk=request.session['session_id'])
         user_followlist_obj = FollowList.objects.filter(user=user[0])
         follow_list = user_followlist_obj[0].following.all()
         JSON_all_posts = []            
         all_posts = Post.objects.all().exclude(user=user[0]).order_by('-created_at')
         for post in all_posts:
-            if post.user in follow_list:
-                today = datetime.datetime.now().date()
-                post_date = post.created_at.date()
-                if today.strftime('%d/%m/%Y') == post_date.strftime('%d/%m/%Y'):
-                    readable_datetime = post.created_at.strftime('%I:%M%p')
-                else:
-                    readable_datetime = post.created_at.strftime('%b %d, %Y %I:%M%p')
-                post_dict = {"user": post.user.username, "track_uri": post.song.song.track_uri, "created_at": readable_datetime, "content": post.content}
-                JSON_all_posts.append(post_dict)
+            if len(JSON_all_posts) <= 20:
+                if post.user in follow_list:
+                    today_adj_datetime = datetime.datetime.now() - datetime.timedelta(minutes=time_zone_offset)
+                    post_adj_datetime = post.created_at - datetime.timedelta(minutes=time_zone_offset)
+                    today_date = today_adj_datetime.date()
+                    post_date = post_adj_datetime.date()
+                    if today_date.strftime('%d/%m/%Y') == post_date.strftime('%d/%m/%Y'):
+                        readable_datetime = post_adj_datetime.strftime('%I:%M%p')
+                    else:
+                        readable_datetime = post_adj_datetime.strftime('%b %d, %Y %I:%M%p')
+                    post_dict = {"user": post.user.username, "track_uri": post.song.song.track_uri, "created_at": readable_datetime, "content": post.content}
+                    JSON_all_posts.append(post_dict)
+            else:
+                break
         return JsonResponse({"all_posts": JSON_all_posts})
 
 
