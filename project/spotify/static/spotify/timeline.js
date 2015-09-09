@@ -328,7 +328,7 @@ $(document).ready(function(){
         var all_posts = data['all_posts'];
         var count = 0;
         for (post in all_posts) {
-            $("#mini-feed").append("<tr id=" + all_posts[post].user + " data-track=" + all_posts[post].track_uri + " class=minifeed-post><td><p>posted by: " + all_posts[post].user + "</p><p>" + all_posts[post].created_at + "</p><p><button class='btn followButton'>Follow</button></p></td><td><p>" + all_posts[post].content + "</p></td><td><iframe src='https://embed.spotify.com/?uri=" + all_posts[post].track_uri + "'width=250 height=80 frameborder=0 allowtransparency=true></iframe></td><td><button id=song" + count + " type=button class='savesong'><span class='glyphicon glyphicon-floppy-disk' aria-hidden=true></span></button></tr>");
+            $("#mini-feed").append("<tr id=" + all_posts[post].user + " data-track=" + all_posts[post].track_uri + " class=minifeed-post><td><p class='minifeed-user'>" + all_posts[post].user + "</p><p>" + all_posts[post].created_at + "</p><p><button class='btn followButton'>Follow</button></p></td><td><p>" + all_posts[post].content + "</p></td><td><iframe src='https://embed.spotify.com/?uri=" + all_posts[post].track_uri + "'width=250 height=80 frameborder=0 allowtransparency=true></iframe></td><td><button id=song" + count + " type=button class='savesong'><span class='glyphicon glyphicon-floppy-disk' aria-hidden=true></span></button></tr>");
             count += 1;
         }
         $(".savesong").css(({"background-color":"transparent","border-color":"transparent"}))
@@ -419,7 +419,7 @@ $(document).ready(function(){
         });
 
     $("#mini-feed, #user-search-results, #users-list, #following-list, #followers-list").on("mouseenter", "button.followButton", function(){
-        $button = $(this);
+        var $button = $(this);
         if($button.hasClass('following')) {
             $button.addClass('unfollow');
             $button.text('Unfollow');
@@ -427,6 +427,7 @@ $(document).ready(function(){
     });
 
     $("#mini-feed, #user-search-results, #users-list, #following-list, #followers-list").on("mouseleave", "button.followButton", function(){
+        var $button = $(this);
         if($button.hasClass('following')) {
             $button.removeClass('unfollow');
             $button.text('Following');
@@ -475,7 +476,7 @@ $(document).ready(function(){
         $.post("create_post", {"comment": comment, "track_uri": track_uri}, function(data) {
             console.log(data)
             $("#latest-post-date").html(data["time"]);
-            $("#latest-track").html("<p><iframe src='https://embed.spotify.com/?uri=" + data["track_uri"] + "' width=80 height=80 frameborder=0 allowtransparency=true></iframe></p>");
+            $("#latest-track").html("<iframe src='https://embed.spotify.com/?uri=" + data["track_uri"] + "' width=80 height=80 frameborder=0 allowtransparency=true></iframe>");
             $("<tr id=" + data["id"] + "><td><p>" + data["datetime"] + "</p><p>" + comment + "</p></td><td><iframe src='https://embed.spotify.com/?uri=" + data["track_uri"] + "' width=250 height=80 frameborder=0 allowtransparency=true></iframe></td><td><button class='delete-user-post'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></td></tr>").prependTo($("#user-posts > tbody"));
             console.log('success');
         });
