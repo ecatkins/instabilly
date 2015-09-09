@@ -356,7 +356,7 @@ $(document).ready(function(){
 
     
     
-    $(".delete-user-post").on("click", function() {
+    $("#user-posts").on("click", ".delete-user-post", function() {
         var $row = $(this).closest("tr")
         var id = $row.attr("id");
         $.post("delete_post", {"id": id}, function(data) {
