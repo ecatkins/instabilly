@@ -264,16 +264,6 @@ $(document).ready(function(){
     var recent_post_width = (profile_width - profile_stats_width);
     $("#recentPost").css("width", recent_post_width);
 
-
-
-
-
-
-
-
-
-
-
     
     $("#following").on("click", function(){
         $("#following-button").removeClass("active");
@@ -294,8 +284,6 @@ $(document).ready(function(){
         $("#followers-list").show();
         updateFollowButtons();
     });
-
-
 
 
     $("#following-button").on("click", function() {
@@ -376,10 +364,15 @@ $(document).ready(function(){
         $("#syncgif img").css(({"max-width":modal_width/4,"max-height":modal_width/4}))
         $("#sync_button").hide() 
         $.getJSON("/seed", function(data){
+            if (data['status'] === 'Success') { 
             update_user_profile(your_playlist);
             $('#syncModal').modal('hide') 
-            });
+            }
+            else {
+                window.location.replace("/oauth")
+            }
         });
+    });
 
 
 
