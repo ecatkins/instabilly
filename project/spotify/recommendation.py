@@ -6,13 +6,12 @@ import pdb
 
 
 def weighted_choice(weights):
+    '''Returns: random choice given weights '''
     totals = []
     running_total = 0
-
     for w in weights:
         running_total += w
         totals.append(running_total)
-
     rnd = random.random() * running_total
     for i, total in enumerate(totals):
         if rnd < total:
@@ -22,12 +21,12 @@ def weighted_choice(weights):
 def get_user_song_array(users):
 	user_songs_array = []
 	for user in users:
-		# user_object = User.objects.get(pk=user[0])
 		user_songs = UserSong.objects.filter(user=user[0])
 		user_songs_array.append(user_songs)
 	return user_songs_array
 
-def return_tracks_recency_bias(user_songs_array,number_songs,recency_effect):
+
+def return_tracks_with_recency_bias(user_songs_array,number_songs,recency_effect):
 	return_array = []
 	extended_number_songs = int(number_songs*1.5)
 	for x in range(extended_number_songs):
@@ -49,12 +48,12 @@ def duplicate_artist(playlist,user_song):
 			return True
 	return False
 
+
 def duplicate_song(playlist,user_song):
 	for song in playlist:
 		if song.song.track_uri == user_song.song.track_uri:
 			return True
 		return False
-
 
 
 def get_neighbors(user,num_reduced_neighbors):
@@ -67,6 +66,7 @@ def get_neighbors(user,num_reduced_neighbors):
 		neighbor_list.append([neighbor_user_object,distance])
 	return neighbor_list
 
+
 def get_following(neighbors,follow_number,follow_list):
 	if neighbors == None:
 		neighbor_distance_average = 1
@@ -77,6 +77,7 @@ def get_following(neighbors,follow_number,follow_list):
 		random_follow_id = random.choice(follow_list).pk
 		follow_users.append([random_follow_id,neighbor_distance_average])
 	return follow_users
+
 
 def create_playlist(user,num_neighbors,follow_effect,number_songs,recency_effect,rating_effect,duplicate_artist_effect,existing_playlist_effect):
 	'''Pass: the active user, number of neighbors to inform recommendation and
@@ -105,7 +106,7 @@ def create_playlist(user,num_neighbors,follow_effect,number_songs,recency_effect
 	playlist = [] 
 
 	user_songs = get_user_song_array(following_and_neighbors)
-	song_choice = return_tracks_recency_bias(user_songs,number_songs,recency_effect)
+	song_choice = return_tracks_with_recency_bias(user_songs,number_songs,recency_effect)
 
 
 	### Weighting factor 1, similarity to current user
@@ -126,7 +127,7 @@ def create_playlist(user,num_neighbors,follow_effect,number_songs,recency_effect
 				#Adjusts for effect
 				score = score - (score-0.5)*(1-rating_effect)
 				recommendation_array.append(score)
-				### Weighting factor 3, no replicated artists in playlist
+				### Weighting factor 3, no duplicate artists in playlist
 				if duplicate_artist(playlist,user_song) == True:
 					replication_array.append(1-(duplicate_artist_effect))
 				else:
