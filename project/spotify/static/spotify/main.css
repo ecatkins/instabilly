@@ -224,6 +224,10 @@ textarea {
   border-radius: 35px;
 }
 
+#mini-feed .minifeed-user {
+    color: #ffd700;
+}
+
 .delete-user-post {
     background: transparent;
     border: transparent;
