@@ -28,7 +28,6 @@ class HomeView(View):
         return render(request, self.template, {"login_form": UserForm(), "registration_form": RegistrationForm()})
 
 
-
 class RegistrationView(View):
 
     def post(self, request):
@@ -132,10 +131,10 @@ class CallbackView(View):
     def get(self,request):
         code = request.GET.get('code')
         request.session['spotify_code'] = code
-        if request.session['post_oauth'] == 'timeline':
-            return redirect('timeline')
-        elif request.session['post_oauth'] == 'seed_user_library':
-            return redirect('seed')
+        return redirect('timeline')
+        # if request.session['post_oauth'] == 'timeline':
+        # elif request.session['post_oauth'] == 'seed_user_library':
+        #     return redirect('seed')
 
 
 class TimelineView(View):
@@ -407,25 +406,30 @@ def get_spotipy_instance(request):
             sp = spotipy.Spotify(auth=token)
             username = sp.current_user()['id']
         except:
-            token = refresh_token(request)
-            sp = spotipy.Spotify(auth=token)
-            username = sp.current_user()['id']
+            try:
+                token = refresh_token(request)
+                sp = spotipy.Spotify(auth=token)
+                username = sp.current_user()['id']
+            except:
+                return False
     return sp,username
 
 
 
 class SeedUserLibraryView(View):
     def get(self, request):
-        sp,username = get_spotipy_instance(request)
-        user = User.objects.get(pk=request.session['session_id'])
-        saved_tracks = get_user_saved_tracks(sp, user)
-        playlist_tracks = get_user_playlist_tracks(sp, user)
-        seed_one_user(user)
-        update_users([user])
-        if saved_tracks & playlist_tracks:
-            return JsonResponse({"status": "Success"})
+        spotipy = get_spotipy_instance(request)
+        if spotipy != False:
+            sp,username = spotipy
+            user = User.objects.get(pk=request.session['session_id'])
+            saved_tracks = get_user_saved_tracks(sp, user)
+            playlist_tracks = get_user_playlist_tracks(sp, user)
+            seed_one_user(user)
+            update_users([user])
+            return JsonResponse({"status":"Success"})
         else:
-            return JsonResponse({"status":"incomplete seed"})
+            request.session['post_oauth'] = 'seed_user_library'
+            return JsonResponse({"status":"Failure"})
 
 
 

@@ -218,6 +218,10 @@ textarea {
 
 /*index.html specific*/
 
+#profile {
+    background-color: black;
+}
+
 #sync_button {
   width: 70px;
   height: 70px;
