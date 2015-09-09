@@ -250,8 +250,8 @@ $(document).ready(function(){
     /// Sets the size of the profile text
     var profile_height = $("#profile").height();
     // $("#profile_stats td").css(({"font-size":5*profile_height/10,"height":5*profile_height/10}));
-    $(".profile_stats").css(({"font-size":3.5*profile_height/10}));
-    $(".profile_stats_names").css(({"font-size":1.5*profile_height/10}));
+    $(".profile_stats").css(({"font-size":3.6*profile_height/10}));
+    $(".profile_stats_names").css(({"font-size":1.6*profile_height/10,"margin":"0"}));
 
    
     var latestPostHeight = $("#latest-post").height() + $("#latest-post-date").height();
@@ -475,7 +475,7 @@ $(document).ready(function(){
         $.post("create_post", {"comment": comment, "track_uri": track_uri}, function(data) {
             console.log(data)
             $("#latest-post-date").html(data["time"]);
-            $("#latest-track").html("<p><iframe src='https://embed.spotify.com/?uri=" + data["track_uri"] + "' width=80 height=80 frameborder=0 allowtransparency=true></iframe></p>");
+            $("#latest-track").html("<iframe src='https://embed.spotify.com/?uri=" + data["track_uri"] + "' width=80 height=80 frameborder=0 allowtransparency=true></iframe>");
             $("<tr id=" + data["id"] + "><td><p>" + data["datetime"] + "</p><p>" + comment + "</p></td><td><iframe src='https://embed.spotify.com/?uri=" + data["track_uri"] + "' width=250 height=80 frameborder=0 allowtransparency=true></iframe></td><td><button class='delete-user-post'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></td></tr>").prependTo($("#user-posts > tbody"));
             console.log('success');
         });
