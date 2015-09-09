@@ -250,8 +250,8 @@ $(document).ready(function(){
     /// Sets the size of the profile text
     var profile_height = $("#profile").height();
     // $("#profile_stats td").css(({"font-size":5*profile_height/10,"height":5*profile_height/10}));
-    $(".profile_stats").css(({"font-size":3.5*profile_height/10}));
-    $(".profile_stats_names").css(({"font-size":1.5*profile_height/10}));
+    $(".profile_stats").css(({"font-size":3.6*profile_height/10}));
+    $(".profile_stats_names").css(({"font-size":1.6*profile_height/10,"margin":"0"}));
 
    
     var latestPostHeight = $("#latest-post").height() + $("#latest-post-date").height();

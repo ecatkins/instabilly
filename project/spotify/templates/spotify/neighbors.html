@@ -1,0 +1,10 @@
+{%extends 'spotify/base.html' %}
+{%load staticfiles %}
+{% block js %}
+    <script src="{% static 'spotify/neighbors.js' %}"> </script>
+    <script src="{% static 'spotify/django_ajax.js' %}"> </script>
+{% endblock %}
+
+{% block content %}
+<div id="neighbors"> </div>
+{% endblock %}

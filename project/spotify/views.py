@@ -512,3 +512,30 @@ class SaveSongView(View):
         sp.current_user_saved_tracks_add(track_uri_list)
         return JsonResponse({"status": "success"})
 
+class NeighborsView(View):
+
+    def get(self,request):
+        return render(request,'spotify/neighbors.html')
+
+class NeighborsInfoView(View):
+
+    def get(self,request):
+        # pdb.set_trace()
+        users = User.objects.all()
+        user_list = []
+        neighbors_list = []
+        for user in users:
+            neighbor_sub_list = []
+            user_list.append(user.username)
+            userprofile = UserProfile.objects.get(user=user)
+            neighbors = NearestNeigh.objects.filter(user=userprofile)
+            for neighbor in neighbors:
+                neighbor_sub_list.append([neighbor.neighbor.username,neighbor.distance])
+            neighbors_list.append(neighbor_sub_list)
+        return JsonResponse({"user_list":user_list,"neighbors_list":neighbors_list})
+
+
+
+
+
+
