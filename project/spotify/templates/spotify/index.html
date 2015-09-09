@@ -206,7 +206,7 @@
 
 <!-- Find Modal -->
 <div id="FindModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-md">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -221,15 +221,16 @@
             <div class="modal-body">
                 <h4>Latest user posts</h4>
                 <table id="users-list" class="table table-striped">
-                {% for post in post_list %}
-                    <tr id="{{ post.user }}">
+                {% for post in adj_minifeed_list %}
+                    <tr id="{{ post.0.user }}">
                         <td>
-                            <p>{{ post.user }}</p>
+                            <p>{{ post.0.user }}</p>
+                            <p>{{ post.1 }}</p>
                             <p><button class="btn followButton">Follow</button></p>
                         </td>
-                        <td>{{ post.content }}</td>
+                        <td>{{ post.0.content }}</td>
                         <td>
-                            <iframe src="https://embed.spotify.com/?uri={{ post.song.song.track_uri }}" width="250" height="80" frameborder="0" allowtransparency="true"></iframe>
+                            <iframe src="https://embed.spotify.com/?uri={{ post.0.song.song.track_uri }}" width="250" height="80" frameborder="0" allowtransparency="true"></iframe>
                         </td>
                     </tr>
                 {% endfor %}
@@ -249,18 +250,18 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Latest user posts</h4>
+                <h4 class="modal-title">Your latest posts</h4>
             </div>
             <div class="modal-body">
                 <table id="user-posts" class="table table-striped">
                 {% for post in user_post_list %}
-                    <tr id="{{ post.pk }}">
+                    <tr id="{{ post.0.pk }}">
                         <td>
-                            <p>{{ post.created_at }}</p>
-                            <p>{{ post.content }}</p>
+                            <p>{{ post.1 }}</p>
+                            <p>{{ post.0.content }}</p>
                         </td>
                         <td>
-                            <iframe src="https://embed.spotify.com/?uri={{ post.song.song.track_uri }}" width="250" height="80" frameborder="0" allowtransparency="true"></iframe>
+                            <iframe src="https://embed.spotify.com/?uri={{ post.0.song.song.track_uri }}" width="250" height="80" frameborder="0" allowtransparency="true"></iframe>
                         </td>
                         <td>
                             <button class="delete-user-post"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>

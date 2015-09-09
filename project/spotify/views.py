@@ -28,6 +28,14 @@ class HomeView(View):
         return render(request, self.template, {"login_form": UserForm(), "registration_form": RegistrationForm()})
 
 
+class TimeZoneView(View):
+
+    def post(self, request):
+        time_zone_offset = request.POST.get("timeZoneOffset")
+        request.session["time_zone_offset"] = time_zone_offset
+        return JsonResponse({"status": "SUCCESS", "time_zone_offset": request.session["time_zone_offset"]})
+
+
 class RegistrationView(View):
 
     def post(self, request):
@@ -141,29 +149,38 @@ class TimelineView(View):
     template = "spotify/index.html"
 
     def get(self,request):
+        time_zone_offset = int(request.session["time_zone_offset"])
         user = User.objects.filter(pk=request.session['session_id'])
         followlist_obj = FollowList.objects.filter(user=user[0])
         follow_list = followlist_obj[0].following.all()
         exclude_list = list(follow_list) + list(user)
-        post_list = Post.objects.exclude(user__in=exclude_list).order_by('-created_at')[:20]
+        minifeed_list = Post.objects.exclude(user__in=exclude_list).order_by('-created_at')[:20]
+        adj_minifeed_list = []
+        for post in minifeed_list:
+            adj_creation = post.created_at - datetime.timedelta(minutes=time_zone_offset)
+            adj_minifeed_list.append((post, adj_creation))
         followers = FollowList.objects.filter(following=user[0])
         following_count = len(follow_list)
         followers_count = len(followers)
         song_count = UserSong.objects.filter(user=user[0]).count()
         username = user[0].username.upper()
-        user_post_list = Post.objects.filter(user=user[0]).order_by('-created_at')
+        user_post_list = Post.objects.filter(user=user[0]).order_by('-created_at')[:10]
+        userposts_adj_creation = []
+        for post in user_post_list:
+            adj_creation = post.created_at - datetime.timedelta(minutes=time_zone_offset)
+            userposts_adj_creation.append((post, adj_creation))
         latest_post = Post.objects.filter(user=user[0]).order_by('-created_at')[:1]
         if len(latest_post) == 1:
             latest_post_track = latest_post[0].song.song.track_uri
-            latest_post_date = latest_post[0].created_at
-            today = datetime.datetime.now().date()
-            readable_date = latest_post_date.strftime('%b %d')
-            readable_time = latest_post_date.strftime('%I:%M%p')
-            if today.strftime('%d/%m/%Y') == latest_post_date.strftime('%d/%m/%Y'):
+            adj_latest_post_date = latest_post[0].created_at - datetime.timedelta(minutes=time_zone_offset)
+            today_adj_datetime = datetime.datetime.now() - datetime.timedelta(minutes=time_zone_offset)
+            readable_date = adj_latest_post_date.strftime('%b %d')
+            readable_time = adj_latest_post_date.strftime('%I:%M%p')
+            if today_adj_datetime.strftime('%d/%m/%Y') == adj_latest_post_date.strftime('%d/%m/%Y'):
                 time = readable_time
             else:
                 time = readable_date
-            return render(request, self.template, {"latest_post_track": latest_post_track, "latest_post_date": time, "follow_list": follow_list, "followers": followers,"user_post_list": user_post_list, "post_list": post_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})
+            return render(request, self.template, {"latest_post_track": latest_post_track, "latest_post_date": time, "follow_list": follow_list, "followers": followers,"user_post_list": userposts_adj_creation, "adj_minifeed_list": adj_minifeed_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})
         else:
             return render(request, self.template, {"no_post": "NONE","follow_list": follow_list, "followers": followers, "post_list": post_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})
 
@@ -285,7 +302,7 @@ class DeletePostView(View):
 class GetMiniFeedView(View):
 
     def get(self, request):
-        time_zone_offset = int(request.GET.get('timeZoneOffset'))
+        time_zone_offset = int(request.session["time_zone_offset"])
         user = User.objects.filter(pk=request.session['session_id'])
         user_followlist_obj = FollowList.objects.filter(user=user[0])
         follow_list = user_followlist_obj[0].following.all()
