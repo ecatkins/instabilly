@@ -279,6 +279,7 @@ class TrackURIView(View):
 class CreatePostView(View):
 
     def post(self, request):
+        time_zone_offset = int(request.session["time_zone_offset"])
         user = User.objects.filter(pk=request.session['session_id'])
         track_uri = request.POST.get('track_uri')
         content = request.POST.get('comment')
@@ -286,8 +287,9 @@ class CreatePostView(View):
         usersong = UserSong.objects.filter(user=user, song=song)
         new_post = Post(user=user[0], song=usersong[0], content=content)
         new_post.save()
-        readable_time = new_post.created_at.strftime('%I:%M%p')
-        readable_datetime = new_post.created_at.strftime('%b %d, %I:%M%p')
+        adj_creation = new_post.created_at - datetime.timedelta(minutes=time_zone_offset)
+        readable_time = adj_creation.strftime('%I:%M%p')
+        readable_datetime = adj_creation.strftime('%b %d, %I:%M%p')
         return JsonResponse({"status": "success", "time": readable_time, "datetime": readable_datetime, "track_uri": new_post.song.song.track_uri, "id": new_post.pk})
 
 class DeletePostView(View):
