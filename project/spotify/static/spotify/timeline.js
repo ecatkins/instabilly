@@ -487,6 +487,7 @@ $(document).ready(function(){
     $("#usersearch").on("submit", function(event) {
         event.preventDefault();
         $("#user-search-results").empty();
+        $("#user-search").css(({"height": "20%", "overflow-y": "scroll"}));
         var usernameQuery = $("[name=user_query]").val();
         $.getJSON("find_user", {"usernameQuery": usernameQuery}, function(data){
             var userList = data["search_result"];
