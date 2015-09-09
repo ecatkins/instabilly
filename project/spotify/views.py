@@ -182,7 +182,7 @@ class TimelineView(View):
                 time = readable_date
             return render(request, self.template, {"latest_post_track": latest_post_track, "latest_post_date": time, "follow_list": follow_list, "followers": followers,"user_post_list": userposts_adj_creation, "adj_minifeed_list": adj_minifeed_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})
         else:
-            return render(request, self.template, {"no_post": "NONE","follow_list": follow_list, "followers": followers, "post_list": post_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})
+            return render(request, self.template, {"no_post": "NONE","follow_list": follow_list, "followers": followers, "adj_minifeed_list": adj_minifeed_list,"following_count":following_count,"followers_count":followers_count,"song_count":song_count,"username":username})
 
 
 class UpdateProfileView(View):
