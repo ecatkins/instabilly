@@ -213,9 +213,7 @@ textarea {
 
 /*index.html specific*/
 
-#profile {
-    background-color: black;
-}
+
 
 #sync_button {
   width: 70px;
@@ -353,10 +351,12 @@ textarea {
     width:100%;
     height:12em;
     border:white 3px solid;
+    background-color: black;
 }
 
 #profile table{
     width:100%;
+    height:100%;
 
 }
 
