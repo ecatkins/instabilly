@@ -25,7 +25,7 @@ function update_user_profile(callback) {
                 var song_count = data['song_count']
                 var following_count = data['following_count']
                 var followers_count = data['followers_count']
-                $("#profile_songs").html(song_count)
+                $("#profile-songs").html(song_count)
                 $("#followers").html(followers_count)
                 $("#following").html(following_count)
                 if (callback) {
@@ -36,7 +36,7 @@ function update_user_profile(callback) {
     } 
 
 function check_song_count() {
-    var num_songs = $("#profile_songs").text()
+    var num_songs = $("#profile-songs").text()
     if (num_songs === "0")    {
          $("#syncModal").modal('show')
          $("#sync_button").on('click', function() {
@@ -60,6 +60,15 @@ function your_playlist () {
     var num_songs = parseInt($("#profile-songs").text())
 
     if (num_songs > 0) {
+
+
+        var playlist_col_pos = $("#playlist_column").position()['top']
+        var friendsplaylist_buttons_pos = $("#friendsplaylist_buttons").position()['top']
+        var playlist_height = friendsplaylist_buttons_pos - playlist_col_pos
+        console.log(playlist_height)
+        $("#playlist_column").css("height", playlist_height);
+
+
         var number_songs = 10
         var follow = 0
         var recency_effect = 10
@@ -150,6 +159,7 @@ function friends_playlist() {
 var num_following = parseInt($("#following").text())
 
 if (num_following > 0) {
+    
     var number_songs2 = 10
     var follow2 = 10
     var recency_effect2 = 10
@@ -186,6 +196,9 @@ if (num_following > 0) {
             $('#friendsplaylist_playlist').css({'height':pw+'px'});
             $('#friendsplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="'+pw+'" height="'+pw+'" frameborder="0" allowtransparency="true"></iframe>')
             $("#playlist_column").css("height", "100%");
+
+
+    
 
 
 
