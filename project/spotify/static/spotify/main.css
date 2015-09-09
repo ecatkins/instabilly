@@ -151,9 +151,8 @@ textarea {
 }
 
 #user-search{
-    width: 40em;
-    overflow-y: scroll;
-    height: 10em;
+    width: 100%;
+
 }
 
 #user-search-results {
@@ -163,11 +162,6 @@ textarea {
 #user-search-results tr td {
     color: black;
     text-align: right;
-}
-
-#mini-feed-container {
-    height: 70%;
-    overflow-y: scroll;
 }
 
 .glyphicon {
