@@ -143,25 +143,22 @@
                         <form id="songsearch" action="search" method="GET">
                             {% csrf_token %}
                             <p>Include a song from your library</p> 
-                            <p><input type="text" name="search_query"> <button class="btn btn-info" id="song-search-button">search</button></p>
+                            <p><input type="text" name="search_query" placeholder="track name" required="true"> <button class="btn btn-info" id="song-search-button">search</button></p>
                             <p>What would you like to say about this song?</p>
-                            <p><textarea id="comment" rows="4" cols="30" maxlength="180" placeholder="180 characters"></textarea></p>
+                            <p><textarea id="comment" rows="4" cols="30" maxlength="180" placeholder="180 characters" required="true"></textarea></p>
                             <input type="submit" value="Preview your post" class="btn btn-info">
                         </form>
                     </div>
-                    <div class="createpost_div">
-                        <div id="searchresult">
-                            <ul id="searchresult_list"></ul>
-                        </div>
+                    <div id="searchresult">
+                        <ul id="searchresult_list"></ul>
                     </div>
                     <div id="post-creation">
                         <p id="song-reference"></p>
                         <p id="song-comment"></p>
-                    </div>
-                     
+                    </div>                 
                 </div>
-
                 <div class="modal-footer">
+                  <button id="start-over-button" type="button" class="btn btn-default" data-dismiss="modal">Start over</button>
                   <button id="post-it-button" type="button" class="btn btn-default" data-dismiss="modal">Post it!</button>
                 </div>
             </div>

@@ -446,6 +446,11 @@ $(document).ready(function(){
 
     $("#createpost").on("click", function() {
         $("#searchresult_list").empty();
+        $("#post-creation p").empty();
+        $("#comment").val('');
+        $("[name=search_query]").val('');
+        $("#post-it-button").hide();
+        $("#start-over-button").hide();
     });
 
     $("#song-search-button").on("click", function(event) {
@@ -455,22 +460,22 @@ $(document).ready(function(){
         $.getJSON("search", {"search_query": query}, function(data){
             var count = 0;
             for (item in data["search_result"]) {
-                $("#searchresult_list").append("<li class=results id=" + count +">" +data["search_result"][item] + "<button class=select-song>select</button></li>");
+                $("#searchresult_list").append("<li name='" + data["search_result"][item][0] + "' class=results id=" + count +">" + data["search_result"][item][0] + " - " + data["search_result"][item][1] + "<button class=select-song>select</button></li>");
                 count += 1;
             }
         });
     });
 
     $("#searchresult_list").on("click", ".select-song", function() {
-        var text = $(this).parent().text();
-        var substring = text.substring(0, text.length - 6);
+        var trackName = $(this).parent().attr('name');
         $("#searchresult_list").empty();
-        $("#song-search-button").hide();
-        $("[name=search_query]").val(substring);
+        $("[name=search_query]").val(trackName);
     });
 
     $("#songsearch").on("submit", function(event) {
         event.preventDefault();
+        $("#post-it-button").show();
+        $("#start-over-button").show();
         var track_name = $("[name=search_query]").val()
         $.getJSON("track_uri", {"track_name": track_name}, function(data){
             var track_uri = data['track_uri'];

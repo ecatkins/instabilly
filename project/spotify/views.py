@@ -243,7 +243,7 @@ class SearchView(View):
             search_result = []
             for item in usersongs:
                 if query in item.song.track_name.lower():
-                    search_result.append(item.song.track_name)
+                    search_result.append((item.song.track_name, item.song.artists.name))
             if len(search_result) > 0:
                 return JsonResponse({"search_result": search_result})
             else:

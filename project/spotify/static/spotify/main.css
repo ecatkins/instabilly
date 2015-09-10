@@ -83,9 +83,6 @@ textarea {
 /*.table-striped:nth-child(even) td {
    background-color: #1c1c1f;
 }   */
-.player .logo {
-    display: none;
-}
 
 #following-list, #followers-list {
     width: 20em;
@@ -97,7 +94,10 @@ textarea {
     height: 5em;
 }
 
+#post_body div {
+    display: inline;
 
+}
 
 #mini-feed:last-child {
     border-bottom: 1px solid white;
