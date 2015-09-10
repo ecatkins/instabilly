@@ -28,7 +28,7 @@ body {
 	background-color: #1c1c1f;
     color: white;
     font-family: 'PT Sans', sans-serif;
-    font-size: 1em;
+    font-size: 10pt;
 }
 
 
@@ -55,53 +55,17 @@ textarea {
     margin: auto;
 }
 
-.btn-home {
-    height:3em;
-    width:100%;
-    background : transparent;
-    border-color:white;
-    border-width: 0.3em;
-    border-radius: 3%;
-    font-size: 2em;
-    -webkit-transition-property: border-color; /* Safari */
-    transition-property: border-color,color;
-    transition-duration: 1s;
-}
-
-.btn-home:hover {
-    border-color:#ffd700;
-    color:#ffd700;
-}
 
 
 
-.modal-content {
-    color: black;
-}
 
 #all-users-list li {
     margin-top: .5em;
 }
 
-.fa-question {
-	cursor: pointer;
-}
 
-.btn:hover {
-    color: white;
-}
 
-.followButton {
-    background-color: blue;
-}
 
-.following {
-    background-color: green;
-}
-
-.unfollow {
-    background-color: red;
-}
 
 .minifeed-post td p:first-of-type {
     color: white;
@@ -127,26 +91,13 @@ textarea {
     width: 20em;
 }
 
-#following-list tr td:first-of-type, #followers-list tr td:first-of-type{
-    color: black;
-}
-
-/*#post_body {
-    height:22em;
-}*/
 
 #users-list tr{
     width: 40em;
     height: 5em;
 }
 
-#users-list tr button {
-    color: black;
-}
 
-#users-list tr button:hover {
-    color: white;
-}
 
 #mini-feed:last-child {
     border-bottom: 1px solid white;
@@ -162,7 +113,6 @@ textarea {
 }
 
 #user-search-results tr td {
-    color: black;
     text-align: right;
 }
 
@@ -175,6 +125,140 @@ textarea {
 .popover-content{
     color:black;
 }
+
+/*Home*/
+.helptext {
+    display:none;
+}
+
+.form-field {
+    padding-right:1em;
+}
+
+
+.registration_login_error {
+    color:red;
+    text-align: left;
+    font-size: 12pt;
+}
+
+
+.registration_error li {
+    color:red;
+    font-size: 10pt;
+    list-style: none;
+    vertical-align: middle;
+}
+
+/*Modals*/
+
+.modal-header {
+    background-color:  black;
+    color:#ffd700;
+    font-size: 20pt;
+}
+
+
+.modal-content {
+    background-color:  #1c1c1f;
+    color:white;
+}
+
+.form-control {
+    width:20%;
+    /*float:left;*/
+    display:inline;
+}
+
+
+
+/*Buttons*/
+
+.btn {
+    background-color: transparent;
+    border-width: 0.3em;
+    border-radius: 3%;
+    color:white;
+    background-image: none
+   }
+
+
+
+.btn:hover {
+    color: white;
+    background-image: none;
+    background-color: transparent;
+}
+
+.followButton {
+    border-color: blue;
+    width:8em;
+}
+
+.followButton:hover {
+    color:#ffd700
+}
+
+.following {
+    border-color: green;
+}
+
+.following:hover {
+    color:white;
+}
+
+.unfollow {
+    border-color: red;
+}
+
+.unfollow:hover {
+    color:white;
+}
+
+.btn-home {
+    height:3em;
+    width:100%;
+    background : transparent;
+    border-color:white;
+    border-width: 0.3em;
+    border-radius: 3%;
+    font-size: 2em;
+    -webkit-transition-property: border-color; /* Safari */
+    transition-property: border-color,color;
+    transition-duration: 1s;
+}
+
+.btn-home:hover {
+    border-color:#ffd700;
+    color:#ffd700;
+}
+
+#user-search-button {
+    display: inline;
+    border-color:white;
+}
+
+#btn-login {
+    border-color: white;
+    color:white;
+}
+
+#btn-login:hover {
+    color:#ffd700;
+}
+
+#btn-register {
+    border-color: white;
+    color:white;
+}
+
+#btn-register:hover {
+    color:#ffd700;
+}
+
+
+
+
 
 /*Navbar*/
 .navlist {
