@@ -254,11 +254,10 @@ class FindUserView(View):
     def get(self, request):
         search_query = request.GET.get("usernameQuery").lower()
         if search_query != "":
-            all_users = User.objects.all()
-            currentuser = User.objects.filter(pk=request.session['session_id'])
+            all_users = User.objects.exclude(pk=request.session['session_id'])
             search_result = []
             for user in all_users:
-                if (search_query in user.username.lower()) and (search_query != currentuser[0].username):
+                if (search_query in user.username.lower()):
                     search_result.append(user.username)
             if len(search_result) > 0:
                 return JsonResponse({"search_result": search_result})
