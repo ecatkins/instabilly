@@ -41,9 +41,8 @@ function check_song_count() {
          $("#syncModal").modal('show')
          $("#sync_button").on('click', function() {
             $("#synctext").html("Please wait while your songs are syncing")
-            $("#syncgif").html('<img src="/static/spotify/images/progress.gif"/>')
+            $("#syncgif").html('<img src="/static/spotify/images/loading.gif"/>')
             var modal_width = $("#syncModal").width()
-            $("#syncgif img").css(({"max-width":modal_width/4,"max-height":modal_width/4}))
             $("#sync_button").hide()
             $.getJSON("/seed", function(data){
                 update_user_profile(your_playlist)
@@ -65,7 +64,6 @@ function your_playlist () {
         var playlist_col_pos = $("#playlist_column").position()['top']
         var friendsplaylist_buttons_pos = $("#friendsplaylist_buttons").position()['top']
         var playlist_height = friendsplaylist_buttons_pos - playlist_col_pos
-        console.log(playlist_height)
         $("#playlist_column").css("height", playlist_height);
 
 
@@ -372,9 +370,8 @@ $(document).ready(function(){
         event.preventDefault();
         $('#syncModal').modal('show');
         $("#synctext").html("Please wait while your songs are syncing")
-        $("#syncgif").html('<img src="/static/spotify/images/progress.gif"/>')
+        $("#syncgif").html('<img src="/static/spotify/images/loading.gif"/>')
         var modal_width = $("#syncModal").width()
-        $("#syncgif img").css(({"max-width":modal_width/4,"max-height":modal_width/4}))
         $("#sync_button").hide() 
         $.getJSON("/seed", function(data){
             if (data['status'] === 'Success') { 

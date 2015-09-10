@@ -36,16 +36,25 @@
               </div>
               <div class="modal-body">
                 <form id="login" name="login" action="login" method="POST">
-                   {% if login_error %}
-                        <script> $('#loginModal').modal("show"); </script>
-                        {{login_error}}
-                    {% endif %}
+                   
+                    
                     {% csrf_token %}
-                    {{ login_form.as_p }}
-                    <input class="btn btn-info" type="submit" value="Login">
+                    <table>
+                      {% for field in login_form %}
+                        <tr>
+                          <td class="form-field">{{field.label_tag}}</td>
+                          <td>{{field}}</td>
+                        </tr>
+                      {% endfor %}
+                    </table>
+                    <input class="btn" id ='btn-login' type="submit" value="Login">
                 </form>
               </div>
               <div class="modal-footer">
+                {% if login_error %}
+                  <script> $('#loginModal').modal("show"); </script>
+                  <div class="registration_login_error">{{login_error}} </div>
+                {% endif %}
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
             </div>
@@ -72,19 +81,27 @@
               <div class="modal-body">
                 <form id="registration" name="registration" action="registration" method="POST">
                     {% csrf_token %}
-                     
+                      <table>
                       {% for field in registration_form%}
-                      <p>
+                      <tr>
+                        <td class="form-field">
+                          {{field.label_tag}}
+                        </td>
+                        <td>
+                          {{field}}
+                        </td>
+                        <td class = "registration_error">
                           {{field.errors}}
-                          {{field.label_tag}}{{field}}
-                      </p>
+                        </td>
+                      </tr>
                        {%endfor%}
+                      </table>
                       {%if registration_error %}
                         <script> $('#registerModal').modal("show"); </script>
                       {%endif%}
 
                    
-                    <input class="btn btn-info" type="submit" value="Create User">
+                    <input class="btn" id="btn-register" type="submit" value="Create User">
                 </form>
                 <div id='errors'></div>
               </div>

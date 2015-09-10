@@ -65,7 +65,6 @@
 
     <div id="playlist_column" class="col-md-4">
         <h3>Recommended by MoneyMusic</h3>
-        <div id="loading"> </div>
         <br>
         <h4>...based on your music</h4>
         <div class = "timelineplaylist" id="yourplaylist"> 
@@ -106,7 +105,7 @@
 
 
 <div id="syncModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-md">
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
@@ -212,7 +211,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <form id="usersearch" action="search" method="GET">
                     <h4 class="modal-title">Find users</h4>
-                    <input type="text" name="user_query" placeholder="username"> <button class="btn btn-info" id="user-search-button">search</button>
+                    <input type="text" class="form-control" name="user_query" placeholder="username"> <button class="btn btn-info" id="user-search-button">search</button>
                 </form>
                 <div id="user-search">
                     <table id="user-search-results"></table>
