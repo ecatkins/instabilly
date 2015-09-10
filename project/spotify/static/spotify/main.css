@@ -55,17 +55,9 @@ textarea {
     margin: auto;
 }
 
-
-
-
-
 #all-users-list li {
     margin-top: .5em;
 }
-
-
-
-
 
 .minifeed-post td p:first-of-type {
     color: white;
@@ -79,15 +71,9 @@ textarea {
    background-color: #383838;
 }  
 
-
-/*.table-striped:nth-child(even) td {
-   background-color: #1c1c1f;
-}   */
-
 #following-list, #followers-list {
     width: 20em;
 }
-
 
 #users-list tr{
     width: 40em;
@@ -170,6 +156,9 @@ textarea {
     display:inline;
 }
 
+.follower-following-row td {
+    padding-bottom:0.3em;
+}
 
 
 /*Buttons*/
@@ -256,7 +245,13 @@ textarea {
     color:#ffd700;
 }
 
+#following-button {
+    background-color:transparent;
+}
 
+#followers-button {
+    background-color: transparent;
+}
 
 
 

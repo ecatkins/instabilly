@@ -59,14 +59,7 @@ function your_playlist () {
     var num_songs = parseInt($("#profile-songs").text())
 
     if (num_songs > 0) {
-
-
-        var playlist_col_pos = $("#playlist_column").position()['top']
-        var friendsplaylist_buttons_pos = $("#friendsplaylist_buttons").position()['top']
-        var playlist_height = friendsplaylist_buttons_pos - playlist_col_pos
-        $("#playlist_column").css("height", playlist_height);
-
-
+        
         var number_songs = 10
         var follow = 0
         var recency_effect = 10
@@ -110,7 +103,7 @@ function your_playlist () {
 
 
                 $('#yourplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="'+pw+'" height="'+pw+'" frameborder="0" allowtransparency="true"></iframe>')
-                $("#playlist_column").css("height", "100%");
+                // $("#playlist_column").css("height", "100%");
 
                 
 
@@ -193,7 +186,7 @@ if (num_following > 0) {
             var pw = $('#friendsplaylist_playlist').width();
             $('#friendsplaylist_playlist').css({'height':pw+'px'});
             $('#friendsplaylist_playlist').html('<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:' + string + '" width="'+pw+'" height="'+pw+'" frameborder="0" allowtransparency="true"></iframe>')
-            $("#playlist_column").css("height", "100%");
+            
 
 
     
@@ -260,9 +253,8 @@ $(document).ready(function(){
 
     /// Sets the size of the profile text
     var profile_height = $("#profile").height();
-    // $("#profile_stats td").css(({"font-size":5*profile_height/10,"height":5*profile_height/10}));
-    $(".profile_stats").css(({"font-size":3.6*profile_height/10}));
-    $(".profile_stats_names").css(({"font-size":1.6*profile_height/10,"margin":"0"}));
+    $(".profile_stats").css(({"font-size":3.3*profile_height/10}));
+    $(".profile_stats_names").css(({"font-size":1.2*profile_height/10,"margin":"0"}));
 
    
     var latestPostHeight = $("#latest-post").height() + $("#latest-post-date").height();
@@ -421,7 +413,7 @@ $(document).ready(function(){
                 var following = data["following"];
                 $button.addClass('following');
                 $button.text('Following');
-                $("#following-list").append("<tr id=" + following + "><td>" + following + "</td><td><button class='btn followButton following'>Following</button></td></tr>")      
+                $("#following-list").append("<tr class='follower-following-row' id=" + following + "><td>" + following + "</td><td><button class='btn followButton following'>Following</button></td></tr>")      
                 update_user_profile(friends_playlist);
                 updateFollowButtons();
                 });
