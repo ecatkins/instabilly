@@ -119,7 +119,7 @@ textarea {
 /*.table-striped:nth-child(even) td {
    background-color: #1c1c1f;
 }   */
-.player .logo .clickable {
+.player .logo {
     display: none;
 }
 
