@@ -22,7 +22,6 @@ $(document).ready(function() {
 		$("#dislike span").css("color","white");
 		$("#save span").css("color","white");
 		
-		var original_color
 
 		$("#like span").hover(
 			function(){
@@ -70,14 +69,6 @@ $(document).ready(function() {
 			$('#engineplaylist_image_image').css({'z-index':'1'});
 
 			
-
-			/// Setting the size of the buttons
-			// $(".engine_choice").css(({"height":generator_height/3}))
-
-
-
-
-
 			string = ""
 			for (song in uris) {
 				string += uris[song] + ','
@@ -158,9 +149,6 @@ $(document).ready(function() {
 		})
 	})
 
-
-	
-
 	//// Sliders -> including overwriting bootstrap to fix errors
 
 	
@@ -182,9 +170,6 @@ $(document).ready(function() {
 	$('.slider').mouseleave(function() {
 		$(this).find(".tooltip").hide()
 	})
-
-
-	
 
 
 })
