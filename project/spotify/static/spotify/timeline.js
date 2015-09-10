@@ -440,7 +440,8 @@ $(document).ready(function(){
         $("#searchresult_list").empty();
         $("#post-creation p").empty();
         $("#comment").val('');
-        $("[name=search_query]").val('');
+        $("[name=search_query]").val('').prop('readonly', false);
+        $("#song-search-button").prop('disabled', false);
         $("#post-it-button").hide();
         $("#start-over-button").hide();
     });
@@ -448,20 +449,27 @@ $(document).ready(function(){
     $("#song-search-button").on("click", function(event) {
         event.preventDefault();
         $("#searchresult_list").empty();
+        $("#searchresult").css(({"height": "30%", "overflow-y": "scroll"}))
         var query = $("[name=search_query]").val();
         $.getJSON("search", {"search_query": query}, function(data){
             var count = 0;
-            for (item in data["search_result"]) {
-                $("#searchresult_list").append("<li name='" + data["search_result"][item][0] + "' class=results id=" + count +">" + data["search_result"][item][0] + " - " + data["search_result"][item][1] + "<button class=select-song>select</button></li>");
-                count += 1;
+            if (data["search_result"][0] === "No results found...") {
+                $("#searchresult_list").append("<tr><td>" + data["search_result"] + "</td></tr>");
+            }
+            else {
+                for (item in data["search_result"]) {
+                    $("#searchresult_list").append("<tr name='" + data["search_result"][item][0] + "' class=results id=" + count +"><td>" + data["search_result"][item][0] + " - " + data["search_result"][item][1] + "</td><td><button class='select-song btn'>select</button></td></tr>");
+                    count += 1;
+                }
             }
         });
     });
 
     $("#searchresult_list").on("click", ".select-song", function() {
-        var trackName = $(this).parent().attr('name');
-        $("#searchresult_list").empty();
-        $("[name=search_query]").val(trackName);
+        var trackName = $(this).closest("tr").attr("name");
+        $("[name=search_query]").val(trackName).prop('readonly', true);
+        $("#song-search-button").prop('disabled', true);
+        $("#start-over-button").show();
     });
 
     $("#songsearch").on("submit", function(event) {
@@ -490,6 +498,16 @@ $(document).ready(function(){
         $("#comment").val('');
         $("[name=search_query]").val('');
     });
+
+    $("#start-over-button").on("click", function() {
+        $("[name=search_query]").val('').prop('readonly', false);
+        $("#comment").val('');
+        $("#song-search-button").prop('disabled', false);
+        $("#searchresult_list").empty();
+        $("#post-creation p").empty();
+        $("#post-it-button").hide();
+        $(this).hide();
+    })
 
     $("#usersearch").on("submit", function(event) {
         event.preventDefault();
