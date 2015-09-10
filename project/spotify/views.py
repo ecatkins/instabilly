@@ -392,7 +392,6 @@ def get_user_token(request):
     code = request.session['spotify_code']
     pay_load = {"grant_type":grant_type, "code":code, "redirect_uri":callback,"client_id":SPOTIPY_CLIENT_ID,"client_secret":SPOTIPY_CLIENT_SECRET}
     r = requests.post(post_route,data=pay_load)
-    print(r)
     token = r.json()['access_token']
     refresh_token = r.json()['refresh_token']
     request.session['access_token'] = token
@@ -407,7 +406,6 @@ def refresh_token(request):
     callback = SPOTIPY_REDIRECT_URI
     pay_load = {"grant_type":grant_type, "refresh_token":refresh_token, "redirect_uri":callback,"client_id":SPOTIPY_CLIENT_ID,"client_secret":SPOTIPY_CLIENT_SECRET}
     r = requests.post(post_route,data=pay_load)
-    print(r)
     token = r.json()['access_token']
     # refresh_token = r.json()['refresh_token']
     request.session['access_token'] = token
