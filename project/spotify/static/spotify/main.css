@@ -80,6 +80,11 @@ textarea {
     height: 5em;
 }
 
+/*#searchresult {
+    height: 30%;
+    overflow-y: scroll;
+}*/
+
 #mini-feed:last-child {
     border-bottom: 1px solid white;
 }
@@ -151,6 +156,11 @@ textarea {
     display:inline;
 }
 
+#song-search-field, #comment {
+    width: 50%;
+}
+
+
 .follower-following-row td {
     padding-bottom:0.3em;
 }
@@ -172,6 +182,14 @@ textarea {
     color: white;
     background-image: none;
     background-color: transparent;
+}
+
+.select-song {
+    border-color: white;
+}
+
+.select-song:hover {
+    border-color: #ffd700;
 }
 
 .followButton {

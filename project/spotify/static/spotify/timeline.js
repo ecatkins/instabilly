@@ -438,31 +438,44 @@ $(document).ready(function(){
 
     $("#createpost").on("click", function() {
         $("#searchresult_list").empty();
+        $("#post-creation p").empty();
+        $("#comment").val('');
+        $("[name=search_query]").val('').prop('readonly', false);
+        $("#song-search-button").prop('disabled', false);
+        $("#post-it-button").hide();
+        $("#start-over-button").hide();
     });
 
     $("#song-search-button").on("click", function(event) {
         event.preventDefault();
         $("#searchresult_list").empty();
+        $("#searchresult").css(({"height": "30%", "overflow-y": "scroll"}))
         var query = $("[name=search_query]").val();
         $.getJSON("search", {"search_query": query}, function(data){
             var count = 0;
-            for (item in data["search_result"]) {
-                $("#searchresult_list").append("<li class=results id=" + count +">" +data["search_result"][item] + "<button class=select-song>select</button></li>");
-                count += 1;
+            if (data["search_result"][0] === "No results found...") {
+                $("#searchresult_list").append("<tr><td>" + data["search_result"] + "</td></tr>");
+            }
+            else {
+                for (item in data["search_result"]) {
+                    $("#searchresult_list").append("<tr name='" + data["search_result"][item][0] + "' class=results id=" + count +"><td>" + data["search_result"][item][0] + " - " + data["search_result"][item][1] + "</td><td><button class='select-song btn'>select</button></td></tr>");
+                    count += 1;
+                }
             }
         });
     });
 
     $("#searchresult_list").on("click", ".select-song", function() {
-        var text = $(this).parent().text();
-        var substring = text.substring(0, text.length - 6);
-        $("#searchresult_list").empty();
-        $("#song-search-button").hide();
-        $("[name=search_query]").val(substring);
+        var trackName = $(this).closest("tr").attr("name");
+        $("[name=search_query]").val(trackName).prop('readonly', true);
+        $("#song-search-button").prop('disabled', true);
+        $("#start-over-button").show();
     });
 
     $("#songsearch").on("submit", function(event) {
         event.preventDefault();
+        $("#post-it-button").show();
+        $("#start-over-button").show();
         var track_name = $("[name=search_query]").val()
         $.getJSON("track_uri", {"track_name": track_name}, function(data){
             var track_uri = data['track_uri'];
@@ -485,6 +498,16 @@ $(document).ready(function(){
         $("#comment").val('');
         $("[name=search_query]").val('');
     });
+
+    $("#start-over-button").on("click", function() {
+        $("[name=search_query]").val('').prop('readonly', false);
+        $("#comment").val('');
+        $("#song-search-button").prop('disabled', false);
+        $("#searchresult_list").empty();
+        $("#post-creation p").empty();
+        $("#post-it-button").hide();
+        $(this).hide();
+    })
 
     $("#usersearch").on("submit", function(event) {
         event.preventDefault();
