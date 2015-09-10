@@ -119,7 +119,9 @@ textarea {
 /*.table-striped:nth-child(even) td {
    background-color: #1c1c1f;
 }   */
-
+.player .logo .clickable {
+    display: none;
+}
 
 #following-list, #followers-list {
     width: 20em;
