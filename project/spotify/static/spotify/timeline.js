@@ -11,6 +11,7 @@ function updateFollowButtons(){
                 $(this).text("Follow");
             }
         });
+        console.log(followlist)
     });
 };       
 
@@ -516,13 +517,10 @@ $(document).ready(function(){
         var usernameQuery = $("[name=user_query]").val();
         $.getJSON("find_user", {"usernameQuery": usernameQuery}, function(data){
             var userList = data["search_result"];
-            console.log(userList)
             if (userList === "No results found..." || userList === "Please input a username.") {
                 $("#user-search-results").append("<tr><td>" + userList + "</td></tr>")
             }
             else {
-                var $searchdiv = $("#user-search");
-                // <table id="user-search-results"></table>
                 for (var i in userList) {
                     $("#user-search-results").append("<tr class= 'follower-following-row' id=" + userList[i] +"><td>" + userList[i] + "</td><td><button class='btn followButton debug'>Follow</button></td></tr>");
                 }
