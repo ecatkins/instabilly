@@ -140,10 +140,6 @@ class CallbackView(View):
         code = request.GET.get('code')
         request.session['spotify_code'] = code
         return redirect('timeline')
-        # if request.session['post_oauth'] == 'timeline':
-        # elif request.session['post_oauth'] == 'seed_user_library':
-        #     return redirect('seed')
-
 
 class TimelineView(View):
     template = "spotify/index.html"

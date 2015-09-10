@@ -522,7 +522,7 @@ $(document).ready(function(){
             }
             else {
                 for (var i in userList) {
-                    $("#user-search-results").append("<tr id=" + userList[i] +"><td>" + userList[i] + "</td><td><button class='btn followButton'>Follow</button></td></tr>");
+                    $("#user-search-results").append("<tr class= 'follower-following-row' id=" + userList[i] +"><td>" + userList[i] + "</td><td><button class='btn followButton debug'>Follow</button></td></tr>");
                 }
             }
             updateFollowButtons();

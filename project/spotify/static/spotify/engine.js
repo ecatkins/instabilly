@@ -21,6 +21,8 @@ $(document).ready(function() {
 		$("#like span").css("color","white");
 		$("#dislike span").css("color","white");
 		$("#save span").css("color","white");
+		
+
 		$("#like span").hover(
 			function(){
 				$(this).css("color","#ADFFAD")
@@ -67,14 +69,6 @@ $(document).ready(function() {
 			$('#engineplaylist_image_image').css({'z-index':'1'});
 
 			
-
-			/// Setting the size of the buttons
-			// $(".engine_choice").css(({"height":generator_height/3}))
-
-
-
-
-
 			string = ""
 			for (song in uris) {
 				string += uris[song] + ','
@@ -111,32 +105,49 @@ $(document).ready(function() {
               		$("#like").prop("disabled",true);
               		$("#dislike").prop("disabled",true);
 					$.post("rating", {"uris": uris, "decision": "like"}, function(data){
-						$("#like span").css("color","#ffd700")
+						// $("#like span").css("color","#ffd700")
+						$("#like span").hover(
+							function(){
+								$(this).css("color","#ffd700");
+							},
+							function() {
+								$(this).css("color","#ffd700");
+							}
+						)
 					})
 				})
 				
-
 				$("#dislike").on("click", function() {
 					$("#like").prop("disabled",true);
               		$("#dislike").prop("disabled",true);	
 					$.post("rating", {"uris": uris, "decision": "dislike"}, function(data){
-						$("#dislike span").css("color","#ffd700")
-						})
+						$("#dislike span").hover(
+							function(){
+								$(this).css("color","#ffd700");
+							},
+							function() {
+								$(this).css("color","#ffd700");
+							}
+						)
+					})
 				})
 
 				$("#save").on("click", function() {
 						$("#save").prop("disabled",true);
 						$.post("saveplaylist", {"uris": uris}, function(data){
-							 $("#save span").css("color","#ffd700")
-							 console.log("saved")
+							 $("#save span").hover(
+							function(){
+								$(this).css("color","#ffd700");
+							},
+							function() {
+								$(this).css("color","#ffd700");
+							}
+						)
 					})
 				})	
 		   	})		
 		})
 	})
-
-
-	
 
 	//// Sliders -> including overwriting bootstrap to fix errors
 
@@ -159,9 +170,6 @@ $(document).ready(function() {
 	$('.slider').mouseleave(function() {
 		$(this).find(".tooltip").hide()
 	})
-
-
-	
 
 
 })
