@@ -7,7 +7,6 @@ h1 {
 }
 
 h1 span {
-    /*color: #2ebd59;*/
     color:#ffd700;
     font-size: 2em;
 }
@@ -155,6 +154,14 @@ textarea {
     padding-bottom:0.3em;
 }
 
+.close {
+    color:white;
+    opacity:1;
+}
+
+.close:hover {
+    color:#ffd700;
+}
 
 /*Buttons*/
 

@@ -21,6 +21,9 @@ $(document).ready(function() {
 		$("#like span").css("color","white");
 		$("#dislike span").css("color","white");
 		$("#save span").css("color","white");
+		
+		var original_color
+
 		$("#like span").hover(
 			function(){
 				$(this).css("color","#ADFFAD")
@@ -111,24 +114,44 @@ $(document).ready(function() {
               		$("#like").prop("disabled",true);
               		$("#dislike").prop("disabled",true);
 					$.post("rating", {"uris": uris, "decision": "like"}, function(data){
-						$("#like span").css("color","#ffd700")
+						// $("#like span").css("color","#ffd700")
+						$("#like span").hover(
+							function(){
+								$(this).css("color","#ffd700");
+							},
+							function() {
+								$(this).css("color","#ffd700");
+							}
+						)
 					})
 				})
 				
-
 				$("#dislike").on("click", function() {
 					$("#like").prop("disabled",true);
               		$("#dislike").prop("disabled",true);	
 					$.post("rating", {"uris": uris, "decision": "dislike"}, function(data){
-						$("#dislike span").css("color","#ffd700")
-						})
+						$("#dislike span").hover(
+							function(){
+								$(this).css("color","#ffd700");
+							},
+							function() {
+								$(this).css("color","#ffd700");
+							}
+						)
+					})
 				})
 
 				$("#save").on("click", function() {
 						$("#save").prop("disabled",true);
 						$.post("saveplaylist", {"uris": uris}, function(data){
-							 $("#save span").css("color","#ffd700")
-							 console.log("saved")
+							 $("#save span").hover(
+							function(){
+								$(this).css("color","#ffd700");
+							},
+							function() {
+								$(this).css("color","#ffd700");
+							}
+						)
 					})
 				})	
 		   	})		
