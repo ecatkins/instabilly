@@ -507,6 +507,7 @@ $(document).ready(function(){
         $("#searchresult_list").empty();
         $("#post-creation p").empty();
         $("#post-it-button").hide();
+        $("#searchresult").hide();
         $(this).hide();
     })
 
