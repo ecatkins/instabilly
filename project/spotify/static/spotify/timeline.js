@@ -449,6 +449,7 @@ $(document).ready(function(){
 
     $("#song-search-button").on("click", function(event) {
         event.preventDefault();
+        $("#searchresult").show();
         $("#searchresult_list").empty();
         $("#searchresult").css(({"height": "30%", "overflow-y": "scroll"}))
         var query = $("[name=search_query]").val();
@@ -467,6 +468,7 @@ $(document).ready(function(){
     });
 
     $("#searchresult_list").on("click", ".select-song", function() {
+        $(this).css(({"color": "#ffd700", "border-color": "#ffd700"}));
         var trackName = $(this).closest("tr").attr("name");
         $("[name=search_query]").val(trackName).prop('readonly', true);
         $("#song-search-button").prop('disabled', true);
@@ -493,7 +495,7 @@ $(document).ready(function(){
             console.log(data)
             $("#latest-post-date").html(data["time"]);
             $("#latest-track").html("<iframe src='https://embed.spotify.com/?uri=" + data["track_uri"] + "' width=80 height=80 frameborder=0 allowtransparency=true></iframe>");
-            $("<tr id=" + data["id"] + "><td><p>" + data["datetime"] + "</p><p>" + comment + "</p></td><td><iframe src='https://embed.spotify.com/?uri=" + data["track_uri"] + "' width=250 height=80 frameborder=0 allowtransparency=true></iframe></td><td><button class='delete-user-post'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></td></tr>").prependTo($("#user-posts > tbody"));
+            $("<tr id=" + data["id"] + "><td><p>" + data["datetime"] + "</p><p>" + comment + "</p></td><td><iframe src='https://embed.spotify.com/?uri=" + data["track_uri"] + "' width=250 height=80 frameborder=0 allowtransparency=true></iframe></td><td><button class='delete-user-post'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></td></tr>").prependTo($("#user-posts"));
         });
         $("#comment").val('');
         $("[name=search_query]").val('');
