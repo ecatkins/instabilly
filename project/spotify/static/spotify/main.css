@@ -608,3 +608,15 @@ textarea {
     border-color: transparent;
 }
 
+
+/* EMAIL ACTIVATION PAGE*/
+
+
+#activation-message {
+    width: 40%;
+    margin-left: 30%;
+}
+
+#activation-message .form-control {
+    width: 50%;
+}
