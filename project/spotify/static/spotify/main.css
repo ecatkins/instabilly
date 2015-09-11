@@ -369,9 +369,9 @@ textarea {
 
 
 .timelineplaylist .playlist_image p{
-    width: 50%;
+    width: 30%;
     position: relative;
-    float: left;
+    float: right;
     margin-top: 20%;
 }
 
@@ -567,6 +567,7 @@ textarea {
     width:90%;
     margin:auto;
     position:absolute;
+    text-align: right;
 }
 
 #engine_explainer tr td {

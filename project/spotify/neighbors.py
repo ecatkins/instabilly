@@ -40,7 +40,6 @@ def get_genre_arrays():
 	id_array = []
 	x_array = []
 	user_array = []
-	### I can change this???? Just to append array everytime
 
 	for row in all_user_genres:
 		if row['user_id'] != current_user_id:
