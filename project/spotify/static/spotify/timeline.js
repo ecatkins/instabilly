@@ -261,7 +261,6 @@ $(document).ready(function(){
     var latestPostHeight = $("#latest-post").height() + $("#latest-post-date").height();
     var profileIconSize = ((profile_height - latestPostHeight) * 0.9) / 2;
     $(".post-icon").css("height", profileIconSize);
-    $("#createpost, #list-posts").css("height", "100%");
 
     var profile_stats_width = $("#profile_stats_names").width();
     var profile_width = $("#profile").width();
