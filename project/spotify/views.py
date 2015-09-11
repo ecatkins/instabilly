@@ -58,15 +58,15 @@ class RegistrationView(View):
             profile.save()
             request.session['post_oauth'] = 'timeline'
 
-            ###testing email#######
-            # subject = "Confirm your registration"
-            # message = "You're almost there! Copy and paste this code into the activation page: {}".format(user_activation.code)
-            # from_email = settings.EMAIL_HOST_USER
-            # to_list = [user.email, settings.EMAIL_HOST_USER]
-            # send_mail(subject, message, from_email, to_list, fail_silently=True)
-            # print("sent mail!!!")
-            # return redirect("activation")
-            #####email########
+            ##testing email#######
+            subject = "Confirm your registration"
+            message = "You're almost there! Copy and paste this code into the activation page: {}".format(user_activation.code)
+            from_email = settings.EMAIL_HOST_USER
+            to_list = [user.email, settings.EMAIL_HOST_USER]
+            send_mail(subject, message, from_email, to_list, fail_silently=True)
+            print("sent mail!!!")
+            return redirect("activation")
+            ####email########
             return redirect("oauth")
         else:
             errors = registration_form.errors.as_json()
@@ -107,30 +107,30 @@ class LogoutView(View):
 class OauthView(View):
 
     ####USE THIS FOR TESTING WITHOUT EMAIL ACTIVATION#####
-    def get(self,request):
-        x = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID,SPOTIPY_CLIENT_SECRET,SPOTIPY_REDIRECT_URI,scope="playlist-read-private user-library-read user-library-modify playlist-modify-public playlist-modify-private")
-        url = x.get_authorize_url()
-        return redirect(url)
-
-    ###USE FOR TESTING WITH EMAIL ACTIVATION######
     # def get(self,request):
-    #     userprofile = UserProfile.objects.filter(user__pk=request.session['session_id'])
-    #     userprofile_obj = userprofile[0]
+    #     x = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID,SPOTIPY_CLIENT_SECRET,SPOTIPY_REDIRECT_URI,scope="playlist-read-private user-library-read user-library-modify playlist-modify-public playlist-modify-private")
+    #     url = x.get_authorize_url()
+    #     return redirect(url)
 
-    #     if userprofile_obj.verified == True:
-    #         x = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID,SPOTIPY_CLIENT_SECRET,SPOTIPY_REDIRECT_URI,scope="playlist-read-private user-library-modify playlist-modify-public playlist-modify-private")
-    #         url = x.get_authorize_url()
-    #         return redirect(url)
-    #     else:
-    #         user_activation = UserActivationCode.objects.get(user__pk=request.session['session_id'])
-    #         email_activation_code = request.GET.get('activation_code')
-    #         if str(user_activation.code) == email_activation_code:
-    #             userprofile_obj.verified = True
-    #             print('before save, is verified = ', userprofile_obj.verified)
-    #             testsave = userprofile_obj.save()
-    #             x = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID,SPOTIPY_CLIENT_SECRET,SPOTIPY_REDIRECT_URI,scope="playlist-read-private user-library-modify playlist-modify-public playlist-modify-private")
-    #             url = x.get_authorize_url()
-    #             return redirect(url)
+    ##USE FOR TESTING WITH EMAIL ACTIVATION######
+    def get(self,request):
+        userprofile = UserProfile.objects.filter(user__pk=request.session['session_id'])
+        userprofile_obj = userprofile[0]
+
+        if userprofile_obj.verified == True:
+            x = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID,SPOTIPY_CLIENT_SECRET,SPOTIPY_REDIRECT_URI,scope="playlist-read-private user-library-modify playlist-modify-public playlist-modify-private")
+            url = x.get_authorize_url()
+            return redirect(url)
+        else:
+            user_activation = UserActivationCode.objects.get(user__pk=request.session['session_id'])
+            email_activation_code = request.GET.get('activation_code')
+            if str(user_activation.code) == email_activation_code:
+                userprofile_obj.verified = True
+                print('before save, is verified = ', userprofile_obj.verified)
+                testsave = userprofile_obj.save()
+                x = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID,SPOTIPY_CLIENT_SECRET,SPOTIPY_REDIRECT_URI,scope="playlist-read-private user-library-modify playlist-modify-public playlist-modify-private")
+                url = x.get_authorize_url()
+                return redirect(url)
 
 
 
