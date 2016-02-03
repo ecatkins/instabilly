@@ -10,3 +10,8 @@ Technologies used: Python/Django, PostgreSQL, Javascript, jQuery, HTML, CSS, Boo
 3. [Echnoest Pyen] (https://github.com/plamere/pyen)
 4. [Echonest pyechonest] (https://github.com/echonest/pyechonest)
 6. [sklearn] (http://scikit-learn.org/stable/)
+
+#### Screenshots
+![alt text](https://github.com/ecatkins/elo_afl/blob/master/mm_2.png "Logo Title Text 1")
+![alt text](https://github.com/ecatkins/elo_afl/blob/master/mm_1.png "Logo Title Text 1")
+![alt text](https://github.com/ecatkins/elo_afl/blob/master/mm_3.png "Logo Title Text 1")
