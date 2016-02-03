@@ -7,6 +7,6 @@ Technologies used: Python/Django, PostgreSQL, Javascript, jQuery, HTML, CSS, Boo
 #### General Resources
 1. [Spotipy Docs] (http://spotipy.readthedocs.org/en/latest/#examples)
 2. [Spotify Play Button Widget] (https://developer.spotify.com/technologies/widgets/spotify-play-button/)
-3. [Echnoest Pyen] (https://github.com/plamere/pyen) *
+3. [Echnoest Pyen] (https://github.com/plamere/pyen)
 4. [Echonest pyechonest] (https://github.com/echonest/pyechonest)
 6. [sklearn] (http://scikit-learn.org/stable/)
